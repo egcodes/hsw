@@ -1,0 +1,33 @@
+api-version: 0.1.0
+
+server:
+  port: 3644
+
+spring:
+  sql:
+    init:
+      platform: postgres
+      mode: always
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hsw?currentSchema=public
+    username: postgres
+    password: 12345678
+  jpa:
+    show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        hbm2ddl:
+          auto: update
+        format_sql: true
+  jackson:
+    serialization:
+      fail-on-empty-beans: false
+  task:
+    scheduling:
+      pool:
+        size: 2
+
+microservice:
+  test:
+    test: 1
