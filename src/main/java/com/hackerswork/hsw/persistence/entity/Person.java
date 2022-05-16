@@ -8,11 +8,11 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
-@Data
 @Entity
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Getter
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 5581667625001993382L;
