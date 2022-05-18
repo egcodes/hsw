@@ -1,8 +1,10 @@
 package com.hackerswork.hsw.service.person.impl;
 
 import com.hackerswork.hsw.enums.Status;
+import com.hackerswork.hsw.persistence.entity.Activity;
 import com.hackerswork.hsw.persistence.entity.Person;
 import com.hackerswork.hsw.persistence.repository.PersonRepository;
+import com.hackerswork.hsw.service.activity.ActivityCommandService;
 import com.hackerswork.hsw.service.person.PersonCommandService;
 import java.time.OffsetDateTime;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +20,22 @@ import org.springframework.transaction.annotation.Transactional;
 public class PersonCommandServiceImpl implements PersonCommandService {
 
     private final PersonRepository personRepository;
+    private final ActivityCommandService activityCommandService;
 
     @Override
     public Person add(Person person) {
-        person.setCreateDate(OffsetDateTime.now());
+        var now = OffsetDateTime.now();
+        person.setCreateDate(now);
         person.setStatus(Status.ACTIVE);
-        return personRepository.save(person);
+        var personData =  personRepository.save(person);
+
+        var activity = Activity.builder()
+            .personId(personData.getId())
+            .lastActivityTime(now.toEpochSecond())
+            .build();
+        activityCommandService.upsert(activity);
+
+        return person;
     }
 
 

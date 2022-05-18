@@ -38,9 +38,11 @@ public class Person implements Serializable {
     private String mail;
 
     @NotNull
+    @Setter
     private Status status;
 
     @NotNull
+    @Setter
     private OffsetDateTime createDate;
 
 }
