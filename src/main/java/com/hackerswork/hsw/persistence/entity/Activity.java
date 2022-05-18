@@ -1,7 +1,6 @@
 package com.hackerswork.hsw.persistence.entity;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -29,6 +28,6 @@ public class Activity implements Serializable {
     private Long personId;
 
     @NotNull
-    private OffsetDateTime lastActivityTime;
+    private Long lastActivityTime;
 
 }
