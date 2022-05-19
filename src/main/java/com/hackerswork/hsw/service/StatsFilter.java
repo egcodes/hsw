@@ -7,7 +7,7 @@ import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
-import com.hackerswork.hsw.constants.Logging;
+import com.hackerswork.hsw.constants.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -31,7 +31,7 @@ public class StatsFilter implements Filter {
             var path = ((HttpServletRequest) req).getServletPath();
 
             if ((path.contains("/hackerswork"))
-                && time > Logging.MAX_LIMIT_TIME) {
+                && time > Constant.MAX_LIMIT_TIME) {
                 log.info("{}: {} ms ", ((HttpServletRequest) req).getRequestURI(), time);
             }
         }

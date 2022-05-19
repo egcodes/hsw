@@ -6,11 +6,15 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 @Component
-@ConfigurationProperties(prefix = "microservice.test")
+@ConfigurationProperties(prefix = "hackerswork.client")
 @Getter
 @Setter
 public class Properties {
 
-    private int test;
+    private String githubLoginUrl;
+
+    private String githubUserUrl;
+
+    private String githubRedirectUri;
 
 }

@@ -28,6 +28,8 @@ spring:
       pool:
         size: 2
 
-microservice:
-  test:
-    test: 1
+hackerswork:
+  client:
+    github_login_url: https://github.com/login/oauth/access_token
+    github_user_url: https://api.github.com/user
+    github_redirect_uri: http://www.localhost:8080/register.html
