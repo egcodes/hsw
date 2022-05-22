@@ -19,7 +19,7 @@ spring:
       hibernate:
         hbm2ddl:
           auto: update
-        format_sql: true
+        format_sql: false
   jackson:
     serialization:
       fail-on-empty-beans: false
