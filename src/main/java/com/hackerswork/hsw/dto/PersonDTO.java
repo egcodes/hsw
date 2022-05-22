@@ -20,22 +20,17 @@ public class PersonDTO {
     @Size(min=2, max=50)
     @Pattern(regexp = "^[a-zA-Z0-9çşğüöıÇŞĞÜÖİ]+")
     @ApiModelProperty(position = 1, required = true)
-    private String firstName;
-
-    @NotEmpty
-    @Size(min=2, max=50)
-    @ApiModelProperty(position = 2, required = true)
-    private String lastName;
+    private String name;
 
     @NotEmpty
     @Size(min=3, max=50)
-    @ApiModelProperty(position = 3, required = true)
+    @ApiModelProperty(position = 2, required = true)
     private String userName;
 
     @NotEmpty
     @Size(min=5, max=50)
     @Pattern(regexp = "^(.+)@(\\S+)$")
-    @ApiModelProperty(position = 4, required = true)
+    @ApiModelProperty(position = 3, required = true)
     private String mail;
 
     @ApiModelProperty(hidden=true)

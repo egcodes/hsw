@@ -23,11 +23,7 @@ public class Person implements Serializable {
 
     @Column(length = 50)
     @NotNull
-    private String firstName;
-
-    @Column(length = 50)
-    @NotNull
-    private String lastName;
+    private String name;
 
     @Column(length = 50)
     @NotNull
