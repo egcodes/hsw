@@ -17,6 +17,13 @@ public class Person implements Serializable {
 
     private static final long serialVersionUID = 5581667625001993382L;
 
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Meta {
+        public static final String id = "id";
+        public static final String name = "name";
+        public static final String userName = "userName";
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

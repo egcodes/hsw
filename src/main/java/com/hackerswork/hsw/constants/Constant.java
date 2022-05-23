@@ -10,6 +10,8 @@ public final class Constant {
 
     public static final int MAX_LIMIT_TIME = 5; //ms
 
+    public static final String AUTHENTICATION_PATH = "/authentication";
+
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GithubRequestHeader {
         public static final String CLIENT_ID = "client_id";

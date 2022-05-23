@@ -1,4 +1,4 @@
-package com.hackerswork.hsw.service;
+package com.hackerswork.hsw.service.filter;
 
 import java.io.IOException;
 import java.time.Duration;
@@ -30,10 +30,8 @@ public class StatsFilter implements Filter {
             var time = Duration.between(start, finish).toMillis();
             var path = ((HttpServletRequest) req).getServletPath();
 
-            if ((path.contains("/hackerswork"))
-                && time > Constant.MAX_LIMIT_TIME) {
+            if (time > Constant.MAX_LIMIT_TIME)
                 log.info("{}: {} ms ", ((HttpServletRequest) req).getRequestURI(), time);
-            }
         }
     }
 

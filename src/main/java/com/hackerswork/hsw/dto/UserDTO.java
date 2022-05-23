@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class GithubUserDTO {
+public class UserDTO {
 
     private String login;
     private String name;
