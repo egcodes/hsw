@@ -13,6 +13,7 @@ import java.time.OffsetDateTime;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Getter
+@Setter
 public class Person implements Serializable {
 
     private static final long serialVersionUID = 5581667625001993382L;
@@ -30,22 +31,18 @@ public class Person implements Serializable {
 
     @Column(length = 50)
     @NotNull
-    private String name;
-
-    @Column(length = 50)
-    @NotNull
     private String userName;
 
     @Column(length = 50)
-    @NotNull
     private String mail;
 
     @NotNull
-    @Setter
     private Status status;
 
     @NotNull
-    @Setter
     private OffsetDateTime createDate;
+
+    @Column(length = 50)
+    private String name;
 
 }
