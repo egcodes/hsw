@@ -1,4 +1,4 @@
-package com.hackerswork.hsw.config.api;
+package com.hackerswork.hsw.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
