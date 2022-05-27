@@ -5,6 +5,7 @@ import com.hackerswork.hsw.exception.HswException;
 import com.hackerswork.hsw.persistence.entity.Person;
 import com.hackerswork.hsw.persistence.repository.PersonRepository;
 import com.hackerswork.hsw.service.person.PersonQueryService;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,17 +19,22 @@ public class PersonQueryServiceImpl implements PersonQueryService {
     private final PersonRepository personRepository;
 
     @Override
-    public Person getPerson(Long id) {
+    public Optional<Person> findPerson(Long id) {
         var personPossible = personRepository.findById(id);
         if (personPossible.isPresent())
-            return personPossible.get();
+            return personPossible;
         else
             throw new HswException(ValidationRule.PERSON_NOT_FOUND);
     }
 
     @Override
-    public List<Person> getPersons() {
-        return personRepository.findAll();
+    public Optional<Person> findPersonByUserName(String userName) {
+        return Optional.ofNullable(personRepository.findByUserName(userName));
+    }
+
+    @Override
+    public List<Person> findPersonsByUserName(List<String> userNames) {
+        return personRepository.findAllByUserNameIn(userNames);
     }
 
 }
