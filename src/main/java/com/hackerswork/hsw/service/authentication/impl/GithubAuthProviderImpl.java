@@ -62,7 +62,7 @@ public class GithubAuthProviderImpl implements AuthProvider {
                     HttpMethod.GET, new HttpEntity<>(null, headers), UserDTO.class);
                 var githubUserDTO = user.getBody();
                 securityFilter.getCache().put(githubUserDTO.getLogin(), code);
-                return Optional.ofNullable(githubUserDTO);
+                return Optional.of(githubUserDTO);
             }
         }
 
