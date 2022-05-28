@@ -32,5 +32,7 @@ public class Connection implements Serializable {
 
     private boolean hidden;
 
+    private boolean blocked;
+
     private boolean pinned;
 }
