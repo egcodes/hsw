@@ -2,6 +2,7 @@ package com.hackerswork.hsw.service.filter;
 
 import static com.hackerswork.hsw.constants.Constant.AUTHENTICATION_PATH;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
 import com.hackerswork.hsw.constants.Constant.GithubRequestHeader;
 import com.hackerswork.hsw.persistence.entity.Person;
@@ -37,7 +38,7 @@ public class AuthenticationFilter implements Filter {
         var userName = ((RequestFacade) req).getHeader(Person.Meta.userName);
         var code = ((RequestFacade) req).getHeader(GithubRequestHeader.CODE);
 
-        if (!url.contains(AUTHENTICATION_PATH)) {
+        if (!url.contains(AUTHENTICATION_PATH) && nonNull(userName)) {
             var cachedCode = cache.get(userName);
             if (isNull(cachedCode) || !cachedCode.equals(code)) {
                 log.warn("Invalid code: {}", code);
