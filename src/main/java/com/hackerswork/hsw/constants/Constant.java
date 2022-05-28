@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Getter
 public final class Constant {
 
-    public static final int MAX_LIMIT_TIME = 5; //ms
+    public static final int MAX_LIMIT_TIME = 100; //ms
 
     public static final String AUTHENTICATION_PATH = "/authentication";
 
