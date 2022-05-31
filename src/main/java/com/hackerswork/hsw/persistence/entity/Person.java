@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.OffsetDateTime;
+import org.hibernate.validator.constraints.Length;
 
 @Entity
 @Builder
@@ -29,11 +30,11 @@ public class Person implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 50)
+    @Length(max = 50)
     @NotNull
     private String userName;
 
-    @Column(length = 50)
+    @Length(max = 50)
     private String mail;
 
     @NotNull
@@ -42,7 +43,7 @@ public class Person implements Serializable {
     @NotNull
     private OffsetDateTime createDate;
 
-    @Column(length = 50)
+    @Length(max = 50)
     private String name;
 
 }
