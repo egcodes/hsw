@@ -14,7 +14,6 @@ public class ShareDTO {
     @ApiModelProperty(hidden=true)
     private Long id;
 
-    @NotEmpty
     @ApiModelProperty(hidden=true)
     private Long personId;
 
