@@ -1,7 +1,10 @@
 package com.hackerswork.hsw.service.authentication.impl;
 
+import static java.util.Objects.nonNull;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hackerswork.hsw.constants.Constant.GithubRequestHeader;
 import com.hackerswork.hsw.dto.UserDTO;
 import com.hackerswork.hsw.enums.ValidationRule;
@@ -20,6 +23,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,40 +37,69 @@ public class GithubAuthProviderImpl implements AuthProvider {
     private final AuthProviderProperties authProviderProperties;
     private final RestTemplate restTemplate;
 
-    private static final String tokenName = "access_token";
-    private static final String headerKeyForAuth = "Authorization";
-    private static final String tokenPrefix = "token ";
+    private final String tokenName = "access_token";
+    private final String headerKeyForAuth = "Authorization";
+    private final String tokenPrefix = "token ";
+    private final String allowOrigin = "*";
 
     @Override
     public Optional<UserDTO> login(String code) {
+        var body = createBody(code);
+        var headers = createHeaders();
+        var respForAccessToken = getAccessToken(body, headers);
+
+        if (HttpStatus.OK.equals(respForAccessToken.getStatusCode())) {
+            var respBody = respForAccessToken.getBody();
+            var accessToken = respBody.get(tokenName);
+
+            if (nonNull(accessToken)) {
+                addTokenToHeaders(headers, accessToken);
+                var respForUser = getUserByAccessToken(headers);
+
+                if (HttpStatus.OK.equals(respForUser.getStatusCode())) {
+                    var githubUserDTO = respForUser.getBody();
+                    securityFilter.getCache().put(githubUserDTO.getLogin(), code);
+                    return Optional.of(githubUserDTO);
+                }
+            }
+        }
+
+        throw new HswException(ValidationRule.COULD_NOT_SIGN_IN);
+    }
+
+    private ObjectNode createBody(String code) {
         var nodeFactory = new JsonNodeFactory(false);
         var json = nodeFactory.objectNode();
         json.put(GithubRequestHeader.CLIENT_ID, resourceService.getAuthList().get(GithubRequestHeader.CLIENT_ID));
         json.put(GithubRequestHeader.CLIENT_SECRET, resourceService.getAuthList().get(GithubRequestHeader.CLIENT_SECRET));
         json.put(GithubRequestHeader.CODE, code);
         json.put(GithubRequestHeader.REDIRECT_URI, authProviderProperties.getGithub().getRedirectUrl());
+        return json;
+    }
 
+    private HttpHeaders createHeaders() {
         var headers = new HttpHeaders();
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        var result = restTemplate.exchange(authProviderProperties.getGithub().getLoginUrl(),
-            HttpMethod.POST, new HttpEntity<>(json, headers), JsonNode.class);
-        if (HttpStatus.OK.equals(result.getStatusCode())) {
-            var response = result.getBody();
-            var accessToken = Optional.ofNullable(response.get(tokenName));
+        headers.setAccessControlAllowOrigin(allowOrigin);
+        return headers;
+    }
 
-            if (accessToken.isPresent()) {
-                headers.setAccessControlAllowOrigin("*");
-                headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-                headers.set(headerKeyForAuth, tokenPrefix + accessToken.get().asText());
-                var user = restTemplate.exchange(authProviderProperties.getGithub().getUserUrl(),
-                    HttpMethod.GET, new HttpEntity<>(null, headers), UserDTO.class);
-                var githubUserDTO = user.getBody();
-                securityFilter.getCache().put(githubUserDTO.getLogin(), code);
-                return Optional.of(githubUserDTO);
-            }
-        }
 
-        throw new HswException(ValidationRule.COULD_NOT_SIGN_IN);
+    private void addTokenToHeaders(HttpHeaders headers, JsonNode accessToken) {
+        headers.set(headerKeyForAuth, tokenPrefix + accessToken.asText());
+    }
+
+    private ResponseEntity<JsonNode> getAccessToken(ObjectNode body,
+        HttpHeaders headers) {
+        return restTemplate.exchange(
+            authProviderProperties.getGithub().getLoginUrl(),
+            HttpMethod.POST, new HttpEntity<>(body, headers), JsonNode.class);
+    }
+
+    private ResponseEntity<UserDTO> getUserByAccessToken(HttpHeaders headers) {
+        return restTemplate.exchange(
+            authProviderProperties.getGithub().getUserUrl(),
+            HttpMethod.GET, new HttpEntity<>(null, headers), UserDTO.class);
     }
 
 }
