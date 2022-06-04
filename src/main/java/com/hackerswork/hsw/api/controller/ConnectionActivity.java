@@ -24,7 +24,7 @@ public class ConnectionActivity {
     private final ConnectionActivityService connectionActivityService;
 
     @GetMapping(value = "/list/{personId}")
-    @ApiOperation(value = "Get person-connection info that the person connected")
+    @ApiOperation(value = "Get person-connection activity info that the person connected")
     public ResponseEntity<List<ConnectionActivityDTO>> list(@PathVariable Long personId) {
         return ResponseEntity.ok(connectionActivityService.findConnectionsByPerson(personId));
     }

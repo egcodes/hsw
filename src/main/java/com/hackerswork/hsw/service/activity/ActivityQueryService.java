@@ -1,7 +1,10 @@
 package com.hackerswork.hsw.service.activity;
 
+import com.hackerswork.hsw.dto.ActivityDTO;
+import java.util.List;
+
 public interface ActivityQueryService {
 
-    boolean isOnline(Long personId);
+    List<ActivityDTO> list(List<Long> personIds);
 
 }

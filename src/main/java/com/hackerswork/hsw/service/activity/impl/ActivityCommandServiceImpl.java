@@ -25,9 +25,7 @@ public class ActivityCommandServiceImpl implements ActivityCommandService {
 
     @Override
     public void updateLastActivityTimeByPersonId(Long personId) {
-        var personActivity = activityRepository.findByPersonId(personId);
-        personActivity.setLastActivityTime(OffsetDateTime.now().toEpochSecond());
-        activityRepository.save(personActivity);
+        activityRepository.updateLastActivityTimeByPersonId(personId, OffsetDateTime.now().toEpochSecond());
     }
 
 }

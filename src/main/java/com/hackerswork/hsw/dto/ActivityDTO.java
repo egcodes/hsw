@@ -1,23 +1,16 @@
 package com.hackerswork.hsw.dto;
 
-import io.swagger.annotations.ApiModelProperty;
-import javax.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 @Builder
-@Data
+@AllArgsConstructor
+@Getter
 public class ActivityDTO {
 
-    @ApiModelProperty(hidden=true)
-    private Long id;
-
-    @NotEmpty
-    @ApiModelProperty(position = 1, required = true)
-    private Long personId;
-
-    @NotEmpty
-    @ApiModelProperty(position = 2, required = true)
+    private String userName;
+    private String name;
     private Long lastActivityTime;
 
 }

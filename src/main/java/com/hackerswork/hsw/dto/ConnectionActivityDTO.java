@@ -9,9 +9,8 @@ import lombok.Data;
 @Data
 public class ConnectionActivityDTO implements Serializable {
 
-    private String name;
     private String userName;
+    private String name;
     private Activity activity;
-    private boolean pinned;
 
 }
