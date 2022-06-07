@@ -12,6 +12,8 @@ public final class Constant {
 
     public static final String AUTHENTICATION_PATH = "/authentication";
 
+    public static final String DATE_FORMAT = "hh:mm a, dd MMM yyyy";
+
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GithubRequestHeader {
         public static final String CLIENT_ID = "client_id";
