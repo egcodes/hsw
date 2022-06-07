@@ -1,12 +1,14 @@
 package com.hackerswork.hsw.service;
 
+import static com.hackerswork.hsw.constants.Constant.DATE_FORMAT;
+
 import com.hackerswork.hsw.dto.ConnectionShareDTO;
-import com.hackerswork.hsw.persistence.entity.Connection;
+import com.hackerswork.hsw.dto.ShareRespDTO;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
-import com.hackerswork.hsw.service.person.PersonQueryService;
 import com.hackerswork.hsw.service.share.ShareQueryService;
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,30 +21,29 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
 
     private final ConnectionQueryService connectionQueryService;
     private final ShareQueryService shareQueryService;
-    private final PersonQueryService personQueryService;
 
     @Override
-    public List<ConnectionShareDTO> findByPersonId(Long personId) {
-        var shareList = new ArrayList<ConnectionShareDTO>();
-        var connectionList = connectionQueryService.list(personId);
+    public List<ConnectionShareDTO> findByPersonId(Long personId, int pageNumber, int pageSize) {
+        var connections = connectionQueryService.findConnections(personId);
+        connections.add(personId);
 
-        connectionList.add(Connection.builder().connectionId(personId).build());
+        var shares = shareQueryService.list(connections, pageNumber, pageSize);
+        var sharesResp = shares.stream()
+            .map(s -> ShareRespDTO.builder()
+                .name(s.getName())
+                .userName(s.getUserName())
+                .text(s.getText())
+                .createdTime(s.getCreatedTime().format(DateTimeFormatter.ofPattern(DATE_FORMAT)))
+                .build())
+            .collect(Collectors.toList());
 
-        for (var connection : connectionList) {
-            var shares = shareQueryService.findByPersonId(connection.getConnectionId());
-            var person = personQueryService.findPerson(connection.getConnectionId()).get();
-
-            for (var share : shares) {
-                shareList.add(ConnectionShareDTO.builder()
-                    .name(person.getName())
-                    .userName(person.getUserName())
-                    .share(share)
-                    .build());
-            }
-        }
-
-        shareList.sort((a, b) -> a.getShare().getCreatedTime().isAfter(b.getShare().getCreatedTime()) ? -1 : 0);
-
-        return shareList;
+        return sharesResp.stream().map(s ->
+            ConnectionShareDTO.builder()
+                .userName(s.getUserName())
+                .name(s.getName())
+                .share(s)
+                .build()
+        ).collect(Collectors.toList());
     }
+
 }
