@@ -9,9 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -23,10 +24,10 @@ public class ConnectionShare {
 
     private final ConnectionShareService connectionShareService;
 
-    @GetMapping(value = "/list/{personId}")
+    @PostMapping(value = "/list/{personId}")
     @ApiOperation(value = "Get person-connection share that the person connected")
-    public ResponseEntity<List<ConnectionShareDTO>> list(@PathVariable Long personId) {
-        return ResponseEntity.ok(connectionShareService.findByPersonId(personId));
+    public ResponseEntity<List<ConnectionShareDTO>> list(@PathVariable Long personId, @RequestParam int pageNumber, @RequestParam int pageSize) {
+        return ResponseEntity.ok(connectionShareService.findByPersonId(personId, pageNumber, pageSize));
     }
 
 }
