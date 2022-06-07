@@ -1,6 +1,5 @@
 package com.hackerswork.hsw.service.connection.impl;
 
-import com.hackerswork.hsw.persistence.entity.Connection;
 import com.hackerswork.hsw.persistence.repository.ConnectionRepository;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
 import java.util.List;
@@ -17,7 +16,7 @@ public class ConnectionQueryServiceImpl implements ConnectionQueryService {
     private final ConnectionRepository connectionRepository;
 
     @Override
-    public List<Connection> list(Long personId) {
-        return connectionRepository.findByPersonId(personId);
+    public List<Long> findConnections(Long personId) {
+        return connectionRepository.findConnectionsByPersonId(personId);
     }
 }

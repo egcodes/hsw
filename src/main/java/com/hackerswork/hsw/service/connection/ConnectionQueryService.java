@@ -5,5 +5,5 @@ import java.util.List;
 
 public interface ConnectionQueryService {
 
-    List<Connection> list(Long personId);
+    List<Long> findConnections(Long personId);
 }
