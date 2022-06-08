@@ -14,6 +14,8 @@ public final class Constant {
 
     public static final String DATE_FORMAT = "hh:mm a, dd MMM yyyy";
 
+    public static final int DURATION_FOR_ONLINE = 3000 * 60;
+
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GithubRequestHeader {
         public static final String CLIENT_ID = "client_id";
