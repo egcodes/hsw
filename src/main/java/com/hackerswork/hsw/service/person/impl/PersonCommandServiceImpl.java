@@ -1,5 +1,7 @@
 package com.hackerswork.hsw.service.person.impl;
 
+import static java.util.Objects.nonNull;
+
 import com.hackerswork.hsw.enums.Status;
 import com.hackerswork.hsw.persistence.entity.Activity;
 import com.hackerswork.hsw.persistence.entity.Person;
@@ -7,7 +9,7 @@ import com.hackerswork.hsw.persistence.repository.PersonRepository;
 import com.hackerswork.hsw.service.activity.ActivityCommandService;
 import com.hackerswork.hsw.service.person.PersonCommandService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,13 +41,13 @@ public class PersonCommandServiceImpl implements PersonCommandService {
             }
         }
 
-        var now = OffsetDateTime.now();
+        var now = Instant.now();
         person.setCreateDate(now);
         var personData = personRepository.save(person);
 
         var activity = Activity.builder()
             .personId(personData.getId())
-            .lastActivityTime(now.toEpochSecond())
+            .lastActivityTime(Status.PARTIAL.equals(person.getStatus()) ? 0L : now.toEpochMilli())
             .build();
         activityCommandService.upsert(activity);
 
@@ -56,7 +58,7 @@ public class PersonCommandServiceImpl implements PersonCommandService {
     public Person addPartial(String userName) {
         return add(Person.builder()
             .userName(userName)
-            .status(Status.PASSIVE)
+            .status(Status.PARTIAL)
             .build());
     }
 

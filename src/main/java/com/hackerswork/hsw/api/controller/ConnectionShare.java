@@ -26,8 +26,9 @@ public class ConnectionShare {
 
     @PostMapping(value = "/list/{personId}")
     @ApiOperation(value = "Get person-connection share that the person connected")
-    public ResponseEntity<List<ConnectionShareDTO>> list(@PathVariable Long personId, @RequestParam int pageNumber, @RequestParam int pageSize) {
-        return ResponseEntity.ok(connectionShareService.findByPersonId(personId, pageNumber, pageSize));
+    public ResponseEntity<List<ConnectionShareDTO>> list(@PathVariable Long personId, @RequestParam String utc,
+        @RequestParam int pageNumber, @RequestParam int pageSize) {
+        return ResponseEntity.ok(connectionShareService.findByPersonId(personId, utc, pageNumber, pageSize));
     }
 
 }

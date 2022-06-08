@@ -1,6 +1,6 @@
 package com.hackerswork.hsw.dto;
 
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -21,6 +21,6 @@ public class ShareDTO {
     private String text;
 
     @NotEmpty
-    private OffsetDateTime createdTime;
+    private Instant createdTime;
 
 }

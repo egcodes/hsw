@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface ConnectionShareService {
 
-    List<ConnectionShareDTO> findByPersonId(Long personId, int pageNumber, int pageSize);
+    List<ConnectionShareDTO> findByPersonId(Long personId, String utc, int pageNumber, int pageSize);
 
 }

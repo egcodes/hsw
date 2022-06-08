@@ -1,7 +1,7 @@
 package com.hackerswork.hsw.persistence.entity;
 
 import java.io.Serializable;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -37,7 +37,7 @@ public class Share implements Serializable {
 
     @NotNull
     @Setter
-    private OffsetDateTime createdTime;
+    private Instant createdTime;
 
     @NotNull
     @Length(min = 10, max = 280)

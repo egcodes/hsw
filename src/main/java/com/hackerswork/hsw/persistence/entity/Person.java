@@ -1,12 +1,12 @@
 package com.hackerswork.hsw.persistence.entity;
 
 import com.hackerswork.hsw.enums.Status;
+import java.time.Instant;
 import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.OffsetDateTime;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -41,7 +41,7 @@ public class Person implements Serializable {
     private Status status;
 
     @NotNull
-    private OffsetDateTime createDate;
+    private Instant createDate;
 
     @Length(max = 50)
     private String name;

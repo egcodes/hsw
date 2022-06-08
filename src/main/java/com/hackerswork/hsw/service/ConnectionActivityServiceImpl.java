@@ -1,10 +1,12 @@
 package com.hackerswork.hsw.service;
 
+import static com.hackerswork.hsw.constants.Constant.DURATION_FOR_ONLINE;
+
 import com.hackerswork.hsw.dto.ConnectionActivityDTO;
 import com.hackerswork.hsw.enums.Activity;
 import com.hackerswork.hsw.service.activity.ActivityQueryService;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +37,7 @@ public class ConnectionActivityServiceImpl implements ConnectionActivityService 
     }
 
     private Activity getActivity(Long lastActivityTime) {
-        var checkTime = OffsetDateTime.now().minusMinutes(3).toEpochSecond();
+        var checkTime = Instant.now().minusMillis(DURATION_FOR_ONLINE).toEpochMilli();
         if (lastActivityTime > checkTime)
             return Activity.ONLINE;
         return Activity.OFFLINE;

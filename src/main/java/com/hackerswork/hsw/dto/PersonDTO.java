@@ -2,12 +2,12 @@ package com.hackerswork.hsw.dto;
 
 import com.hackerswork.hsw.enums.Status;
 import io.swagger.annotations.ApiModelProperty;
+import java.time.Instant;
 import lombok.*;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.time.OffsetDateTime;
 
 @Builder
 @Data
@@ -31,6 +31,6 @@ public class PersonDTO {
     private Status status;
 
     @ApiModelProperty(hidden=true)
-    private OffsetDateTime createDate;
+    private Instant createDate;
 
 }

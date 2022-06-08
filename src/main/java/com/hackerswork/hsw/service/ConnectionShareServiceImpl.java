@@ -6,6 +6,7 @@ import com.hackerswork.hsw.dto.ConnectionShareDTO;
 import com.hackerswork.hsw.dto.ShareRespDTO;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
 import com.hackerswork.hsw.service.share.ShareQueryService;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
     private final ShareQueryService shareQueryService;
 
     @Override
-    public List<ConnectionShareDTO> findByPersonId(Long personId, int pageNumber, int pageSize) {
+    public List<ConnectionShareDTO> findByPersonId(Long personId, String utc, int pageNumber, int pageSize) {
         var connections = connectionQueryService.findConnections(personId);
         connections.add(personId);
 
@@ -33,7 +34,8 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
                 .name(s.getName())
                 .userName(s.getUserName())
                 .text(s.getText())
-                .createdTime(s.getCreatedTime().format(DateTimeFormatter.ofPattern(DATE_FORMAT)))
+                .createdTime(s.getCreatedTime().atOffset(ZoneOffset.of(utc))
+                    .format(DateTimeFormatter.ofPattern(DATE_FORMAT)))
                 .build())
             .collect(Collectors.toList());
 

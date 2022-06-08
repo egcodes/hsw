@@ -3,7 +3,7 @@ package com.hackerswork.hsw.service.activity.impl;
 import com.hackerswork.hsw.persistence.entity.Activity;
 import com.hackerswork.hsw.persistence.repository.ActivityRepository;
 import com.hackerswork.hsw.service.activity.ActivityCommandService;
-import java.time.OffsetDateTime;
+import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class ActivityCommandServiceImpl implements ActivityCommandService {
 
     @Override
     public void updateLastActivityTimeByPersonId(Long personId) {
-        activityRepository.updateLastActivityTimeByPersonId(personId, OffsetDateTime.now().toEpochSecond());
+        activityRepository.updateLastActivityTimeByPersonId(personId, Instant.now().toEpochMilli());
     }
 
 }
