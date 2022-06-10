@@ -12,6 +12,8 @@ import lombok.Getter;
 @Getter
 public class ShareDTO {
 
+    private Long id;
+
     private String userName;
 
     private String name;

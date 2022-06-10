@@ -31,4 +31,10 @@ public class ConnectionShare {
         return ResponseEntity.ok(connectionShareService.findByPersonId(personId, utc, pageNumber, pageSize));
     }
 
+    @PostMapping(value = "/listFrom/{offset}/{personId}")
+    @ApiOperation(value = "Get person-connection share that the person connected")
+    public ResponseEntity<List<ConnectionShareDTO>> list(@PathVariable Long offset,
+        @PathVariable Long personId, @RequestParam String utc) {
+        return ResponseEntity.ok(connectionShareService.findByOffsetAndPersonId(personId, offset, utc));
+    }
 }

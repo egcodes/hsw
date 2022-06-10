@@ -21,4 +21,9 @@ public class ShareQueryServiceImpl implements ShareQueryService {
     public List<ShareDTO> list(List<Long> personIds, int pageNumber, int pageSize) {
         return shareRepository.findAllByPersonIds(personIds, PageRequest.of(pageNumber, pageSize));
     }
+
+    @Override
+    public List<ShareDTO> list(List<Long> personIds, Long offset) {
+        return shareRepository.findByOffsetAndPersonIds(personIds, offset);
+    }
 }

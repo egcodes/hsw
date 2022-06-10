@@ -12,6 +12,8 @@ import lombok.Setter;
 @Getter
 public class ShareRespDTO {
 
+    private Long id;
+
     private String userName;
 
     private String name;

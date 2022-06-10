@@ -6,4 +6,6 @@ import java.util.List;
 public interface ShareQueryService {
 
     List<ShareDTO> list(List<Long> personIds, int pageNumber, int pageSize);
+
+    List<ShareDTO> list(List<Long> personIds, Long offset);
 }

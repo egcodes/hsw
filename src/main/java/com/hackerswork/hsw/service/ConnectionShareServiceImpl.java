@@ -3,6 +3,7 @@ package com.hackerswork.hsw.service;
 import static com.hackerswork.hsw.constants.Constant.DATE_FORMAT;
 
 import com.hackerswork.hsw.dto.ConnectionShareDTO;
+import com.hackerswork.hsw.dto.ShareDTO;
 import com.hackerswork.hsw.dto.ShareRespDTO;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
 import com.hackerswork.hsw.service.share.ShareQueryService;
@@ -25,12 +26,29 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
 
     @Override
     public List<ConnectionShareDTO> findByPersonId(Long personId, String utc, int pageNumber, int pageSize) {
+        var connections = getConnections(personId);
+        var shares = shareQueryService.list(connections, pageNumber, pageSize);
+        return getConnectionShareDTOS(utc, shares);
+    }
+
+    @Override
+    public List<ConnectionShareDTO> findByOffsetAndPersonId(Long personId, Long offset, String utc) {
+        var connections = getConnections(personId);
+        var shares = shareQueryService.list(connections, offset);
+        return getConnectionShareDTOS(utc, shares);
+    }
+
+
+    private List<Long> getConnections(Long personId) {
         var connections = connectionQueryService.findConnections(personId);
         connections.add(personId);
+        return connections;
+    }
 
-        var shares = shareQueryService.list(connections, pageNumber, pageSize);
+    private List<ConnectionShareDTO> getConnectionShareDTOS(String utc, List<ShareDTO> shares) {
         var sharesResp = shares.stream()
             .map(s -> ShareRespDTO.builder()
+                .id(s.getId())
                 .name(s.getName())
                 .userName(s.getUserName())
                 .text(s.getText())
@@ -41,11 +59,13 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
 
         return sharesResp.stream().map(s ->
             ConnectionShareDTO.builder()
+                .shareId(s.getId())
                 .userName(s.getUserName())
                 .name(s.getName())
                 .share(s)
                 .build()
         ).collect(Collectors.toList());
     }
+
 
 }
