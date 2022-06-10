@@ -7,5 +7,5 @@ public interface ShareQueryService {
 
     List<ShareDTO> list(List<Long> personIds, int pageNumber, int pageSize);
 
-    List<ShareDTO> list(List<Long> personIds, Long offset);
+    List<ShareDTO> listFrom(List<Long> personIds, Long offset);
 }

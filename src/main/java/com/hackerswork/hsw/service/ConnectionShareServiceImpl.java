@@ -34,7 +34,7 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
     @Override
     public List<ConnectionShareDTO> findByOffsetAndPersonId(Long personId, Long offset, String utc) {
         var connections = getConnections(personId);
-        var shares = shareQueryService.list(connections, offset);
+        var shares = shareQueryService.listFrom(connections, offset);
         return getConnectionShareDTOS(utc, shares);
     }
 

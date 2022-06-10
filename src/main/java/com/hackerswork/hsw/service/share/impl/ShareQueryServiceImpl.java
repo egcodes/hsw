@@ -23,7 +23,7 @@ public class ShareQueryServiceImpl implements ShareQueryService {
     }
 
     @Override
-    public List<ShareDTO> list(List<Long> personIds, Long offset) {
+    public List<ShareDTO> listFrom(List<Long> personIds, Long offset) {
         return shareRepository.findByOffsetAndPersonIds(personIds, offset);
     }
 }
