@@ -24,6 +24,12 @@ public class ConnectionShare {
 
     private final ConnectionShareService connectionShareService;
 
+    @PostMapping(value = "/get/{shareId}")
+    @ApiOperation(value = "Get person-connection share by id that the person connected")
+    public ResponseEntity<ConnectionShareDTO> get(@PathVariable Long shareId, @RequestParam String utc) {
+        return ResponseEntity.ok(connectionShareService.findByShareId(shareId, utc));
+    }
+
     @PostMapping(value = "/list/{personId}")
     @ApiOperation(value = "Get person-connection share that the person connected")
     public ResponseEntity<List<ConnectionShareDTO>> list(@PathVariable Long personId, @RequestParam String utc,
@@ -32,8 +38,8 @@ public class ConnectionShare {
     }
 
     @PostMapping(value = "/listFrom/{offset}/{personId}")
-    @ApiOperation(value = "Get person-connection share that the person connected")
-    public ResponseEntity<List<ConnectionShareDTO>> list(@PathVariable Long offset,
+    @ApiOperation(value = "Get person-connection share by offset that the person connected")
+    public ResponseEntity<List<ConnectionShareDTO>> listFrom(@PathVariable Long offset,
         @PathVariable Long personId, @RequestParam String utc) {
         return ResponseEntity.ok(connectionShareService.findByOffsetAndPersonId(personId, offset, utc));
     }

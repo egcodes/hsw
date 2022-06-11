@@ -5,7 +5,11 @@ import static com.hackerswork.hsw.constants.Constant.DATE_FORMAT;
 import com.hackerswork.hsw.dto.ConnectionShareDTO;
 import com.hackerswork.hsw.dto.ShareDTO;
 import com.hackerswork.hsw.dto.ShareRespDTO;
+import com.hackerswork.hsw.enums.ValidationRule;
+import com.hackerswork.hsw.exception.HswException;
+import com.hackerswork.hsw.mapper.ShareMapper;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
+import com.hackerswork.hsw.service.person.PersonQueryService;
 import com.hackerswork.hsw.service.share.ShareQueryService;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -23,6 +27,8 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
 
     private final ConnectionQueryService connectionQueryService;
     private final ShareQueryService shareQueryService;
+    private final PersonQueryService personQueryService;
+    private final ShareMapper mapper;
 
     @Override
     public List<ConnectionShareDTO> findByPersonId(Long personId, String utc, int pageNumber, int pageSize) {
@@ -38,6 +44,21 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
         return getConnectionShareDTOS(utc, shares);
     }
 
+    @Override
+    public ConnectionShareDTO findByShareId(Long shareId, String utc) {
+        var sharePossible = shareQueryService.findBy(shareId);
+        if (sharePossible.isPresent()) {
+            var share = sharePossible.get();
+            var shareDTO = mapper.toDTO(share);
+            var person = personQueryService.findPerson(share.getPersonId());
+            shareDTO.setName(person.get().getName());
+            shareDTO.setUserName(person.get().getUserName());
+
+            return getConnectionShareDTOS(utc, List.of(shareDTO)).get(0);
+        }
+
+        throw new HswException(ValidationRule.SHARE_NOT_FOUND);
+    }
 
     private List<Long> getConnections(Long personId) {
         var connections = connectionQueryService.findConnections(personId);
@@ -59,13 +80,11 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
 
         return sharesResp.stream().map(s ->
             ConnectionShareDTO.builder()
-                .shareId(s.getId())
                 .userName(s.getUserName())
                 .name(s.getName())
                 .share(s)
                 .build()
         ).collect(Collectors.toList());
     }
-
 
 }

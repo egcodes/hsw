@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Builder
 @AllArgsConstructor
@@ -14,8 +15,10 @@ public class ShareDTO {
 
     private Long id;
 
+    @Setter
     private String userName;
 
+    @Setter
     private String name;
 
     @NotEmpty

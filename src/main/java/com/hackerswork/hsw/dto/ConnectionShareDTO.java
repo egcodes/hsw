@@ -8,7 +8,6 @@ import lombok.Data;
 @Data
 public class ConnectionShareDTO implements Serializable {
 
-    private Long shareId;
     private String name;
     private String userName;
     private ShareRespDTO share;
