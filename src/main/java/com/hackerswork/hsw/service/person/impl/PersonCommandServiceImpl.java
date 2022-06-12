@@ -3,6 +3,7 @@ package com.hackerswork.hsw.service.person.impl;
 import static java.util.Objects.nonNull;
 
 import com.hackerswork.hsw.enums.Status;
+import com.hackerswork.hsw.exception.HswException;
 import com.hackerswork.hsw.persistence.entity.Activity;
 import com.hackerswork.hsw.persistence.entity.Person;
 import com.hackerswork.hsw.persistence.repository.PersonRepository;
@@ -28,10 +29,14 @@ public class PersonCommandServiceImpl implements PersonCommandService {
 
     @Override
     public Person add(Person person) {
-        var personPossible = personQueryService.findPersonByUserName(person.getUserName());
+        Person existsPerson = null;
+        try {
+             existsPerson = personQueryService.findPersonByUserName(person.getUserName());
+        } catch (HswException ignored) {
+        }
 
-        if (personPossible.isPresent()) {
-            person = personPossible.get();
+        if (nonNull(existsPerson)) {
+            person = existsPerson;
             if (person.getStatus().equals(Status.ACTIVE)) {
                 return person;
             } else {

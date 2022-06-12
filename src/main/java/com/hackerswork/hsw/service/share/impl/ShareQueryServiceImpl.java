@@ -1,6 +1,8 @@
 package com.hackerswork.hsw.service.share.impl;
 
 import com.hackerswork.hsw.dto.ShareDTO;
+import com.hackerswork.hsw.enums.ValidationRule;
+import com.hackerswork.hsw.exception.HswException;
 import com.hackerswork.hsw.persistence.entity.Share;
 import com.hackerswork.hsw.persistence.repository.ShareRepository;
 import com.hackerswork.hsw.service.share.ShareQueryService;
@@ -30,7 +32,8 @@ public class ShareQueryServiceImpl implements ShareQueryService {
     }
 
     @Override
-    public Optional<Share> findBy(Long id) {
-        return shareRepository.findById(id);
+    public Share findBy(Long id) {
+        return shareRepository.findById(id)
+            .orElseThrow(() -> new HswException(ValidationRule.SHARE_NOT_FOUND));
     }
 }

@@ -5,8 +5,6 @@ import static com.hackerswork.hsw.constants.Constant.DATE_FORMAT;
 import com.hackerswork.hsw.dto.ConnectionShareDTO;
 import com.hackerswork.hsw.dto.ShareDTO;
 import com.hackerswork.hsw.dto.ShareRespDTO;
-import com.hackerswork.hsw.enums.ValidationRule;
-import com.hackerswork.hsw.exception.HswException;
 import com.hackerswork.hsw.mapper.ShareMapper;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
@@ -46,18 +44,13 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
 
     @Override
     public ConnectionShareDTO findByShareId(Long shareId, String utc) {
-        var sharePossible = shareQueryService.findBy(shareId);
-        if (sharePossible.isPresent()) {
-            var share = sharePossible.get();
-            var shareDTO = mapper.toDTO(share);
-            var person = personQueryService.findPerson(share.getPersonId());
-            shareDTO.setName(person.get().getName());
-            shareDTO.setUserName(person.get().getUserName());
+        var share = shareQueryService.findBy(shareId);
+        var shareDTO = mapper.toDTO(share);
+        var person = personQueryService.findPerson(share.getPersonId());
+        shareDTO.setName(person.getName());
+        shareDTO.setUserName(person.getUserName());
 
-            return getConnectionShareDTOS(utc, List.of(shareDTO)).get(0);
-        }
-
-        throw new HswException(ValidationRule.SHARE_NOT_FOUND);
+        return getConnectionShareDTOS(utc, List.of(shareDTO)).get(0);
     }
 
     private List<Long> getConnections(Long personId) {
