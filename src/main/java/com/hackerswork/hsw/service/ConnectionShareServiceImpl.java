@@ -46,7 +46,7 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
     public ConnectionShareDTO findByShareId(Long shareId, String utc) {
         var share = shareQueryService.findBy(shareId);
         var shareDTO = mapper.toDTO(share);
-        var person = personQueryService.findPerson(share.getPersonId());
+        var person = personQueryService.find(share.getPersonId());
         shareDTO.setName(person.getName());
         shareDTO.setUserName(person.getUserName());
 

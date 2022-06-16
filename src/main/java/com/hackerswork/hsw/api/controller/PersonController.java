@@ -34,7 +34,7 @@ public class PersonController {
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "Get person", notes = "Get person by id")
     public ResponseEntity<PersonDTO> get(@PathVariable Long id) {
-        return ResponseEntity.ok(personMapper.toDTO(personQueryService.findPerson(id)));
+        return ResponseEntity.ok(personMapper.toDTO(personQueryService.find(id)));
     }
 
 }

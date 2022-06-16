@@ -29,8 +29,8 @@ public class AuthenticationImpl implements Authentication {
                 if (userPossible.isPresent()) {
                     var user = userPossible.get();
 
-                    var personPossible = personQueryService.findPersonByUserName(user.getLogin());
-                    if (personPossible.isEmpty() || Status.PARTIAL.equals(personPossible.get().getStatus())) {
+                    var person = personQueryService.findByUserName(user.getLogin());
+                    if (Status.PARTIAL.equals(person.getStatus())) {
                         var newPerson = personCommandService.add(Person.builder()
                             .name(user.getName())
                             .userName(user.getLogin())
@@ -41,7 +41,7 @@ public class AuthenticationImpl implements Authentication {
                         return newPerson;
                     }
 
-                    return personPossible.get();
+                    return person;
                 }
                 break;
             case LINKEDIN:

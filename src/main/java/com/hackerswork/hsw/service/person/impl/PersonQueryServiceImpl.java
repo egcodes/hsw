@@ -18,19 +18,24 @@ public class PersonQueryServiceImpl implements PersonQueryService {
     private final PersonRepository personRepository;
 
     @Override
-    public Person findPerson(Long id) {
+    public Person find(Long id) {
         return personRepository.findById(id)
             .orElseThrow(() -> new HswException(ValidationRule.PERSON_NOT_FOUND));
     }
 
     @Override
-    public Person findPersonByUserName(String userName) {
+    public Person findByUserName(String userName) {
         return personRepository.findByUserName(userName)
             .orElseThrow(() -> new HswException(ValidationRule.PERSON_NOT_FOUND));
     }
 
     @Override
-    public List<Person> findPersonsByUserName(List<String> userNames) {
+    public Person findByName(String name) {
+        return null;
+    }
+
+    @Override
+    public List<Person> findAllByUserName(List<String> userNames) {
         return personRepository.findAllByUserNameIn(userNames);
     }
 

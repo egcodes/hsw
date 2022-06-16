@@ -25,7 +25,7 @@ public class ConnectionCommandServiceImpl implements ConnectionCommandService {
 
     @Override
     public void addAll(Long personId, List<String> userNames) {
-        var persons = personQueryService.findPersonsByUserName(userNames);
+        var persons = personQueryService.findAllByUserName(userNames);
 
         var connections = new ArrayList<Connection>();
         for (var userName : userNames) {

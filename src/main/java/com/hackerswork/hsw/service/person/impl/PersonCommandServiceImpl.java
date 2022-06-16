@@ -31,7 +31,7 @@ public class PersonCommandServiceImpl implements PersonCommandService {
     public Person add(Person person) {
         Person existsPerson = null;
         try {
-             existsPerson = personQueryService.findPersonByUserName(person.getUserName());
+             existsPerson = personQueryService.findByUserName(person.getUserName());
         } catch (HswException ignored) {
         }
 
