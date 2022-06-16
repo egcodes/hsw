@@ -30,8 +30,13 @@ public class PersonQueryServiceImpl implements PersonQueryService {
     }
 
     @Override
-    public Person findByName(String name) {
-        return null;
+    public List<Person> findByUserNameLike(String searchText) {
+        return personRepository.findByUserNameContainingIgnoreCase(searchText);
+    }
+
+    @Override
+    public List<Person> findByNameLike(String searchText) {
+        return personRepository.findByNameContainingIgnoreCase(searchText);
     }
 
     @Override

@@ -9,7 +9,9 @@ public interface PersonQueryService {
 
     Person findByUserName(String userName);
 
-    Person findByName(String name);
+    List<Person> findByUserNameLike(String searchText);
+
+    List<Person> findByNameLike(String searchText);
 
     List<Person> findAllByUserName(List<String> userNames);
 

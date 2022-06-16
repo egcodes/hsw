@@ -6,6 +6,8 @@ import com.hackerswork.hsw.service.person.PersonCommandService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,4 +39,13 @@ public class PersonController {
         return ResponseEntity.ok(personMapper.toDTO(personQueryService.find(id)));
     }
 
+    @GetMapping(value = "/search={text}")
+    @ApiOperation(value = "Find persons", notes = "Find person by keyword")
+    public ResponseEntity<List<PersonDTO>> get(@PathVariable String text) {
+        var foundPersons = new ArrayList<PersonDTO>();
+        foundPersons.addAll(personMapper.toDTOs(personQueryService.findByUserNameLike(text)));
+        foundPersons.addAll(personMapper.toDTOs(personQueryService.findByNameLike(text)));
+
+        return ResponseEntity.ok(foundPersons);
+    }
 }
