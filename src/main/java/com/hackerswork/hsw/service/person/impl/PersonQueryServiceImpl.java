@@ -1,5 +1,6 @@
 package com.hackerswork.hsw.service.person.impl;
 
+import com.hackerswork.hsw.enums.Status;
 import com.hackerswork.hsw.enums.ValidationRule;
 import com.hackerswork.hsw.exception.HswException;
 import com.hackerswork.hsw.persistence.entity.Person;
@@ -30,13 +31,13 @@ public class PersonQueryServiceImpl implements PersonQueryService {
     }
 
     @Override
-    public List<Person> findByUserNameLike(String searchText) {
-        return personRepository.findByUserNameContainingIgnoreCase(searchText);
+    public List<Person> findByUserNameLike(Status status, String searchText) {
+        return personRepository.findByStatusAndUserNameContainingIgnoreCase(status, searchText);
     }
 
     @Override
-    public List<Person> findByNameLike(String searchText) {
-        return personRepository.findByNameContainingIgnoreCase(searchText);
+    public List<Person> findByNameLike(Status status, String searchText) {
+        return personRepository.findByStatusAndNameContainingIgnoreCase(status, searchText);
     }
 
     @Override

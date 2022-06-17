@@ -1,6 +1,7 @@
 package com.hackerswork.hsw.api.controller;
 
 import com.hackerswork.hsw.dto.PersonDTO;
+import com.hackerswork.hsw.enums.Status;
 import com.hackerswork.hsw.mapper.PersonMapper;
 import com.hackerswork.hsw.service.person.PersonCommandService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
@@ -43,9 +44,8 @@ public class PersonController {
     @ApiOperation(value = "Find persons", notes = "Find person by keyword")
     public ResponseEntity<List<PersonDTO>> get(@PathVariable String text) {
         var foundPersons = new ArrayList<PersonDTO>();
-        foundPersons.addAll(personMapper.toDTOs(personQueryService.findByUserNameLike(text)));
-        foundPersons.addAll(personMapper.toDTOs(personQueryService.findByNameLike(text)));
-
+        foundPersons.addAll(personMapper.toDTOs(personQueryService.findByUserNameLike(Status.ACTIVE, text)));
+        foundPersons.addAll(personMapper.toDTOs(personQueryService.findByNameLike(Status.ACTIVE, text)));
         return ResponseEntity.ok(foundPersons);
     }
 }
