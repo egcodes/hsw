@@ -30,7 +30,9 @@ public class StatsFilter implements Filter {
             var time = Duration.between(start, finish).toMillis();
             var path = ((HttpServletRequest) req).getServletPath();
 
-            if (time > Constant.MAX_LIMIT_TIME)
+            if (time > Constant.WARN_LIMIT_TIME)
+                log.warn("{}: {} ms ", ((HttpServletRequest) req).getRequestURI(), time);
+            else if (time > Constant.INFO_LIMIT_TIME)
                 log.info("{}: {} ms ", ((HttpServletRequest) req).getRequestURI(), time);
         }
     }

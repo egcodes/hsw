@@ -40,7 +40,7 @@ public class PersonController {
         return ResponseEntity.ok(personMapper.toDTO(personQueryService.find(id)));
     }
 
-    @GetMapping(value = "/search?keyword={text}")
+    @GetMapping(value = "/search/keyword={text}")
     @ApiOperation(value = "Find persons", notes = "Find person by keyword")
     public ResponseEntity<List<PersonDTO>> get(@PathVariable String text) {
         var foundPersons = new ArrayList<PersonDTO>();

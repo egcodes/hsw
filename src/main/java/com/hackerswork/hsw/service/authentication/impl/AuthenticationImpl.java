@@ -44,9 +44,6 @@ public class AuthenticationImpl implements Authentication {
                     return person;
                 }
                 break;
-            case LINKEDIN:
-            case TWITTER:
-                break;
         }
 
         return null;
