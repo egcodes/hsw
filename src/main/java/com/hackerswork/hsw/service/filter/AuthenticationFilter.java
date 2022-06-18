@@ -43,6 +43,7 @@ public class AuthenticationFilter implements Filter {
             var cachedCode = tokenManager.get(userName);
             if (isNull(cachedCode) || !cachedCode.equals(code)) {
                 log.warn("Invalid code: {}", code);
+                return;
             }
         }
         chain.doFilter(req, resp);
