@@ -7,11 +7,12 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 @Getter
-public class ActivityDTO {
+public class ConnectionDTO {
 
     private Long personId;
-    private String userName;
-    private String name;
-    private Long lastActivityTime;
+    private Long connectionId;
+    private boolean hidden;
+    private boolean blocked;
+    private boolean pinned;
 
 }

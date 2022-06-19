@@ -9,6 +9,7 @@ import lombok.Data;
 @Data
 public class ConnectionActivityDTO implements Serializable {
 
+    private Long personId;
     private String userName;
     private String name;
     private Activity activity;

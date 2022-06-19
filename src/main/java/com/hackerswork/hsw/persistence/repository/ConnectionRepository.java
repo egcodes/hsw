@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ConnectionRepository extends JpaRepository<Connection, Long> {
 
+    Connection findByPersonIdAndConnectionId(Long personId, Long connectionId);
+
     @Query("SELECT c.connectionId FROM Connection c WHERE c.personId = :personId")
     List<Long> findConnectionsByPersonId(Long personId);
 }

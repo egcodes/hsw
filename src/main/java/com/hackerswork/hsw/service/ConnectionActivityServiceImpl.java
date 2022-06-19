@@ -26,6 +26,7 @@ public class ConnectionActivityServiceImpl implements ConnectionActivityService 
 
         return personActivities.stream().map(a ->
             ConnectionActivityDTO.builder()
+                .personId(a.getPersonId())
                 .userName(a.getUserName())
                 .name(a.getName())
                 .activity(getActivity(a.getLastActivityTime()))
