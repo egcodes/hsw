@@ -1,6 +1,7 @@
 package com.hackerswork.hsw.api.controller;
 
 import com.hackerswork.hsw.dto.ConnectionDTO;
+import com.hackerswork.hsw.enums.Preference;
 import com.hackerswork.hsw.mapper.ConnectionMapper;
 import com.hackerswork.hsw.service.connection.ConnectionCommandService;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
@@ -11,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,5 +42,10 @@ public class ConnectionController {
         return connectionMapper.toDTO(connectionQueryService.findByPersonId(personId, connectionId));
     }
 
+    @PatchMapping(value = "/set/{personId}/{connectionId}")
+    @ApiOperation(value = "Set connection preference by personId")
+    public boolean set(@PathVariable Long personId, @PathVariable Long connectionId, @RequestBody Preference preference) {
+        return connectionCommandService.setPreferenceForConnection(personId, connectionId, preference);
+    }
 
 }

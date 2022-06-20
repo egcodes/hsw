@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(indexes = {
@@ -35,9 +36,12 @@ public class Connection implements Serializable {
     @NotNull
     private Long connectionId;
 
+    @Setter
     private boolean hidden;
 
+    @Setter
     private boolean blocked;
 
+    @Setter
     private boolean pinned;
 }

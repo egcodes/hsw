@@ -1,6 +1,7 @@
 package com.hackerswork.hsw.service;
 
 import com.hackerswork.hsw.dto.ConnectionActivityDTO;
+import com.hackerswork.hsw.dto.ConnectionDTO;
 import com.hackerswork.hsw.enums.Activity;
 import com.hackerswork.hsw.service.activity.ActivityQueryService;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
@@ -22,7 +23,9 @@ public class ConnectionActivityServiceImpl implements ConnectionActivityService 
     @Override
     public List<ConnectionActivityDTO> findConnectionsByPerson(Long personId) {
         var connections = connectionQueryService.findConnections(personId);
-        var personActivities = activityQueryService.list(connections);
+        var personActivities = activityQueryService.list(connections.stream().map(
+            ConnectionDTO::getConnectionId).collect(
+            Collectors.toList()));
 
         return personActivities.stream().map(a ->
             ConnectionActivityDTO.builder()
@@ -30,6 +33,8 @@ public class ConnectionActivityServiceImpl implements ConnectionActivityService 
                 .userName(a.getUserName())
                 .name(a.getName())
                 .activity(getActivity(a.getLastActivityTime()))
+                .pinned(connections.stream().filter(c -> c.getConnectionId().equals(a.getPersonId()))
+                    .findFirst().get().isPinned())
                 .build()
         ).collect(Collectors.toList());
     }

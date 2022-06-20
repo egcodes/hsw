@@ -1,5 +1,8 @@
 package com.hackerswork.hsw.service.connection.impl;
 
+import static java.util.Objects.nonNull;
+
+import com.hackerswork.hsw.enums.Preference;
 import com.hackerswork.hsw.persistence.entity.Connection;
 import com.hackerswork.hsw.persistence.repository.ConnectionRepository;
 import com.hackerswork.hsw.service.connection.ConnectionCommandService;
@@ -40,5 +43,13 @@ public class ConnectionCommandServiceImpl implements ConnectionCommandService {
                 .build());
         }
         connectionRepository.saveAll(connections);
+    }
+
+    @Override
+    public boolean setPreferenceForConnection(Long personId, Long connectionId, Preference preference) {
+        var connection = connectionRepository.findByPersonIdAndConnectionId(personId, connectionId);
+        connection = preference.setConnectionPreferenceForPerson(connection);
+        var result = connectionRepository.save(connection);
+        return result.getConnectionId().equals(connectionId);
     }
 }

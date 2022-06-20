@@ -1,5 +1,6 @@
 package com.hackerswork.hsw.service.connection.impl;
 
+import com.hackerswork.hsw.dto.ConnectionDTO;
 import com.hackerswork.hsw.persistence.entity.Connection;
 import com.hackerswork.hsw.persistence.repository.ConnectionRepository;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
@@ -22,7 +23,12 @@ public class ConnectionQueryServiceImpl implements ConnectionQueryService {
     }
 
     @Override
-    public List<Long> findConnections(Long personId) {
+    public List<Long> findConnectionIds(Long personId) {
         return connectionRepository.findConnectionsByPersonId(personId);
+    }
+
+    @Override
+    public List<ConnectionDTO> findConnections(Long personId) {
+        return connectionRepository.findAllByPersonId(personId);
     }
 }

@@ -54,7 +54,7 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
     }
 
     private List<Long> getConnections(Long personId) {
-        var connections = connectionQueryService.findConnections(personId);
+        var connections = connectionQueryService.findConnectionIds(personId);
         connections.add(personId);
         return connections;
     }

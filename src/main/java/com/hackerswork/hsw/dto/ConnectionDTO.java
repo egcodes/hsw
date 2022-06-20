@@ -9,6 +9,11 @@ import lombok.Getter;
 @Getter
 public class ConnectionDTO {
 
+    public ConnectionDTO(Long connectionId, boolean pinned) {
+        this.connectionId = connectionId;
+        this.pinned = pinned;
+    }
+
     private Long personId;
     private Long connectionId;
     private boolean hidden;
