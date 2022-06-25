@@ -12,7 +12,7 @@
 
 	<groupId>com.hackersnews</groupId>
 	<artifactId>hsw</artifactId>
-	<version>0.0.1</version>
+	<version>0.7</version>
 	<name>hsw</name>
 	<description>HackersWork</description>
 
