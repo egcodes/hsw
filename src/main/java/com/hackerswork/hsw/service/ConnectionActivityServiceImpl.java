@@ -1,5 +1,6 @@
 package com.hackerswork.hsw.service;
 
+import com.hackerswork.hsw.dto.ActivityDTO;
 import com.hackerswork.hsw.dto.ConnectionActivityDTO;
 import com.hackerswork.hsw.dto.ConnectionDTO;
 import com.hackerswork.hsw.enums.Activity;
@@ -33,10 +34,14 @@ public class ConnectionActivityServiceImpl implements ConnectionActivityService 
                 .userName(a.getUserName())
                 .name(a.getName())
                 .activity(getActivity(a.getLastActivityTime()))
-                .pinned(connections.stream().filter(c -> c.getConnectionId().equals(a.getPersonId()))
-                    .findFirst().get().isPinned())
+                .pinned(isPinned(connections, a))
                 .build()
         ).collect(Collectors.toList());
+    }
+
+    private boolean isPinned(List<ConnectionDTO> connections, ActivityDTO a) {
+        return connections.stream().filter(c -> c.getConnectionId().equals(a.getPersonId()))
+            .findFirst().orElse(ConnectionDTO.builder().build()).isPinned();
     }
 
     private Activity getActivity(Long lastActivityTime) {
