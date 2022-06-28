@@ -7,6 +7,8 @@ public enum Preference {
         @Override
         public Connection setConnectionPreferenceForPerson(Connection connection) {
             connection.setPinned(Boolean.TRUE);
+            connection.setHidden(Boolean.FALSE);
+            connection.setBlocked(Boolean.FALSE);
             return connection;
         }
     },
@@ -14,6 +16,8 @@ public enum Preference {
         @Override
         public Connection setConnectionPreferenceForPerson(Connection connection) {
             connection.setPinned(Boolean.FALSE);
+            connection.setHidden(Boolean.FALSE);
+            connection.setBlocked(Boolean.FALSE);
             return connection;
         }
     },
@@ -21,6 +25,7 @@ public enum Preference {
         @Override
         public Connection setConnectionPreferenceForPerson(Connection connection) {
             connection.setBlocked(Boolean.TRUE);
+            connection.setHidden(Boolean.TRUE);
             return connection;
         }
     },
@@ -28,6 +33,7 @@ public enum Preference {
         @Override
         public Connection setConnectionPreferenceForPerson(Connection connection) {
             connection.setBlocked(Boolean.FALSE);
+            connection.setHidden(Boolean.FALSE);
             return connection;
         }
     },
@@ -35,6 +41,7 @@ public enum Preference {
         @Override
         public Connection setConnectionPreferenceForPerson(Connection connection) {
             connection.setHidden(Boolean.TRUE);
+            connection.setBlocked(Boolean.FALSE);
             return connection;
         }
     },
@@ -42,6 +49,7 @@ public enum Preference {
         @Override
         public Connection setConnectionPreferenceForPerson(Connection connection) {
             connection.setHidden(Boolean.FALSE);
+            connection.setBlocked(Boolean.FALSE);
             return connection;
         }
     };
