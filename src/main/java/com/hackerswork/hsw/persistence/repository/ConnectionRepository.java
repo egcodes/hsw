@@ -13,7 +13,7 @@ public interface ConnectionRepository extends JpaRepository<Connection, Long> {
     Connection findByPersonIdAndConnectionId(Long personId, Long connectionId);
 
     @Query("SELECT new com.hackerswork.hsw.dto.ConnectionDTO(c.connectionId, c.pinned) "
-        + "FROM Connection c WHERE c.personId = :personId")
+        + "FROM Connection c WHERE c.personId = :personId AND c.blocked = false AND c.hidden = false")
     List<ConnectionDTO> findAllByPersonId(Long personId);
 
     @Query("SELECT c.connectionId FROM Connection c WHERE c.personId = :personId")
