@@ -27,3 +27,5 @@ target/
 
 ### MacOS ###
 .DS_Store
+
+rebel.xml
