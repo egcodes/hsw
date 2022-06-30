@@ -33,7 +33,7 @@ public class ConnectionActivityServiceImpl implements ConnectionActivityService 
             ConnectionDTO::getConnectionId).collect(
             Collectors.toList()));
 
-        var persons = personActivities.stream().map(a ->
+        return personActivities.stream().map(a ->
             ConnectionActivityDTO.builder()
                 .personId(a.getPersonId())
                 .userName(a.getUserName())
@@ -42,25 +42,6 @@ public class ConnectionActivityServiceImpl implements ConnectionActivityService 
                 .pinned(isPinned(connections, a))
                 .build()
         ).collect(Collectors.toList());
-
-        var onlinePersons = persons.stream()
-            .filter(p -> p.getActivity().equals(Activity.ONLINE) && nonNull(p.getName()))
-            .sorted(Comparator.comparing(ConnectionActivityDTO::getName)).collect(Collectors.toList());
-
-        var offlinePersons = persons.stream()
-            .filter(p -> p.getActivity().equals(Activity.OFFLINE) && nonNull(p.getName()))
-            .sorted(Comparator.comparing(ConnectionActivityDTO::getName)).collect(Collectors.toList());
-
-        var others = persons.stream()
-            .filter(p -> isNull(p.getName()))
-            .sorted(Comparator.comparing(ConnectionActivityDTO::getUserName)).collect(Collectors.toList());
-
-        var resultLs = new ArrayList<ConnectionActivityDTO>();
-        resultLs.addAll(onlinePersons);
-        resultLs.addAll(offlinePersons);
-        resultLs.addAll(others);
-
-        return resultLs;
     }
 
     private boolean isPinned(List<ConnectionDTO> connections, ActivityDTO a) {

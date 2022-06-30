@@ -19,7 +19,6 @@ public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
     @Query("SELECT new com.hackerswork.hsw.dto.ActivityDTO(p.id, p.userName, p.name, a.lastActivityTime) FROM Person p LEFT JOIN Activity a "
         + "ON p.id = a.personId "
-        + "WHERE a.personId IN :personIds "
-        + "ORDER BY a.lastActivityTime DESC")
+        + "WHERE a.personId IN :personIds")
     List<ActivityDTO> findAllByPersonIds(List<Long> personIds);
 }
