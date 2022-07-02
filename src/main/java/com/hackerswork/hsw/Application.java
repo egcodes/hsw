@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableScheduling
 @EnableAsync
-@EnableCaching
 @EnableTransactionManagement
 public class Application {
 

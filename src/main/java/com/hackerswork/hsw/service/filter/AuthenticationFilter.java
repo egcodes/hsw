@@ -39,7 +39,7 @@ public class AuthenticationFilter implements Filter {
         var userName = ((RequestFacade) req).getHeader(Person.Meta.userName);
         var code = ((RequestFacade) req).getHeader(GithubRequestHeader.CODE);
 
-        if (!url.contains(AUTHENTICATION_PATH) && nonNull(userName)) {
+        if (!url.contains(AUTHENTICATION_PATH)) {
             var cachedCode = tokenManager.get(userName);
             if (isNull(cachedCode) || !cachedCode.equals(code)) {
                 log.warn("Invalid code: {}", code);

@@ -17,6 +17,8 @@ public final class Constant {
 
     public static final int DURATION_FOR_ONLINE = 3000 * 60;
 
+    public static final String CACHE_NAME_FOR_TOKEN = "tokens";
+
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GithubRequestHeader {
         public static final String CLIENT_ID = "client_id";

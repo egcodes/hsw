@@ -4,6 +4,6 @@ public interface TokenManager {
 
     String get(String key);
 
-    void set(String key, String value);
+    String set(String key, String value);
 
 }
