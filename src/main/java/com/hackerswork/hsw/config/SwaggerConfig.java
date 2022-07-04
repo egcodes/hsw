@@ -27,7 +27,7 @@ public class SwaggerConfig {
         return new ApiInfoBuilder().title("HackersWork APIs")
                 .description("HackersWork Api Documentation")
                 .contact(new Contact("Erdi Gürbüz", "https://hackerswork.com", "info@hackerswork.com"))
-                .version("0.7")
+                .version("1.0.0")
                 .build();
     }
 }
