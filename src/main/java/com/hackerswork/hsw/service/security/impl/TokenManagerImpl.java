@@ -1,5 +1,7 @@
 package com.hackerswork.hsw.service.security.impl;
 
+import static java.util.Objects.nonNull;
+
 import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.service.security.TokenManager;
 import java.util.concurrent.ConcurrentHashMap;
@@ -19,15 +21,14 @@ public class TokenManagerImpl implements TokenManager {
 
 
     @Override
-    @Cacheable("tokens")
+    @Cacheable(Constant.CACHE_NAME_FOR_TOKEN)
     public String get(String key) {
-        return tokenCache.get(key);
+        return nonNull(key) ? tokenCache.get(key) : "";
     }
 
     @Override
     @CachePut(value= Constant.CACHE_NAME_FOR_TOKEN, key="#key")
     public String set(String key, String value) {
-        tokenCache.put(key, value);
-        return value;
+        return nonNull(key) ? tokenCache.put(key, value) : value;
     }
 }
