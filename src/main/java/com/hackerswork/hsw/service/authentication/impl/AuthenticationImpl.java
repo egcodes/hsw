@@ -1,12 +1,15 @@
 package com.hackerswork.hsw.service.authentication.impl;
 
+import com.hackerswork.hsw.dto.UserDTO;
 import com.hackerswork.hsw.enums.Auth;
 import com.hackerswork.hsw.enums.Status;
+import com.hackerswork.hsw.exception.HswException;
 import com.hackerswork.hsw.persistence.entity.Person;
 import com.hackerswork.hsw.service.authentication.AuthProvider;
 import com.hackerswork.hsw.service.authentication.Authentication;
 import com.hackerswork.hsw.service.person.PersonCommandService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
+import com.hackerswork.hsw.service.security.TokenManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +23,7 @@ public class AuthenticationImpl implements Authentication {
     private final AuthProvider authProvider;
     private final PersonCommandService personCommandService;
     private final PersonQueryService personQueryService;
+    private final TokenManager tokenManager;
 
     @Override
     public Person login(Auth auth, String code) {
@@ -27,25 +31,33 @@ public class AuthenticationImpl implements Authentication {
             case GITHUB:
                 var userPossible = authProvider.login(code);
                 if (userPossible.isPresent()) {
+                    log.info("Login success. GitHub user info: {}", userPossible);
                     var user = userPossible.get();
 
-                    var person = personQueryService.findByUserName(user.getLogin());
-                    if (Status.PARTIAL.equals(person.getStatus())) {
-                        var newPerson = personCommandService.add(Person.builder()
-                            .name(user.getName())
-                            .userName(user.getLogin())
-                            .mail(user.getEmail())
-                            .status(Status.ACTIVE)
-                            .build());
-                        newPerson.setStatus(Status.NEW);
-                        return newPerson;
-                    }
+                    try {
+                        var person = personQueryService.findByUserName(user.getLogin());
+                        if (Status.PARTIAL.equals(person.getStatus()))
+                            return createPerson(user);
+                        return person;
 
-                    return person;
+                    } catch (HswException e) {
+                        return createPerson(user);
+                    }
                 }
                 break;
         }
 
         return null;
+    }
+
+    private Person createPerson(UserDTO user) {
+        var newPerson = personCommandService.add(Person.builder()
+            .name(user.getName())
+            .userName(user.getLogin())
+            .mail(user.getEmail())
+            .status(Status.ACTIVE)
+            .build());
+        newPerson.setStatus(Status.NEW);
+        return newPerson;
     }
 }
