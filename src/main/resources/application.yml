@@ -1,7 +1,7 @@
-api-version: 0.1.0
-
 server:
-  port: 3644
+  port: 3645
+  servlet:
+    context-path: /api
 
 spring:
   sql:
