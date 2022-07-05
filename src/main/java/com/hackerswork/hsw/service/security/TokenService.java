@@ -1,6 +1,6 @@
 package com.hackerswork.hsw.service.security;
 
-public interface TokenManager {
+public interface TokenService {
 
     String get(String key);
 

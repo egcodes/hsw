@@ -11,9 +11,8 @@ import com.hackerswork.hsw.enums.ValidationRule;
 import com.hackerswork.hsw.exception.HswException;
 import com.hackerswork.hsw.properties.AuthProviderProperties;
 import com.hackerswork.hsw.service.ResourceService;
-import com.hackerswork.hsw.service.filter.AuthenticationFilter;
 import com.hackerswork.hsw.service.authentication.AuthProvider;
-import com.hackerswork.hsw.service.security.TokenManager;
+import com.hackerswork.hsw.service.security.TokenService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +32,7 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class GithubAuthProviderImpl implements AuthProvider {
 
-    private final TokenManager tokenManager;
+    private final TokenService tokenService;
     private final ResourceService resourceService;
     private final AuthProviderProperties authProviderProperties;
     private final RestTemplate restTemplate;
@@ -59,7 +58,7 @@ public class GithubAuthProviderImpl implements AuthProvider {
 
                 if (HttpStatus.OK.equals(respForUser.getStatusCode())) {
                     var githubUserDTO = respForUser.getBody();
-                    tokenManager.set(githubUserDTO.getLogin(), code);
+                    tokenService.set(githubUserDTO.getLogin(), code);
                     return Optional.of(githubUserDTO);
                 }
             }
