@@ -14,7 +14,7 @@ public class SchedulerJob {
 
     private final DistributedLockProvider distributedLockProvider;
 
-    @Scheduled(fixedDelayString = "3000")
+    //@Scheduled(fixedDelayString = "3000")
     public void checkModerationResultsForUtopia() {
         try (var distLock = distributedLockProvider.lock("some-job", 1000, 10000)) {
             if (distLock.isEmpty())
