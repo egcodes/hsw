@@ -2,11 +2,11 @@ package com.hackerswork.hsw.service.filter;
 
 import static com.hackerswork.hsw.constants.Constant.AUTHENTICATION_PATH;
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 import com.hackerswork.hsw.constants.Constant.GithubRequestHeader;
+import com.hackerswork.hsw.enums.ValidationRule;
 import com.hackerswork.hsw.persistence.entity.Person;
-import com.hackerswork.hsw.service.security.TokenManager;
+import com.hackerswork.hsw.service.security.TokenService;
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -18,7 +18,9 @@ import javax.servlet.annotation.WebFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.RequestFacade;
+import org.apache.catalina.connector.ResponseFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,7 +29,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class AuthenticationFilter implements Filter {
 
-    private final TokenManager tokenManager;
+    private final TokenService tokenService;
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -40,9 +42,10 @@ public class AuthenticationFilter implements Filter {
         var code = ((RequestFacade) req).getHeader(GithubRequestHeader.CODE);
 
         if (!url.contains(AUTHENTICATION_PATH)) {
-            var cachedCode = tokenManager.get(userName);
+            var cachedCode = tokenService.get(userName);
             if (isNull(cachedCode) || !cachedCode.equals(code)) {
-                log.warn("Invalid code: {}", code);
+                log.warn("Invalid token: {}, for userName: {}", code, userName);
+                ((ResponseFacade) resp).sendError(HttpStatus.UNAUTHORIZED.value(), ValidationRule.INVALID_TOKEN.getError());
                 return;
             }
         }
