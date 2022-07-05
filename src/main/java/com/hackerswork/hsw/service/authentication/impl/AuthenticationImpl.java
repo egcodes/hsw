@@ -9,7 +9,6 @@ import com.hackerswork.hsw.service.authentication.AuthProvider;
 import com.hackerswork.hsw.service.authentication.Authentication;
 import com.hackerswork.hsw.service.person.PersonCommandService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
-import com.hackerswork.hsw.service.security.TokenManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +22,6 @@ public class AuthenticationImpl implements Authentication {
     private final AuthProvider authProvider;
     private final PersonCommandService personCommandService;
     private final PersonQueryService personQueryService;
-    private final TokenManager tokenManager;
 
     @Override
     public Person login(Auth auth, String code) {
@@ -51,6 +49,7 @@ public class AuthenticationImpl implements Authentication {
     }
 
     private Person createPerson(UserDTO user) {
+        log.info("Create new person for user: {}", user.toString());
         var newPerson = personCommandService.add(Person.builder()
             .name(user.getName())
             .userName(user.getLogin())
