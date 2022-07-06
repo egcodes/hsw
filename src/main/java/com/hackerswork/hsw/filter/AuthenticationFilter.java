@@ -1,4 +1,4 @@
-package com.hackerswork.hsw.service.filter;
+package com.hackerswork.hsw.filter;
 
 import static com.hackerswork.hsw.constants.Constant.AUTHENTICATION_PATH;
 import static java.util.Objects.isNull;

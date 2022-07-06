@@ -1,4 +1,4 @@
-package com.hackerswork.hsw.service.filter;
+package com.hackerswork.hsw.filter;
 
 import java.io.IOException;
 import java.time.Duration;
