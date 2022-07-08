@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "ConnectionShare")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
-public class ConnectionShare {
+public class ConnectionShareController {
 
     private final ConnectionShareService connectionShareService;
 

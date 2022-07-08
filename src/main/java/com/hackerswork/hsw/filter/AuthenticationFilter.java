@@ -1,6 +1,8 @@
 package com.hackerswork.hsw.filter;
 
+import static com.hackerswork.hsw.constants.Constant.API_DOCS_PATH;
 import static com.hackerswork.hsw.constants.Constant.AUTHENTICATION_PATH;
+import static com.hackerswork.hsw.constants.Constant.SWAGGER_PATH;
 import static java.util.Objects.isNull;
 
 import com.hackerswork.hsw.constants.Constant.GithubRequestHeader;
@@ -41,7 +43,8 @@ public class AuthenticationFilter implements Filter {
         var userName = ((RequestFacade) req).getHeader(Person.Meta.userName);
         var code = ((RequestFacade) req).getHeader(GithubRequestHeader.CODE);
 
-        if (!url.contains(AUTHENTICATION_PATH)) {
+        if (!url.contains(AUTHENTICATION_PATH) && !url.contains(SWAGGER_PATH)
+            && !url.contains(API_DOCS_PATH)) {
             var cachedCode = tokenService.get(userName);
             if (isNull(cachedCode) || !cachedCode.equals(code)) {
                 log.warn("Invalid token: {}, for userName: {}", code, userName);

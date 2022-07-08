@@ -13,6 +13,10 @@ public final class Constant {
 
     public static final String AUTHENTICATION_PATH = "/authentication";
 
+    public static final String SWAGGER_PATH = "/swagger";
+
+    public static final String API_DOCS_PATH = "/api-docs";
+
     public static final String DATE_FORMAT = "hh:mm a, dd MMM yyyy";
 
     public static final int DURATION_FOR_ONLINE = 3000 * 60;

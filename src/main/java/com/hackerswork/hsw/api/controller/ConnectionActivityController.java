@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(value = "ConnectionActivity")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
-public class ConnectionActivity {
+public class ConnectionActivityController {
 
     private final ConnectionActivityService connectionActivityService;
 

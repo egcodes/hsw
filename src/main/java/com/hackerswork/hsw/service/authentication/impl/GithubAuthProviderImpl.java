@@ -84,7 +84,6 @@ public class GithubAuthProviderImpl implements AuthProvider {
         return headers;
     }
 
-
     private void addTokenToHeaders(HttpHeaders headers, JsonNode accessToken) {
         headers.set(headerKeyForAuth, tokenPrefix + accessToken.asText());
     }

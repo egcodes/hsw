@@ -10,6 +10,16 @@ public interface ConnectionQueryService {
 
     List<Long> findConnectionIds(Long personId);
 
+    int findNumOfFollowers(Long personId);
+
+    List<String> findFollowerNames(Long personId);
+
+    List<String> findFollowingNames(Long personId);
+
+    List<String> findBlockedPersonNames(Long personId);
+
+    List<String> findHiddenPersonNames(Long personId);
+
     List<ConnectionDTO> findConnections(Long personId);
 
 }

@@ -1,6 +1,7 @@
 package com.hackerswork.hsw.service.connection.impl;
 
 import com.hackerswork.hsw.dto.ConnectionDTO;
+import com.hackerswork.hsw.enums.Status;
 import com.hackerswork.hsw.persistence.entity.Connection;
 import com.hackerswork.hsw.persistence.repository.ConnectionRepository;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
@@ -25,6 +26,31 @@ public class ConnectionQueryServiceImpl implements ConnectionQueryService {
     @Override
     public List<Long> findConnectionIds(Long personId) {
         return connectionRepository.findConnectionsByPersonId(personId);
+    }
+
+    @Override
+    public int findNumOfFollowers(Long personId) {
+        return connectionRepository.countByConnectionId(personId);
+    }
+
+    @Override
+    public List<String> findFollowerNames(Long personId) {
+        return connectionRepository.findNameByConnectionId(personId, Status.ACTIVE);
+    }
+
+    @Override
+    public List<String> findFollowingNames(Long personId) {
+        return connectionRepository.findNameByPersonId(personId, Status.ACTIVE);
+    }
+
+    @Override
+    public List<String> findBlockedPersonNames(Long personId) {
+        return connectionRepository.findNameByPersonIdAndBlocked(personId, Status.ACTIVE);
+    }
+
+    @Override
+    public List<String> findHiddenPersonNames(Long personId) {
+        return connectionRepository.findNameByPersonIdAndHidden(personId, Status.ACTIVE);
     }
 
     @Override
