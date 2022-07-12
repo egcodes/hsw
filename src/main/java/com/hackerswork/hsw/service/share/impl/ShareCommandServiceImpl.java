@@ -22,4 +22,9 @@ public class ShareCommandServiceImpl implements ShareCommandService {
         share.setPersonId(personId);
         return shareRepository.save(share);
     }
+
+    @Override
+    public void delete(Long id) {
+        shareRepository.deleteById(id);
+    }
 }
