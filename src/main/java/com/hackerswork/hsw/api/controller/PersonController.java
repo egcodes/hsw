@@ -57,6 +57,7 @@ public class PersonController {
         foundPersons.addAll(personMapper.toDTOs(personQueryService.findByNameLike(Status.ACTIVE, text)));
 
         var personConnections = connectionQueryService.findConnectionIds(personId);
+        personConnections.add(personId);
         return ResponseEntity.ok(foundPersons.stream()
             .filter(p -> !personConnections.contains(p.getId()))
             .collect(Collectors.toList()));
