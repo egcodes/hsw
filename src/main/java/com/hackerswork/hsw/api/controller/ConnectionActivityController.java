@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,9 +24,9 @@ public class ConnectionActivityController {
 
     private final ConnectionActivityService connectionActivityService;
 
-    @GetMapping(value = "/list/{personId}")
+    @GetMapping(value = "/list")
     @ApiOperation(value = "Get person-connection activity info that the person connected")
-    public ResponseEntity<List<ConnectionActivityDTO>> list(@PathVariable Long personId) {
+    public ResponseEntity<List<ConnectionActivityDTO>> list(@RequestHeader("personId") Long personId) {
         return ResponseEntity.ok(connectionActivityService.findConnectionsByPerson(personId));
     }
 
