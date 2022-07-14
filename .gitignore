@@ -27,3 +27,7 @@ target/
 
 ### MacOS ###
 .DS_Store
+
+rsync-app.sh
+rsync-web.sh
+rebel.xml
