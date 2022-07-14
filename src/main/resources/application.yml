@@ -13,7 +13,7 @@ spring:
     username: postgres
     password: 12345678
   jpa:
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
