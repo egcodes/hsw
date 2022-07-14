@@ -47,9 +47,14 @@ public class AuthenticationFilter implements Filter {
             && !url.contains(API_DOCS_PATH)) {
             var cachedCode = tokenService.get(userName);
             if (isNull(cachedCode) || !cachedCode.equals(code)) {
-                log.warn("Invalid token: {}, for userName: {}", code, userName);
-                ((ResponseFacade) resp).sendError(HttpStatus.UNAUTHORIZED.value(), ValidationRule.INVALID_TOKEN.getError());
-                return;
+                var persistedCache = tokenService.getFromDB(userName);
+                if (isNull(persistedCache) || !persistedCache.equals(code)) {
+                        log.warn("Invalid token: {}, for userName: {}", code, userName);
+                    ((ResponseFacade) resp).sendError(HttpStatus.UNAUTHORIZED.value(), ValidationRule.INVALID_TOKEN.getError());
+                    return;
+                } else {
+                    tokenService.set(userName, code);
+                }
             }
         }
         chain.doFilter(req, resp);

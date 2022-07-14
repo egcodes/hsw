@@ -21,6 +21,11 @@ public class TokenServiceImpl implements TokenService {
     @Override
     @Cacheable(Constant.CACHE_NAME_FOR_TOKEN)
     public String get(String key) {
+        return getFromDB(key);
+    }
+
+    @Override
+    public String getFromDB(String key) {
         log.info("Get persisted token for key: {}", key);
         var tokenPossible = tokenRepository.findByUserName(key);
         if (tokenPossible.isPresent()) {
