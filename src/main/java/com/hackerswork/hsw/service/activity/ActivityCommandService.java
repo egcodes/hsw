@@ -4,7 +4,7 @@ import com.hackerswork.hsw.persistence.entity.Activity;
 
 public interface ActivityCommandService {
 
-    Activity upsert(Activity activity);
+    Activity save(Activity activity);
 
     void updateLastActivityTimeByPersonId(Long personId);
 

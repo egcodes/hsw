@@ -19,7 +19,7 @@ public class ActivityCommandServiceImpl implements ActivityCommandService {
     private final ActivityRepository activityRepository;
 
     @Override
-    public Activity upsert(Activity activity) {
+    public Activity save(Activity activity) {
         return activityRepository.save(activity);
     }
 
