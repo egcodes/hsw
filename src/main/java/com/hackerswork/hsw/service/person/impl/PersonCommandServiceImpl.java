@@ -34,15 +34,16 @@ public class PersonCommandServiceImpl implements PersonCommandService {
              existsPerson = personQueryService.findByUserName(person.getUserName());
         } catch (HswException ignored) {
         }
+        var isExists = nonNull(existsPerson);
 
-        if (nonNull(existsPerson)) {
-            person = existsPerson;
-            if (person.getStatus().equals(Status.ACTIVE)) {
-                return person;
+        if (isExists) {
+            if (existsPerson.getStatus().equals(Status.ACTIVE)) {
+                return existsPerson;
             } else {
-                person.setStatus(Status.ACTIVE);
-                person.setName(person.getName());
-                person.setMail(person.getMail());
+                existsPerson.setStatus(Status.ACTIVE);
+                existsPerson.setName(person.getName());
+                existsPerson.setMail(person.getMail());
+                person = existsPerson;
             }
         }
 
@@ -50,11 +51,13 @@ public class PersonCommandServiceImpl implements PersonCommandService {
         person.setCreateDate(now);
         var personData = personRepository.save(person);
 
-        var activity = Activity.builder()
-            .personId(personData.getId())
-            .lastActivityTime(Status.PARTIAL.equals(person.getStatus()) ? 0L : now.toEpochMilli())
-            .build();
-        activityCommandService.upsert(activity);
+        if (!isExists) {
+            var activity = Activity.builder()
+                .personId(personData.getId())
+                .lastActivityTime(Status.PARTIAL.equals(person.getStatus()) ? 0L : now.toEpochMilli())
+                .build();
+            activityCommandService.save(activity);
+        }
 
         return person;
     }
