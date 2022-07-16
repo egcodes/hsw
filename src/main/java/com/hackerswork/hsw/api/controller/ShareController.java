@@ -1,5 +1,6 @@
 package com.hackerswork.hsw.api.controller;
 
+import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.ShareDTO;
 import com.hackerswork.hsw.mapper.ShareMapper;
 import com.hackerswork.hsw.service.share.ShareCommandService;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,15 +28,15 @@ public class ShareController {
     private final ShareCommandService shareCommandService;
     private final ShareMapper shareMapper;
 
-    @PostMapping(value = "/add/{personId}")
+    @PostMapping(value = "/add")
     @ApiOperation(value = "New post")
-    public ResponseEntity<ShareDTO> add(@PathVariable Long personId, @RequestBody ShareDTO share) {
+    public ResponseEntity<ShareDTO> add(@RequestHeader(Constant.PERSON_ID) Long personId, @RequestBody ShareDTO share) {
         return ResponseEntity.ok(shareMapper.toDTO(shareCommandService.add(personId, shareMapper.toEntity(share))));
     }
 
     @DeleteMapping(value = "/delete/{id}")
-    public void delete(@PathVariable Long id) {
-        shareCommandService.delete(id);
+    public void delete(@RequestHeader(Constant.PERSON_ID) Long personId, @PathVariable Long id) {
+        shareCommandService.delete(personId, id);
     }
 
 }

@@ -1,5 +1,6 @@
 package com.hackerswork.hsw.api.controller;
 
+import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.PersonDTO;
 import com.hackerswork.hsw.dto.PersonDataDTO;
 import com.hackerswork.hsw.dto.ProfileDTO;
@@ -37,35 +38,29 @@ public class PersonController {
     private final ConnectionQueryService connectionQueryService;
     private final PersonMapper personMapper;
 
-    @PostMapping(value = "/add")
-    @ApiOperation(value = "Add person", notes = "Adding new person")
-    public ResponseEntity<PersonDTO> add(@Valid @RequestBody PersonDTO dto) {
-        return ResponseEntity.ok(personMapper.toDTO(personCommandService.add(personMapper.toEntity(dto))));
-    }
-
-    @GetMapping(value = "/{id}")
+    @GetMapping(value = "/get")
     @ApiOperation(value = "Get person", notes = "Get person data by id")
-    public ResponseEntity<PersonDataDTO> get(@PathVariable Long id) {
+    public ResponseEntity<PersonDataDTO> get(@RequestHeader(Constant.PERSON_ID) Long id) {
         return ResponseEntity.ok(personService.find(id));
     }
 
     @GetMapping(value = "/search/keyword={text}")
     @ApiOperation(value = "Find persons", notes = "Find person by keyword")
-    public ResponseEntity<List<PersonDTO>> get(@RequestHeader("personId") Long personId, @PathVariable String text) {
+    public ResponseEntity<List<PersonDTO>> get(@RequestHeader(Constant.PERSON_ID) Long id, @PathVariable String text) {
         var foundPersons = new ArrayList<PersonDTO>();
         foundPersons.addAll(personMapper.toDTOs(personQueryService.findByUserNameLike(Status.ACTIVE, text)));
         foundPersons.addAll(personMapper.toDTOs(personQueryService.findByNameLike(Status.ACTIVE, text)));
 
-        var personConnections = connectionQueryService.findConnectionIds(personId);
-        personConnections.add(personId);
+        var personConnections = connectionQueryService.findConnectionIds(id);
+        personConnections.add(id);
         return ResponseEntity.ok(foundPersons.stream()
             .filter(p -> !personConnections.contains(p.getId()))
             .collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/profile/{id}")
+    @GetMapping(value = "/profile")
     @ApiOperation(value = "Get person", notes = "Get person profile data by id")
-    public ResponseEntity<List<ProfileDTO>> getProfile(@PathVariable Long id) {
+    public ResponseEntity<List<ProfileDTO>> getProfile(@RequestHeader(Constant.PERSON_ID) Long id) {
         return ResponseEntity.ok(profileService.findByPerson(id));
     }
 }
