@@ -21,5 +21,5 @@ public interface ShareRepository extends JpaRepository<Share, Long> {
         + "ON p.id = s.personId "
         + "WHERE s.id > :offset AND s.personId IN :personIds "
         + "ORDER BY s.createdTime")
-    List<ShareDTO> findByOffsetAndPersonIds(List<Long> personIds, Long offset);
+    List<ShareDTO> findByOffsetAndPersonIds(List<Long> personIds, Long offset, Pageable pageable);
 }

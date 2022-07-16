@@ -1,5 +1,6 @@
 package com.hackerswork.hsw.service.share.impl;
 
+import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.ShareDTO;
 import com.hackerswork.hsw.enums.ValidationRule;
 import com.hackerswork.hsw.exception.HswException;
@@ -28,7 +29,7 @@ public class ShareQueryServiceImpl implements ShareQueryService {
 
     @Override
     public List<ShareDTO> listFrom(List<Long> personIds, Long offset) {
-        return shareRepository.findByOffsetAndPersonIds(personIds, offset);
+        return shareRepository.findByOffsetAndPersonIds(personIds, offset, PageRequest.of(0, Constant.OFFSET_LIMIT));
     }
 
     @Override
