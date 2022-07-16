@@ -1,12 +1,16 @@
 package com.hackerswork.hsw.service.security.impl;
 
+import static com.hackerswork.hsw.constants.Constant.DURATION_FOR_ONLINE;
+
 import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.persistence.entity.Token;
 import com.hackerswork.hsw.persistence.repository.TokenRepository;
 import com.hackerswork.hsw.service.security.TokenService;
+import java.time.Instant;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -20,36 +24,50 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     @Cacheable(Constant.CACHE_NAME_FOR_TOKEN)
-    public String get(String key) {
-        return getFromDB(key);
+    public Token get(String token) {
+        return getFromDB(token);
     }
 
     @Override
-    public String getFromDB(String key) {
-        log.info("Get persisted token for key: {}", key);
-        var tokenPossible = tokenRepository.findByUserName(key);
+    public Token getFromDB(String token) {
+        log.info("Get persisted token for key: {}", token);
+        var tokenPossible = tokenRepository.findByToken(token);
         if (tokenPossible.isPresent()) {
-            log.info("Return persisted token for key: {}, value: {}", key, tokenPossible.get().getText());
-            return tokenPossible.get().getText();
+            log.info("Return persisted token for key: {}", tokenPossible.get().getToken());
+            return tokenPossible.get();
         }
         return null;
     }
 
     @Override
-    @CachePut(value= Constant.CACHE_NAME_FOR_TOKEN, key="#key")
-    public String set(String key, String value) {
-        log.info("Cache & save token for key: {}, value: {}", key, value);
+    @CachePut(value= Constant.CACHE_NAME_FOR_TOKEN, key = "#token")
+    public Token set(Long personId, String userName, String token) {
+        var expiredDate = Instant.now().plusSeconds(Constant.COOKIE_EXPIRE_TIME).getEpochSecond();
 
-        var tokenPossible = tokenRepository.findByUserName(key);
-        Token token;
+        var tokenPossible = tokenRepository.findByToken(token);
+        Token newToken;
         if (tokenPossible.isPresent()) {
-            token = tokenPossible.get();
-            token.setText(value);
+            newToken = tokenPossible.get();
+            newToken.setToken(token);
+            newToken.setExpireDate(expiredDate);
         } else {
-            token = Token.builder().userName(key).text(value).build();
+            newToken = Token.builder()
+                .personId(personId)
+                .userName(userName)
+                .token(token)
+                .expireDate(expiredDate)
+                .build();
         }
 
-        tokenRepository.save(token);
-        return token.getText();
+        tokenRepository.save(newToken);
+        log.info("Cache & save token for key: {}, value: {}", token,  newToken);
+
+        return newToken;
+    }
+
+    @Override
+    @CachePut(value= Constant.CACHE_NAME_FOR_TOKEN)
+    public void evict(String token) {
+        log.info("Evict token for key: {}", token);
     }
 }

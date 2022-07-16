@@ -1,11 +1,15 @@
 package com.hackerswork.hsw.service.security;
 
+import com.hackerswork.hsw.persistence.entity.Token;
+
 public interface TokenService {
 
-    String get(String key);
+    Token get(String token);
 
-    String getFromDB(String key);
+    Token getFromDB(String token);
 
-    String set(String key, String value);
+    Token set(Long personId, String userName, String token);
+
+    void evict(String token);
 
 }

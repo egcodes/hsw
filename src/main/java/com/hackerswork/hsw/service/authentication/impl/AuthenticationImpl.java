@@ -9,6 +9,7 @@ import com.hackerswork.hsw.service.authentication.AuthProvider;
 import com.hackerswork.hsw.service.authentication.Authentication;
 import com.hackerswork.hsw.service.person.PersonCommandService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
+import com.hackerswork.hsw.service.security.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,30 +23,33 @@ public class AuthenticationImpl implements Authentication {
     private final AuthProvider authProvider;
     private final PersonCommandService personCommandService;
     private final PersonQueryService personQueryService;
+    private final TokenService tokenService;
 
     @Override
     public Person login(Auth auth, String code) {
+        Person personInfo = null;
         switch (auth) {
             case GITHUB:
                 var userPossible = authProvider.login(code);
                 if (userPossible.isPresent()) {
                     log.info("Login success. GitHub user info: {}", userPossible);
-                    var user = userPossible.get();
 
+                    var user = userPossible.get();
                     try {
                         var person = personQueryService.findByUserName(user.getLogin());
                         if (Status.PARTIAL.equals(person.getStatus()))
                             return createPerson(user);
-                        return person;
+                        personInfo =  person;
 
                     } catch (HswException e) {
-                        return createPerson(user);
+                        personInfo = createPerson(user);
                     }
                 }
                 break;
         }
 
-        return null;
+        tokenService.set(personInfo.getId(), personInfo.getUserName(), code);
+        return personInfo;
     }
 
     private Person createPerson(UserDTO user) {
