@@ -4,12 +4,14 @@ import static com.hackerswork.hsw.constants.Constant.API_DOCS_PATH;
 import static com.hackerswork.hsw.constants.Constant.AUTHENTICATION_PATH;
 import static com.hackerswork.hsw.constants.Constant.SWAGGER_PATH;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 
-import com.hackerswork.hsw.constants.Constant.GithubRequestHeader;
+import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.enums.ValidationRule;
-import com.hackerswork.hsw.persistence.entity.Person;
+import com.hackerswork.hsw.persistence.entity.Token;
 import com.hackerswork.hsw.service.security.TokenService;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -17,6 +19,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.catalina.connector.RequestFacade;
@@ -40,24 +44,40 @@ public class AuthenticationFilter implements Filter {
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         var url = ((RequestFacade) req).getRequestURI();
-        var userName = ((RequestFacade) req).getHeader(Person.Meta.userName);
-        var code = ((RequestFacade) req).getHeader(GithubRequestHeader.CODE);
+        var token = getCookieValue((HttpServletRequest) req);
 
-        if (!url.contains(AUTHENTICATION_PATH) && !url.contains(SWAGGER_PATH)
-            && !url.contains(API_DOCS_PATH)) {
-            var cachedCode = tokenService.get(userName);
-            if (isNull(cachedCode) || !cachedCode.equals(code)) {
-                var persistedCache = tokenService.getFromDB(userName);
-                if (isNull(persistedCache) || !persistedCache.equals(code)) {
-                        log.warn("Invalid token: {}, for userName: {}", code, userName);
+        Token cachedToken = null;
+        if (!url.contains(AUTHENTICATION_PATH) && !url.contains(SWAGGER_PATH) && !url.contains(API_DOCS_PATH)) {
+            cachedToken = tokenService.get(token);
+            if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
+                cachedToken = tokenService.getFromDB(token);
+                if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
+                    log.warn("Invalid token: {}", token);
                     ((ResponseFacade) resp).sendError(HttpStatus.UNAUTHORIZED.value(), ValidationRule.INVALID_TOKEN.getError());
                     return;
                 } else {
-                    tokenService.set(userName, code);
+                    tokenService.evict(token);
                 }
             }
         }
-        chain.doFilter(req, resp);
+
+        var request = (HttpServletRequest) req;
+        var mutableRequest = new MutableHttpServletRequest(request);
+        if (nonNull(cachedToken)) {
+            mutableRequest.addHeader(Constant.PERSON_ID, cachedToken.getPersonId().toString());
+        }
+
+        chain.doFilter(mutableRequest, resp);
+    }
+
+    private String getCookieValue(HttpServletRequest req) {
+        if (nonNull(req.getCookies()))
+            return Arrays.stream(req.getCookies())
+                .filter(c -> c.getName().equals(Constant.COOKIE_NAME))
+                .findFirst()
+                .map(Cookie::getValue)
+                .orElse(null);
+        return "-";
     }
 
     @Override
