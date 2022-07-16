@@ -1,5 +1,6 @@
 package com.hackerswork.hsw.api.controller;
 
+import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.ConnectionShareDTO;
 import com.hackerswork.hsw.service.ConnectionShareService;
 import io.swagger.annotations.Api;
@@ -9,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,22 +25,16 @@ public class ConnectionShareController {
 
     private final ConnectionShareService connectionShareService;
 
-    @PostMapping(value = "/get/{shareId}")
-    @ApiOperation(value = "Get person-connection share by id that the person connected")
-    public ResponseEntity<ConnectionShareDTO> get(@PathVariable Long shareId, @RequestParam String utc) {
-        return ResponseEntity.ok(connectionShareService.findByShareId(shareId, utc));
-    }
-
     @PostMapping(value = "/list")
     @ApiOperation(value = "Get person-connection share that the person connected")
-    public ResponseEntity<List<ConnectionShareDTO>> list(@RequestHeader("personId") Long personId, @RequestParam String utc,
-        @RequestParam int pageNumber, @RequestParam int pageSize) {
+    public ResponseEntity<List<ConnectionShareDTO>> list(@RequestHeader(Constant.PERSON_ID) Long personId,
+        @RequestParam String utc, @RequestParam int pageNumber, @RequestParam int pageSize) {
         return ResponseEntity.ok(connectionShareService.findByPersonId(personId, utc, pageNumber, pageSize));
     }
 
     @PostMapping(value = "/listFrom")
     @ApiOperation(value = "Get person-connection share by offset that the person connected")
-    public ResponseEntity<List<ConnectionShareDTO>> listFrom(@RequestHeader("personId") Long personId,
+    public ResponseEntity<List<ConnectionShareDTO>> listFrom(@RequestHeader(Constant.PERSON_ID) Long personId,
         @RequestParam Long offset, @RequestParam String utc) {
         return ResponseEntity.ok(connectionShareService.findByOffsetAndPersonId(personId, offset, utc));
     }
