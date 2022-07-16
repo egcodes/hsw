@@ -1,5 +1,7 @@
 package com.hackerswork.hsw.service.share.impl;
 
+import com.hackerswork.hsw.enums.ValidationRule;
+import com.hackerswork.hsw.exception.HswException;
 import com.hackerswork.hsw.persistence.entity.Share;
 import com.hackerswork.hsw.persistence.repository.ShareRepository;
 import com.hackerswork.hsw.service.share.ShareCommandService;
@@ -24,7 +26,17 @@ public class ShareCommandServiceImpl implements ShareCommandService {
     }
 
     @Override
-    public void delete(Long id) {
-        shareRepository.deleteById(id);
+    public void delete(Long personId, Long id) {
+        var sharePossible = shareRepository.findById(id);
+        if (sharePossible.isPresent()) {
+            var share = sharePossible.get();
+            if (share.getPersonId().equals(personId)) {
+                shareRepository.deleteById(id);
+            } else {
+                throw new HswException(ValidationRule.UNAUTHORIZED_ACCESS);
+            }
+        } else {
+            throw new HswException(ValidationRule.SHARE_NOT_FOUND);
+        }
     }
 }

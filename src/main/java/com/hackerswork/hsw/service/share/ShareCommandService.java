@@ -6,6 +6,6 @@ public interface ShareCommandService {
 
     Share add(Long personId, Share share);
 
-    void delete(Long id);
+    void delete(Long personId, Long id);
 
 }
