@@ -1,8 +1,6 @@
 package com.hackerswork.hsw.filter;
 
-import static com.hackerswork.hsw.constants.Constant.API_DOCS_PATH;
-import static com.hackerswork.hsw.constants.Constant.AUTHENTICATION_PATH;
-import static com.hackerswork.hsw.constants.Constant.SWAGGER_PATH;
+import static com.hackerswork.hsw.constants.Constant.*;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
@@ -47,7 +45,8 @@ public class AuthenticationFilter implements Filter {
         var token = getCookieValue((HttpServletRequest) req);
 
         Token cachedToken = null;
-        if (!url.contains(AUTHENTICATION_PATH) && !url.contains(SWAGGER_PATH) && !url.contains(API_DOCS_PATH)) {
+        if (!(url.contains(AUTHENTICATION_PATH) && !url.contains(VALIDATE_ENDPOINT_PATH))
+            && !url.contains(SWAGGER_PATH) && !url.contains(API_DOCS_PATH)) {
             cachedToken = tokenService.get(token);
             if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
                 cachedToken = tokenService.getFromDB(token);

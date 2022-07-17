@@ -14,6 +14,7 @@ public final class Constant {
     public static final int OFFSET_LIMIT = 16;
 
     public static final String AUTHENTICATION_PATH = "/authentication";
+    public static final String VALIDATE_ENDPOINT_PATH = "validate";
 
     public static final String SWAGGER_PATH = "/swagger";
 

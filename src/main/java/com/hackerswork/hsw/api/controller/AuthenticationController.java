@@ -22,13 +22,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(AUTHENTICATION_PATH)
-@Api(value = "Authentication")
+@Api(value = "authentication")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
 public class AuthenticationController {
 
     private final Authentication authentication;
     private final PersonMapper personMapper;
+
+    @GetMapping(value = "/validate")
+    @ApiOperation(value = "Validate token", notes = "")
+    public ResponseEntity<?> validate() {
+        return ResponseEntity.ok().build();
+    }
 
     @GetMapping(value = "/login/auth={auth}&code={code}")
     @ApiOperation(value = "Try sign up with", notes = "")
