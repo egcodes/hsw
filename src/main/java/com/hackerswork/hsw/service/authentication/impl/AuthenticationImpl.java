@@ -28,6 +28,8 @@ public class AuthenticationImpl implements Authentication {
     @Override
     public Person login(Auth auth, String code) {
         Person personInfo = null;
+        var isRegistration = Boolean.FALSE;
+
         switch (auth) {
             case GITHUB:
                 var userPossible = authProvider.login(code);
@@ -37,30 +39,47 @@ public class AuthenticationImpl implements Authentication {
                     var user = userPossible.get();
                     try {
                         var person = personQueryService.findByUserName(user.getLogin());
-                        if (Status.PARTIAL.equals(person.getStatus()))
-                            return createPerson(user);
-                        personInfo =  person;
-
+                        if (Status.PARTIAL.equals(person.getStatus())) {
+                            updatePerson(person, user);
+                            personInfo = person;
+                            isRegistration = Boolean.TRUE;
+                        } else {
+                            personInfo = person;
+                        }
                     } catch (HswException e) {
                         personInfo = createPerson(user);
+                        isRegistration = Boolean.TRUE;
                     }
                 }
                 break;
         }
 
         tokenService.set(personInfo.getId(), personInfo.getUserName(), code);
+        if (isRegistration)
+            personInfo.setStatus(Status.NEW);
         return personInfo;
+    }
+
+    @Override
+    public boolean logout(String code) {
+        return tokenService.evict(code);
+    }
+
+    private void updatePerson(Person person, UserDTO user) {
+        log.info("Update partial person for user: {}", user.toString());
+        person.setName(user.getName());
+        person.setMail(user.getEmail());
+        person.setStatus(Status.ACTIVE);
+        personCommandService.update(person);
     }
 
     private Person createPerson(UserDTO user) {
         log.info("Create new person for user: {}", user.toString());
-        var newPerson = personCommandService.add(Person.builder()
+        return personCommandService.add(Person.builder()
             .name(user.getName())
             .userName(user.getLogin())
             .mail(user.getEmail())
             .status(Status.ACTIVE)
             .build());
-        newPerson.setStatus(Status.NEW);
-        return newPerson;
     }
 }

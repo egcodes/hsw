@@ -70,4 +70,9 @@ public class PersonCommandServiceImpl implements PersonCommandService {
             .build());
     }
 
+    @Override
+    public void update(Person person) {
+        personRepository.save(person);
+    }
+
 }

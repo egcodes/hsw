@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 public class ProfileDTO {
 
-    private String follower;
-
     private String following;
+
+    private String follower;
 
     private String blocked;
 

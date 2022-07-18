@@ -6,5 +6,6 @@ import com.hackerswork.hsw.persistence.entity.Person;
 public interface Authentication {
 
     Person login(Auth auth, String code);
+    boolean logout(String code);
 
 }

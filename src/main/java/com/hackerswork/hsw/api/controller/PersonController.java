@@ -8,7 +8,6 @@ import com.hackerswork.hsw.enums.Status;
 import com.hackerswork.hsw.mapper.PersonMapper;
 import com.hackerswork.hsw.service.ProfileService;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
-import com.hackerswork.hsw.service.person.PersonCommandService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
 import com.hackerswork.hsw.service.person.PersonService;
 import io.swagger.annotations.Api;
@@ -22,8 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
 @RequestMapping("/person")
 @Api(value = "Person")
@@ -31,7 +28,6 @@ import javax.validation.Valid;
 @Slf4j
 public class PersonController {
 
-    private final PersonCommandService personCommandService;
     private final PersonService personService;
     private final ProfileService profileService;
     private final PersonQueryService personQueryService;

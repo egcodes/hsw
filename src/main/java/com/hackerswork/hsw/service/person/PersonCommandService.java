@@ -8,4 +8,6 @@ public interface PersonCommandService {
 
     Person addPartial(String userName);
 
+    void update(Person person);
+
 }
