@@ -17,6 +17,7 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -40,6 +41,12 @@ public class AuthenticationController {
     @ApiOperation(value = "Try sign up with", notes = "")
     public ResponseEntity<PersonDTO> login(@PathVariable Auth auth, @PathVariable String code) {
         return ResponseEntity.ok(personMapper.toDTO(authentication.login(auth, code)));
+    }
+
+    @GetMapping(value = "/logout")
+    @ApiOperation(value = "Try log out")
+    public boolean logout(@RequestHeader(Constant.TOKEN) String code) {
+        return authentication.logout(code);
     }
 
     @GetMapping(value = "createCookie/{token}")

@@ -1,7 +1,5 @@
 package com.hackerswork.hsw.service.security.impl;
 
-import static com.hackerswork.hsw.constants.Constant.DURATION_FOR_ONLINE;
-
 import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.persistence.entity.Token;
 import com.hackerswork.hsw.persistence.repository.TokenRepository;
@@ -66,8 +64,11 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    @CachePut(value= Constant.CACHE_NAME_FOR_TOKEN)
-    public void evict(String token) {
+    @CacheEvict(value= Constant.CACHE_NAME_FOR_TOKEN)
+    public boolean evict(String token) {
+        tokenRepository.deleteById(getFromDB(token).getId());
         log.info("Evict token for key: {}", token);
+        return Boolean.TRUE;
     }
+
 }

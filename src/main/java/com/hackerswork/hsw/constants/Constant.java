@@ -15,6 +15,7 @@ public final class Constant {
 
     public static final String AUTHENTICATION_PATH = "/authentication";
     public static final String VALIDATE_ENDPOINT_PATH = "validate";
+    public static final String LOGOUT_ENDPOINT_PATH = "logout";
 
     public static final String SWAGGER_PATH = "/swagger";
 
@@ -31,6 +32,7 @@ public final class Constant {
     public static final int COOKIE_EXPIRE_TIME = 5 * 365 * 24 * 60 * 60; //5 years
 
     public static final String PERSON_ID = "person-id";
+    public static final String TOKEN = "token";
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GithubRequestHeader {

@@ -45,7 +45,7 @@ public class AuthenticationFilter implements Filter {
         var token = getCookieValue((HttpServletRequest) req);
 
         Token cachedToken = null;
-        if (!(url.contains(AUTHENTICATION_PATH) && !url.contains(VALIDATE_ENDPOINT_PATH))
+        if (!(url.contains(AUTHENTICATION_PATH) && !url.contains(VALIDATE_ENDPOINT_PATH) && !url.contains(LOGOUT_ENDPOINT_PATH))
             && !url.contains(SWAGGER_PATH) && !url.contains(API_DOCS_PATH)) {
             cachedToken = tokenService.get(token);
             if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
@@ -54,8 +54,6 @@ public class AuthenticationFilter implements Filter {
                     log.warn("Invalid token: {}", token);
                     ((ResponseFacade) resp).sendError(HttpStatus.UNAUTHORIZED.value(), ValidationRule.INVALID_TOKEN.getError());
                     return;
-                } else {
-                    tokenService.evict(token);
                 }
             }
         }
@@ -64,6 +62,7 @@ public class AuthenticationFilter implements Filter {
         var mutableRequest = new MutableHttpServletRequest(request);
         if (nonNull(cachedToken)) {
             mutableRequest.addHeader(Constant.PERSON_ID, cachedToken.getPersonId().toString());
+            mutableRequest.addHeader(Constant.TOKEN, cachedToken.getToken());
         }
 
         chain.doFilter(mutableRequest, resp);

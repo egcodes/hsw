@@ -10,6 +10,6 @@ public interface TokenService {
 
     Token set(Long personId, String userName, String token);
 
-    void evict(String token);
+    boolean evict(String token);
 
 }
