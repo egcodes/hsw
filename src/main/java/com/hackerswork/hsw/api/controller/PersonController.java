@@ -40,9 +40,15 @@ public class PersonController {
         return ResponseEntity.ok(personService.find(id));
     }
 
+    @GetMapping(value = "/get/{userName}")
+    @ApiOperation(value = "Get person", notes = "Get person data by userName")
+    public ResponseEntity<PersonDataDTO> get(@RequestHeader(Constant.PERSON_ID) Long id, @PathVariable String userName) {
+        return ResponseEntity.ok(profileService.findByPerson(id, userName));
+    }
+
     @GetMapping(value = "/search/keyword={text}")
     @ApiOperation(value = "Find persons", notes = "Find person by keyword")
-    public ResponseEntity<List<PersonDTO>> get(@RequestHeader(Constant.PERSON_ID) Long id, @PathVariable String text) {
+    public ResponseEntity<List<PersonDTO>> search(@RequestHeader(Constant.PERSON_ID) Long id, @PathVariable String text) {
         var foundPersons = new ArrayList<PersonDTO>();
         foundPersons.addAll(personMapper.toDTOs(personQueryService.findByUserNameLike(Status.ACTIVE, text)));
         foundPersons.addAll(personMapper.toDTOs(personQueryService.findByNameLike(Status.ACTIVE, text)));
@@ -54,9 +60,10 @@ public class PersonController {
             .collect(Collectors.toList()));
     }
 
-    @GetMapping(value = "/profile")
-    @ApiOperation(value = "Get person", notes = "Get person profile data by id")
-    public ResponseEntity<List<ProfileDTO>> getProfile(@RequestHeader(Constant.PERSON_ID) Long id) {
-        return ResponseEntity.ok(profileService.findByPerson(id));
+    @GetMapping(value = "/profile/{userName}")
+    @ApiOperation(value = "Get person", notes = "Get person profile data by userName")
+    public ResponseEntity<List<ProfileDTO>> getProfile(@RequestHeader(Constant.PERSON_ID) Long id, @PathVariable String userName) {
+        return ResponseEntity.ok(profileService.findDetailsByPerson(id, userName));
     }
+
 }

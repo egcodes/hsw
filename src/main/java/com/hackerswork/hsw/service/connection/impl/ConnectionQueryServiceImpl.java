@@ -26,7 +26,7 @@ public class ConnectionQueryServiceImpl implements ConnectionQueryService {
 
     @Override
     public List<Long> findConnectionIds(Long personId) {
-        return connectionRepository.findConnectionsByPersonId(personId);
+        return connectionRepository.findConnectionsByPersonId(personId, Status.ACTIVE);
     }
 
     @Override

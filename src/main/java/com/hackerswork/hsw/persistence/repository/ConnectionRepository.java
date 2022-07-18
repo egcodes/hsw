@@ -18,8 +18,9 @@ public interface ConnectionRepository extends JpaRepository<Connection, Long> {
         + "FROM Connection c WHERE c.personId = :personId AND c.blocked = false AND c.hidden = false")
     List<ConnectionDTO> findAllByPersonId(Long personId);
 
-    @Query("SELECT c.connectionId FROM Connection c WHERE c.personId = :personId")
-    List<Long> findConnectionsByPersonId(Long personId);
+    @Query("SELECT c.connectionId FROM Connection c LEFT JOIN Person p ON c.connectionId = p.id"
+        + " WHERE p.status = :status AND c.personId = :personId")
+    List<Long> findConnectionsByPersonId(Long personId, Status status);
 
     int countByConnectionId(Long connectionId);
 
