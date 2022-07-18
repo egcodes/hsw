@@ -1,6 +1,7 @@
 package com.hackerswork.hsw.service.connection;
 
 import com.hackerswork.hsw.dto.ConnectionDTO;
+import com.hackerswork.hsw.dto.PersonSumDTO;
 import com.hackerswork.hsw.persistence.entity.Connection;
 import java.util.List;
 
@@ -12,13 +13,13 @@ public interface ConnectionQueryService {
 
     int findNumOfFollowers(Long personId);
 
-    List<String> findFollowerNames(Long personId);
+    List<PersonSumDTO> findFollowerNames(Long personId);
 
-    List<String> findFollowingNames(Long personId);
+    List<PersonSumDTO> findFollowingNames(Long personId);
 
-    List<String> findBlockedPersonNames(Long personId);
+    List<PersonSumDTO> findBlockedPersonNames(Long personId);
 
-    List<String> findHiddenPersonNames(Long personId);
+    List<PersonSumDTO> findHiddenPersonNames(Long personId);
 
     List<ConnectionDTO> findConnections(Long personId);
 

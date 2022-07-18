@@ -7,12 +7,12 @@ import lombok.Data;
 @Data
 public class ProfileDTO {
 
-    private String following;
+    private PersonSumDTO following;
 
-    private String follower;
+    private PersonSumDTO follower;
 
-    private String blocked;
+    private PersonSumDTO blocked;
 
-    private String hidden;
+    private PersonSumDTO hidden;
 
 }
