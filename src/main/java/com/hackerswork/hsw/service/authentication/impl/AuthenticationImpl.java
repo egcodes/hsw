@@ -62,7 +62,7 @@ public class AuthenticationImpl implements Authentication {
 
     @Override
     public boolean logout(String code) {
-        return tokenService.evict(code);
+        return tokenService.remove(code);
     }
 
     private void updatePerson(Person person, UserDTO user) {

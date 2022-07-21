@@ -1,7 +1,5 @@
 package com.hackerswork.hsw.api.controller;
 
-import static com.hackerswork.hsw.constants.Constant.AUTHENTICATION_PATH;
-
 import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.PersonDTO;
 import com.hackerswork.hsw.enums.Auth;
@@ -22,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(AUTHENTICATION_PATH)
+@RequestMapping("/authentication")
 @Api(value = "authentication")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 @Slf4j
