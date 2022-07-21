@@ -21,7 +21,8 @@ public class PersonDTO {
     @ApiModelProperty(position = 1, required = true)
     private String userName;
 
-    @ApiModelProperty(position = 1)
+    @NotEmpty
+    @Size(min=2, max=50)
     private String name;
 
     @Pattern(regexp = "^(.+)@(\\S+)$")
@@ -32,5 +33,8 @@ public class PersonDTO {
 
     @ApiModelProperty(hidden=true)
     private Instant createDate;
+
+    @ApiModelProperty(hidden=true)
+    private String about;
 
 }

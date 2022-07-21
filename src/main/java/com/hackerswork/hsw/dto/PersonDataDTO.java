@@ -15,6 +15,8 @@ public class PersonDataDTO {
 
     private String mail;
 
+    private String about;
+
     private Status status;
 
     private Instant createDate;

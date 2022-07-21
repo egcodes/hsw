@@ -1,8 +1,10 @@
 package com.hackerswork.hsw.service;
 
 import com.hackerswork.hsw.dto.PersonDataDTO;
+import com.hackerswork.hsw.dto.PersonProfileDTO;
 import com.hackerswork.hsw.dto.ProfileDTO;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
+import com.hackerswork.hsw.service.person.PersonCommandService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
 import com.hackerswork.hsw.service.person.PersonService;
 import java.util.ArrayList;
@@ -17,6 +19,7 @@ public class ProfileServiceImpl implements ProfileService {
 
     private final PersonService personService;
     private final PersonQueryService personQueryService;
+    private final PersonCommandService personCommandService;
     private final ConnectionQueryService connectionQueryService;
 
     @Override
@@ -76,6 +79,15 @@ public class ProfileServiceImpl implements ProfileService {
         }
 
         return profiles;
+    }
+
+    @Override
+    public boolean updatePerson(PersonProfileDTO personProfileDTO) {
+        var existPerson = personQueryService.find(personProfileDTO.getId());
+        existPerson.setName(personProfileDTO.getName());
+        existPerson.setAbout(personProfileDTO.getAbout());
+        personCommandService.update(existPerson);
+        return Boolean.TRUE;
     }
 
     @Override

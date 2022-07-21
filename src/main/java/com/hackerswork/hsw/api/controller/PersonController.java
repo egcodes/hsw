@@ -3,6 +3,7 @@ package com.hackerswork.hsw.api.controller;
 import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.PersonDTO;
 import com.hackerswork.hsw.dto.PersonDataDTO;
+import com.hackerswork.hsw.dto.PersonProfileDTO;
 import com.hackerswork.hsw.dto.ProfileDTO;
 import com.hackerswork.hsw.enums.Status;
 import com.hackerswork.hsw.mapper.PersonMapper;
@@ -15,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,14 @@ public class PersonController {
     @ApiOperation(value = "Get person", notes = "Get person data by id")
     public ResponseEntity<PersonDataDTO> get(@RequestHeader(Constant.PERSON_ID) Long id) {
         return ResponseEntity.ok(personService.find(id));
+    }
+
+    @PatchMapping(value = "/update")
+    @ApiOperation(value = "Update person", notes = "Update person data by id")
+    public boolean update(@RequestHeader(Constant.PERSON_ID) Long id, @Valid @RequestBody PersonProfileDTO personProfileDTO) {
+        personProfileDTO.setId(id);
+        profileService.updatePerson(personProfileDTO);
+        return Boolean.TRUE;
     }
 
     @GetMapping(value = "/get/{userName}")

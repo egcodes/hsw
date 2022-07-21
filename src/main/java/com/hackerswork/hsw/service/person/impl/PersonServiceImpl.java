@@ -40,6 +40,7 @@ public class PersonServiceImpl implements PersonService {
             .following(followingCount)
             .status(person.getStatus())
             .createDate(person.getCreateDate())
+            .about(person.getAbout())
             .build();
     }
 }

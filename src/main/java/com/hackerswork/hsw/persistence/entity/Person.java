@@ -46,4 +46,6 @@ public class Person implements Serializable {
     @Length(max = 50)
     private String name;
 
+    @Length(max = 280)
+    private String about;
 }
