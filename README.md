@@ -2,6 +2,8 @@
 
 This project is BackEnd service for new website which i will publish soon.
 
+<img src="architecture.png">
+
 ## Used libraries
 * spring-boot-starter-web
 * spring-boot-starter-data-jpa
