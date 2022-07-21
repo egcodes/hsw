@@ -46,14 +46,19 @@ public class AuthenticationFilter implements Filter {
 
         Token cachedToken = null;
         if (!(url.contains(AUTHENTICATION_PATH) && !url.contains(VALIDATE_ENDPOINT_PATH) && !url.contains(LOGOUT_ENDPOINT_PATH))
-            && !url.contains(SWAGGER_PATH) && !url.contains(API_DOCS_PATH)) {
-            cachedToken = tokenService.get(token);
-            if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
+                && !url.contains(SWAGGER_PATH) && !url.contains(API_DOCS_PATH)) {
+
+            if (url.contains(VALIDATE_ENDPOINT_PATH)) {
                 cachedToken = tokenService.getFromDB(token);
-                if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
-                    log.warn("Invalid token: {}", token);
-                    ((ResponseFacade) resp).sendError(HttpStatus.UNAUTHORIZED.value(), ValidationRule.INVALID_TOKEN.getError());
+                if (isInvalidToken(cachedToken, token, (ResponseFacade) resp)) {
                     return;
+                }
+            } else {
+                cachedToken = tokenService.get(token);
+                if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
+                    cachedToken = tokenService.getFromDB(token);
+                    if (isInvalidToken(cachedToken, token, (ResponseFacade) resp))
+                        return;
                 }
             }
         }
@@ -66,6 +71,16 @@ public class AuthenticationFilter implements Filter {
         }
 
         chain.doFilter(mutableRequest, resp);
+    }
+
+    private boolean isInvalidToken(Token cachedToken, String token, ResponseFacade resp)
+        throws IOException {
+        if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
+            log.warn("Invalid token: {}", token);
+            resp.sendError(HttpStatus.UNAUTHORIZED.value(), ValidationRule.INVALID_TOKEN.getError());
+            return true;
+        }
+        return false;
     }
 
     private String getCookieValue(HttpServletRequest req) {
