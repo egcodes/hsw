@@ -6,6 +6,7 @@ import com.hackerswork.hsw.mapper.ShareMapper;
 import com.hackerswork.hsw.service.share.ShareCommandService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class ShareController {
 
     @PostMapping(value = "/add")
     @ApiOperation(value = "New post")
-    public ResponseEntity<ShareDTO> add(@RequestHeader(Constant.PERSON_ID) Long personId, @RequestBody ShareDTO share) {
+    public ResponseEntity<ShareDTO> add(@RequestHeader(Constant.PERSON_ID) Long personId, @Valid @RequestBody ShareDTO share) {
         return ResponseEntity.ok(shareMapper.toDTO(shareCommandService.add(personId, shareMapper.toEntity(share))));
     }
 

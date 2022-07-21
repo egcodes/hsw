@@ -25,7 +25,6 @@ public class ShareDTO {
     @Size(min = 10, max = 280)
     private String text;
 
-    @NotEmpty
     private Instant createdTime;
 
 }
