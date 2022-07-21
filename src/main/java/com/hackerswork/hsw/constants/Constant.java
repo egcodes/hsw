@@ -13,14 +13,6 @@ public final class Constant {
 
     public static final int OFFSET_LIMIT = 16;
 
-    public static final String AUTHENTICATION_PATH = "/authentication";
-    public static final String VALIDATE_ENDPOINT_PATH = "validate";
-    public static final String LOGOUT_ENDPOINT_PATH = "logout";
-
-    public static final String SWAGGER_PATH = "/swagger";
-
-    public static final String API_DOCS_PATH = "/api-docs";
-
     public static final String DATE_FORMAT = "hh:mm a, dd MMM yyyy";
 
     public static final int DURATION_FOR_ONLINE = 3000 * 60;
@@ -33,6 +25,15 @@ public final class Constant {
 
     public static final String PERSON_ID = "person-id";
     public static final String TOKEN = "token";
+
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    public static class Path {
+        public static final String LOGIN = "/login";
+        public static final String TOKEN_VALIDATE = "/validate";
+        public static final String COOKIE = "/createCookie";
+        public static final String SWAGGER_UI = "/swagger";
+        public static final String API_DOCS = "/api-docs";
+    }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class GithubRequestHeader {

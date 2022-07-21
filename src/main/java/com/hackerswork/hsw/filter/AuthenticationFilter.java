@@ -10,6 +10,7 @@ import com.hackerswork.hsw.persistence.entity.Token;
 import com.hackerswork.hsw.service.security.TokenService;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -35,6 +36,8 @@ public class AuthenticationFilter implements Filter {
 
     private final TokenService tokenService;
 
+    private final List<String> blackList = List.of(Path.LOGIN, Path.COOKIE, Path.SWAGGER_UI, Path.API_DOCS);
+
     @Override
     public void init(FilterConfig filterConfig) {
     }
@@ -43,23 +46,21 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         var url = ((RequestFacade) req).getRequestURI();
         var token = getCookieValue((HttpServletRequest) req);
-
         Token cachedToken = null;
-        if (!(url.contains(AUTHENTICATION_PATH) && !url.contains(VALIDATE_ENDPOINT_PATH) && !url.contains(LOGOUT_ENDPOINT_PATH))
-                && !url.contains(SWAGGER_PATH) && !url.contains(API_DOCS_PATH)) {
 
-            if (url.contains(VALIDATE_ENDPOINT_PATH)) {
+        if (url.contains(Path.TOKEN_VALIDATE)) {
+            cachedToken = tokenService.getFromDB(token);
+            if (isInvalidToken(cachedToken, token, (ResponseFacade) resp)) {
+                return;
+            }
+        }
+
+        if (blackList.stream().noneMatch(url::contains)) {
+            cachedToken = tokenService.get(token);
+            if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
                 cachedToken = tokenService.getFromDB(token);
-                if (isInvalidToken(cachedToken, token, (ResponseFacade) resp)) {
+                if (isInvalidToken(cachedToken, token, (ResponseFacade) resp))
                     return;
-                }
-            } else {
-                cachedToken = tokenService.get(token);
-                if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
-                    cachedToken = tokenService.getFromDB(token);
-                    if (isInvalidToken(cachedToken, token, (ResponseFacade) resp))
-                        return;
-                }
             }
         }
 
@@ -73,8 +74,7 @@ public class AuthenticationFilter implements Filter {
         chain.doFilter(mutableRequest, resp);
     }
 
-    private boolean isInvalidToken(Token cachedToken, String token, ResponseFacade resp)
-        throws IOException {
+    private boolean isInvalidToken(Token cachedToken, String token, ResponseFacade resp) throws IOException {
         if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
             log.warn("Invalid token: {}", token);
             resp.sendError(HttpStatus.UNAUTHORIZED.value(), ValidationRule.INVALID_TOKEN.getError());
