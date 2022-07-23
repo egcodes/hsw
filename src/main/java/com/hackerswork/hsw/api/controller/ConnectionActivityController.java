@@ -30,4 +30,9 @@ public class ConnectionActivityController {
         return ResponseEntity.ok(connectionActivityService.findConnectionsByPerson(personId));
     }
 
+    @GetMapping(value = "/onlineList")
+    @ApiOperation(value = "Get only online person-connection that the person connected")
+    public ResponseEntity<List<ConnectionActivityDTO>> onlineList(@RequestHeader(Constant.PERSON_ID) Long personId) {
+        return ResponseEntity.ok(connectionActivityService.findOnlineConnectionsByPerson(personId));
+    }
 }

@@ -1,17 +1,13 @@
 package com.hackerswork.hsw.service;
 
-import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
-
 import com.hackerswork.hsw.dto.ActivityDTO;
 import com.hackerswork.hsw.dto.ConnectionActivityDTO;
 import com.hackerswork.hsw.dto.ConnectionDTO;
 import com.hackerswork.hsw.enums.Activity;
 import com.hackerswork.hsw.service.activity.ActivityQueryService;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +22,29 @@ public class ConnectionActivityServiceImpl implements ConnectionActivityService 
     private final ConnectionQueryService connectionQueryService;
     private final ActivityQueryService activityQueryService;
 
+    @Override
+    public List<ConnectionActivityDTO> findOnlineConnectionsByPerson(Long personId) {
+        var connections = connectionQueryService.findConnections(personId);
+        var personActivities = activityQueryService.list(connections.stream().map(
+            ConnectionDTO::getConnectionId).collect(
+            Collectors.toList()));
+
+        return personActivities.stream()
+            .map(a -> {
+                var activity = getActivity(a.getLastActivityTime());
+                if (Activity.ONLINE.equals(activity))
+                    return ConnectionActivityDTO.builder()
+                        .personId(a.getPersonId())
+                        .userName(a.getUserName())
+                        .name(a.getName())
+                        .activity(activity)
+                        .pinned(isPinned(connections, a))
+                        .build();
+                return null;
+            })
+            .filter(Objects::nonNull)
+            .collect(Collectors.toList());
+    }
     @Override
     public List<ConnectionActivityDTO> findConnectionsByPerson(Long personId) {
         var connections = connectionQueryService.findConnections(personId);

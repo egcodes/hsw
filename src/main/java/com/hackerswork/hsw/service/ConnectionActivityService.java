@@ -7,4 +7,6 @@ public interface ConnectionActivityService {
 
     List<ConnectionActivityDTO> findConnectionsByPerson(Long personId);
 
+    List<ConnectionActivityDTO> findOnlineConnectionsByPerson(Long personId);
+
 }
