@@ -67,9 +67,8 @@ public class TokenServiceImpl implements TokenService {
     @CacheEvict(value= Constant.CACHE_NAME_FOR_TOKEN)
     public boolean remove(String token) {
         tokenRepository.deleteById(getFromDB(token).getId());
-        log.info("Evict token for key: {}", token);
+        log.info("Evict add delete token for key: {}", token);
         return Boolean.TRUE;
     }
-
 
 }

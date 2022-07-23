@@ -22,7 +22,7 @@ public class PersonDTO {
     private String userName;
 
     @NotEmpty
-    @Size(min=2, max=50)
+    @Size(min=2, max=25)
     private String name;
 
     @Pattern(regexp = "^(.+)@(\\S+)$")

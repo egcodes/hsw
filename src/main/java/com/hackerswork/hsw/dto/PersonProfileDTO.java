@@ -12,7 +12,7 @@ public class PersonProfileDTO {
     private Long id;
 
     @NotEmpty
-    @Size(min=2, max=50)
+    @Size(min=2, max=25)
     private String name;
 
     @Size(max=280)
