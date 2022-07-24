@@ -3,6 +3,7 @@ package com.hackerswork.hsw.api.controller;
 import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.ConnectionActivityDTO;
 import com.hackerswork.hsw.service.ConnectionActivityService;
+import com.hackerswork.hsw.service.activity.ActivityCommandService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class ConnectionActivityController {
 
+    private final ActivityCommandService activityCommandService;
     private final ConnectionActivityService connectionActivityService;
 
     @GetMapping(value = "/list")
@@ -33,6 +35,7 @@ public class ConnectionActivityController {
     @GetMapping(value = "/onlineList")
     @ApiOperation(value = "Get only online person-connection that the person connected")
     public ResponseEntity<List<ConnectionActivityDTO>> onlineList(@RequestHeader(Constant.PERSON_ID) Long personId) {
+        activityCommandService.updateLastActivityTimeByPersonId(personId);
         return ResponseEntity.ok(connectionActivityService.findOnlineConnectionsByPerson(personId));
     }
 }
