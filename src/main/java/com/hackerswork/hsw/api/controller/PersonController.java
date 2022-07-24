@@ -66,6 +66,7 @@ public class PersonController {
         var personConnections = connectionQueryService.findConnectionIds(id);
         personConnections.add(id);
         return ResponseEntity.ok(foundPersons.stream()
+            .distinct()
             .filter(p -> !personConnections.contains(p.getId()))
             .collect(Collectors.toList()));
     }
