@@ -1,8 +1,6 @@
-# HSW - BE service
+# EG - BE service
 
-This project is BackEnd service for new website which i will publish soon.
-
-<img src="architecture.png">
+This project is a demo BackEnd service
 
 ## Used libraries
 * spring-boot-starter-web
@@ -17,15 +15,3 @@ This project is BackEnd service for new website which i will publish soon.
 * rest-assured
 * shedlock
 * postgresql
-
-
-## Follow the below steps to containerize the application
-
-```shell
-$ mvn clean package
-
-$ java -jar target/docker-message-server-1.0.0.jar
-
-$ docker build --tag=hsw-server:latest .
-
-$ docker run -p8080 --name hsw-server hsw-server:latest
