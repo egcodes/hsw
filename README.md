@@ -1,6 +1,6 @@
 # EG - BE service
 
-This project is a demo BackEnd service
+This project is a HsW BackEnd service
 
 ## Used libraries
 * spring-boot-starter-web
