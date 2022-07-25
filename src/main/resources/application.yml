@@ -34,4 +34,4 @@ authProvider:
   github:
     login_url: https://github.com/login/oauth/access_token
     user_url: https://api.github.com/user
-    redirect_uri: http://www.localhost:8080/register.html
+    redirect_uri: http://www.localhost:8080/register

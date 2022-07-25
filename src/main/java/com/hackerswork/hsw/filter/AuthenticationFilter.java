@@ -76,7 +76,6 @@ public class AuthenticationFilter implements Filter {
 
     private boolean isInvalidToken(Token cachedToken, String token, ResponseFacade resp) throws IOException {
         if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
-            log.warn("Invalid token: {}", token);
             resp.sendError(HttpStatus.UNAUTHORIZED.value(), ValidationRule.INVALID_TOKEN.getError());
             return true;
         }
