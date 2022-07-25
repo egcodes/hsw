@@ -1,5 +1,7 @@
 package com.hackerswork.hsw.service.authentication.impl;
 
+import static java.util.Objects.nonNull;
+
 import com.hackerswork.hsw.dto.UserDTO;
 import com.hackerswork.hsw.enums.Auth;
 import com.hackerswork.hsw.enums.Status;
@@ -76,7 +78,7 @@ public class AuthenticationImpl implements Authentication {
     private Person createPerson(UserDTO user) {
         log.info("Create new person for user: {}", user.toString());
         return personCommandService.add(Person.builder()
-            .name(user.getName())
+            .name(nonNull(user.getName()) ? user.getName() : user.getLogin())
             .userName(user.getLogin())
             .mail(user.getEmail())
             .status(Status.ACTIVE)
