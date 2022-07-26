@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public final class Constant {
 
-    public static final int INFO_LIMIT_TIME = 400; //ms
-    public static final int WARN_LIMIT_TIME = 1000; //ms
+    public static final int INFO_LIMIT_TIME = 1000; //ms
+    public static final int WARN_LIMIT_TIME = 1750; //ms
 
     public static final int OFFSET_LIMIT = 16;
 

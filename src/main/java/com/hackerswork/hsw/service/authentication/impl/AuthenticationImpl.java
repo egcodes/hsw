@@ -36,7 +36,7 @@ public class AuthenticationImpl implements Authentication {
             case GITHUB:
                 var userPossible = authProvider.login(code);
                 if (userPossible.isPresent()) {
-                    log.info("Login success. GitHub user info: {}", userPossible);
+                    log.debug("Login success. GitHub user info: {}", userPossible);
 
                     var user = userPossible.get();
                     try {
@@ -69,7 +69,7 @@ public class AuthenticationImpl implements Authentication {
 
     private void updatePerson(Person person, UserDTO user) {
         log.info("Update partial person for user: {}", user.toString());
-        person.setName(user.getName());
+        person.setName(nonNull(user.getName()) ? user.getName() : user.getLogin());
         person.setMail(user.getEmail());
         person.setStatus(Status.ACTIVE);
         personCommandService.update(person);

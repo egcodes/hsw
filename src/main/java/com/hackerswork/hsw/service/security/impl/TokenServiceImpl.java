@@ -28,10 +28,10 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public Token getFromDB(String token) {
-        log.info("Get persisted token for key: {}", token);
+        log.debug("Get persisted token for key: {}", token);
         var tokenPossible = tokenRepository.findByToken(token);
         if (tokenPossible.isPresent()) {
-            log.info("Return persisted token for key: {}", tokenPossible.get().getToken());
+            log.debug("Return persisted token for key: {}", tokenPossible.get().getToken());
             return tokenPossible.get();
         }
         return null;
@@ -58,7 +58,7 @@ public class TokenServiceImpl implements TokenService {
         }
 
         tokenRepository.save(newToken);
-        log.info("Cache & save token for key: {}, value: {}", token,  newToken);
+        log.debug("Cache & save token for key: {}, value: {}", token,  newToken);
 
         return newToken;
     }
@@ -67,7 +67,7 @@ public class TokenServiceImpl implements TokenService {
     @CacheEvict(value= Constant.CACHE_NAME_FOR_TOKEN)
     public boolean remove(String token) {
         tokenRepository.deleteById(getFromDB(token).getId());
-        log.info("Evict add delete token for key: {}", token);
+        log.debug("Evict add delete token for key: {}", token);
         return Boolean.TRUE;
     }
 
