@@ -28,14 +28,13 @@ public class ConnectionShareController {
     @PostMapping(value = "/list")
     @ApiOperation(value = "Get person-connection share that the person connected")
     public ResponseEntity<List<ConnectionShareDTO>> list(@RequestHeader(Constant.PERSON_ID) Long personId,
-        @RequestParam String utc, @RequestParam int pageNumber, @RequestParam int pageSize) {
-        return ResponseEntity.ok(connectionShareService.findByPersonId(personId, utc, pageNumber, pageSize));
+        @RequestParam int pageNumber, @RequestParam int pageSize) {
+        return ResponseEntity.ok(connectionShareService.findByPersonId(personId, pageNumber, pageSize));
     }
 
     @PostMapping(value = "/listFrom")
     @ApiOperation(value = "Get person-connection share by offset that the person connected")
-    public ResponseEntity<List<ConnectionShareDTO>> listFrom(@RequestHeader(Constant.PERSON_ID) Long personId,
-        @RequestParam Long offset, @RequestParam String utc) {
-        return ResponseEntity.ok(connectionShareService.findByOffsetAndPersonId(personId, offset, utc));
+    public ResponseEntity<List<ConnectionShareDTO>> listFrom(@RequestHeader(Constant.PERSON_ID) Long personId, @RequestParam Long offset) {
+        return ResponseEntity.ok(connectionShareService.findByOffsetAndPersonId(personId, offset));
     }
 }

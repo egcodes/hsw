@@ -29,28 +29,28 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
     private final ShareMapper mapper;
 
     @Override
-    public List<ConnectionShareDTO> findByPersonId(Long personId, String utc, int pageNumber, int pageSize) {
+    public List<ConnectionShareDTO> findByPersonId(Long personId, int pageNumber, int pageSize) {
         var connections = getConnections(personId);
         var shares = shareQueryService.list(connections, pageNumber, pageSize);
-        return getConnectionShareDTOS(utc, shares);
+        return getConnectionShareDTOS(shares);
     }
 
     @Override
-    public List<ConnectionShareDTO> findByOffsetAndPersonId(Long personId, Long offset, String utc) {
+    public List<ConnectionShareDTO> findByOffsetAndPersonId(Long personId, Long offset) {
         var connections = getConnections(personId);
         var shares = shareQueryService.listFrom(connections, offset);
-        return getConnectionShareDTOS(utc, shares);
+        return getConnectionShareDTOS(shares);
     }
 
     @Override
-    public ConnectionShareDTO findByShareId(Long shareId, String utc) {
+    public ConnectionShareDTO findByShareId(Long shareId) {
         var share = shareQueryService.findBy(shareId);
         var shareDTO = mapper.toDTO(share);
         var person = personQueryService.find(share.getPersonId());
         shareDTO.setName(person.getName());
         shareDTO.setUserName(person.getUserName());
 
-        return getConnectionShareDTOS(utc, List.of(shareDTO)).get(0);
+        return getConnectionShareDTOS(List.of(shareDTO)).get(0);
     }
 
     private List<Long> getConnections(Long personId) {
@@ -59,15 +59,14 @@ public class ConnectionShareServiceImpl implements ConnectionShareService {
         return connections;
     }
 
-    private List<ConnectionShareDTO> getConnectionShareDTOS(String utc, List<ShareDTO> shares) {
+    private List<ConnectionShareDTO> getConnectionShareDTOS(List<ShareDTO> shares) {
         var sharesResp = shares.stream()
             .map(s -> ShareRespDTO.builder()
                 .id(s.getId())
                 .name(s.getName())
                 .userName(s.getUserName())
                 .text(s.getText())
-                .createdTime(s.getCreatedTime().atOffset(ZoneOffset.of(utc))
-                    .format(DateTimeFormatter.ofPattern(DATE_FORMAT)))
+                .createdTime(Long.toString(s.getCreatedTime().toEpochMilli()))
                 .build())
             .collect(Collectors.toList());
 
