@@ -5,6 +5,7 @@ import com.hackerswork.hsw.dto.PersonDTO;
 import com.hackerswork.hsw.dto.PersonDataDTO;
 import com.hackerswork.hsw.dto.PersonProfileDTO;
 import com.hackerswork.hsw.dto.ProfileDTO;
+import com.hackerswork.hsw.dto.SettingsDTO;
 import com.hackerswork.hsw.enums.Status;
 import com.hackerswork.hsw.mapper.PersonMapper;
 import com.hackerswork.hsw.service.ProfileService;
@@ -75,6 +76,12 @@ public class PersonController {
     @ApiOperation(value = "Get person", notes = "Get person profile data by userName")
     public ResponseEntity<List<ProfileDTO>> getProfile(@RequestHeader(Constant.PERSON_ID) Long id, @PathVariable String userName) {
         return ResponseEntity.ok(profileService.findDetailsByPerson(id, userName));
+    }
+
+    @PatchMapping(value = "/settings")
+    @ApiOperation(value = "Set person settings", notes = "")
+    public boolean getProfile(@RequestHeader(Constant.PERSON_ID) Long id, @RequestBody SettingsDTO settings) {
+        return personService.setUserSettings(id, settings);
     }
 
 }

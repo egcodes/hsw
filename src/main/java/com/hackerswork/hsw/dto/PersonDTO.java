@@ -37,4 +37,6 @@ public class PersonDTO {
     @ApiModelProperty(hidden=true)
     private String about;
 
+    @ApiModelProperty(hidden=true)
+    private boolean darkTheme;
 }

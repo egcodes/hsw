@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
@@ -41,4 +42,7 @@ public class Person implements Serializable {
 
     @Length(max = 280)
     private String about;
+
+    @ColumnDefault("false")
+    private boolean darkTheme;
 }

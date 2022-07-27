@@ -17,6 +17,8 @@ public class PersonDataDTO {
 
     private String about;
 
+    private boolean darkTheme;
+
     private Status status;
 
     private Instant createDate;
