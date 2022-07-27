@@ -22,7 +22,9 @@ public interface ConnectionRepository extends JpaRepository<Connection, Long> {
         + " WHERE p.status = :status AND c.blocked = false AND c.hidden = false AND c.personId = :personId")
     List<Long> findConnectionsByPersonId(Long personId, Status status);
 
-    int countByConnectionId(Long connectionId);
+    @Query("SELECT COUNT(c.id) FROM Connection c LEFT JOIN Person p ON c.personId = p.id"
+        + " WHERE p.status = :status AND c.blocked = false AND c.connectionId = :personId")
+    int countByConnectionId(Long personId, Status status);
 
     @Query("SELECT new com.hackerswork.hsw.dto.PersonSumDTO(p.id, p.userName, p.name)  FROM Connection c LEFT JOIN Person p ON c.personId = p.id"
         + " WHERE p.status = :status AND c.blocked = false AND c.connectionId = :personId")

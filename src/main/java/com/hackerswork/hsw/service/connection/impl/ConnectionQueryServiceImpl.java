@@ -31,7 +31,7 @@ public class ConnectionQueryServiceImpl implements ConnectionQueryService {
 
     @Override
     public int findNumOfFollowers(Long personId) {
-        return connectionRepository.countByConnectionId(personId);
+        return connectionRepository.countByConnectionId(personId, Status.ACTIVE);
     }
 
     @Override
