@@ -86,6 +86,7 @@ public class ProfileServiceImpl implements ProfileService {
         var existPerson = personQueryService.find(personProfileDTO.getId());
         existPerson.setName(personProfileDTO.getName());
         existPerson.setAbout(personProfileDTO.getAbout());
+        existPerson.setMail(personProfileDTO.getMail());
         personCommandService.update(existPerson);
         return Boolean.TRUE;
     }

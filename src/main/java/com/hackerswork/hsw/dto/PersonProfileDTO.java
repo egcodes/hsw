@@ -1,6 +1,7 @@
 package com.hackerswork.hsw.dto;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
@@ -17,5 +18,8 @@ public class PersonProfileDTO {
 
     @Size(max=280)
     private String about;
+
+    @Pattern(regexp = "^(.+)@(\\S+)$")
+    private String mail;
 
 }
