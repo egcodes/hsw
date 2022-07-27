@@ -19,7 +19,7 @@ public class PersonProfileDTO {
     @Size(max=280)
     private String about;
 
-    @Pattern(regexp = "^(.+)@(\\S+)$")
+    @Size(max=50)
     private String mail;
 
 }
