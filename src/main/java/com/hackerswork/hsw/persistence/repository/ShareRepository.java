@@ -14,12 +14,12 @@ public interface ShareRepository extends JpaRepository<Share, Long> {
     @Query("SELECT new com.hackerswork.hsw.dto.ShareDTO(s.id, p.userName, p.name, s.text, s.createdTime) FROM Person p LEFT JOIN Share s "
         + "ON p.id = s.personId "
         + "WHERE s.personId IN :personIds "
-        + "ORDER BY s.createdTime DESC")
+        + "ORDER BY s.id DESC")
     List<ShareDTO> findAllByPersonIds(List<Long> personIds, Pageable pageable);
 
     @Query("SELECT new com.hackerswork.hsw.dto.ShareDTO(s.id, p.userName, p.name, s.text, s.createdTime) FROM Person p LEFT JOIN Share s "
         + "ON p.id = s.personId "
         + "WHERE s.id > :offset AND s.personId IN :personIds "
-        + "ORDER BY s.createdTime")
+        + "ORDER BY s.id DESC")
     List<ShareDTO> findByOffsetAndPersonIds(List<Long> personIds, Long offset, Pageable pageable);
 }
