@@ -54,20 +54,12 @@ public class PersonCommandServiceImpl implements PersonCommandService {
         if (!isExists) {
             var activity = Activity.builder()
                 .personId(personData.getId())
-                .lastActivityTime(Status.PARTIAL.equals(person.getStatus()) ? 0L : now.toEpochMilli())
+                .lastActivityTime(now.toEpochMilli())
                 .build();
             activityCommandService.save(activity);
         }
 
         return person;
-    }
-
-    @Override
-    public Person addPartial(String userName) {
-        return add(Person.builder()
-            .userName(userName)
-            .status(Status.PARTIAL)
-            .build());
     }
 
     @Override

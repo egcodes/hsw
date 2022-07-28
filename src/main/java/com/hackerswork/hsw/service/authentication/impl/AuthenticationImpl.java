@@ -40,14 +40,7 @@ public class AuthenticationImpl implements Authentication {
 
                     var user = userPossible.get();
                     try {
-                        var person = personQueryService.findByUserName(user.getLogin());
-                        if (Status.PARTIAL.equals(person.getStatus())) {
-                            updatePerson(person, user);
-                            personInfo = person;
-                            isRegistration = Boolean.TRUE;
-                        } else {
-                            personInfo = person;
-                        }
+                        personInfo = personQueryService.findByUserName(user.getLogin());
                     } catch (HswException e) {
                         personInfo = createPerson(user);
                         isRegistration = Boolean.TRUE;
@@ -65,14 +58,6 @@ public class AuthenticationImpl implements Authentication {
     @Override
     public boolean logout(String code) {
         return tokenService.remove(code);
-    }
-
-    private void updatePerson(Person person, UserDTO user) {
-        log.info("Update partial person for user: {}", user.toString());
-        person.setName(nonNull(user.getName()) ? user.getName() : user.getLogin());
-        person.setMail(user.getEmail());
-        person.setStatus(Status.ACTIVE);
-        personCommandService.update(person);
     }
 
     private Person createPerson(UserDTO user) {

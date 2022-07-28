@@ -1,12 +1,10 @@
 package com.hackerswork.hsw.service.connection.impl;
 
-import static java.util.Objects.nonNull;
 
 import com.hackerswork.hsw.enums.Preference;
 import com.hackerswork.hsw.persistence.entity.Connection;
 import com.hackerswork.hsw.persistence.repository.ConnectionRepository;
 import com.hackerswork.hsw.service.connection.ConnectionCommandService;
-import com.hackerswork.hsw.service.person.PersonCommandService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +22,6 @@ public class ConnectionCommandServiceImpl implements ConnectionCommandService {
 
     private final ConnectionRepository connectionRepository;
     private final PersonQueryService personQueryService;
-    private final PersonCommandService personCommandService;
 
     @Override
     public void addAll(Long personId, List<String> userNames) {
@@ -36,11 +33,11 @@ public class ConnectionCommandServiceImpl implements ConnectionCommandService {
                 .filter(p -> p.getUserName().equals(userName))
                 .findFirst();
 
-            var person = personPossible.orElseGet(() -> personCommandService.addPartial(userName));
-            connections.add(Connection.builder()
-                .personId(personId)
-                .connectionId(person.getId())
-                .build());
+            personPossible.ifPresent(p ->
+                connections.add(Connection.builder()
+                    .personId(personId)
+                    .connectionId(p.getId())
+                    .build()));
         }
         connectionRepository.saveAll(connections);
     }

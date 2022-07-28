@@ -13,6 +13,8 @@ public final class Constant {
 
     public static final int OFFSET_LIMIT = 16;
 
+    public static final int VIEW_USER_LIMIT = 100;
+
     public static final String DATE_FORMAT = "hh:mm a, dd MMM yyyy";
 
     public static final int DURATION_FOR_ONLINE = 3000 * 60;
@@ -20,6 +22,8 @@ public final class Constant {
     public static final String CACHE_NAME_FOR_TOKEN = "tokens";
 
     public static final String COOKIE_NAME = "hsw";
+
+    public static final String EMPTY_STRING = "";
 
     public static final int COOKIE_EXPIRE_TIME = 5 * 365 * 24 * 60 * 60; //5 years
 

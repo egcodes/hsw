@@ -45,6 +45,7 @@ public class ConnectionActivityServiceImpl implements ConnectionActivityService 
             .filter(Objects::nonNull)
             .collect(Collectors.toList());
     }
+
     @Override
     public List<ConnectionActivityDTO> findConnectionsByPerson(Long personId) {
         var connections = connectionQueryService.findConnections(personId);
@@ -52,15 +53,15 @@ public class ConnectionActivityServiceImpl implements ConnectionActivityService 
             ConnectionDTO::getConnectionId).collect(
             Collectors.toList()));
 
-        return personActivities.stream().map(a ->
-            ConnectionActivityDTO.builder()
-                .personId(a.getPersonId())
-                .userName(a.getUserName())
-                .name(a.getName())
-                .activity(getActivity(a.getLastActivityTime()))
-                .pinned(isPinned(connections, a))
-                .build()
-        ).collect(Collectors.toList());
+        return personActivities.stream()
+            .map(p -> ConnectionActivityDTO.builder()
+                    .personId(p.getPersonId())
+                    .userName(p.getUserName())
+                    .name(p.getName())
+                    .activity(getActivity(p.getLastActivityTime()))
+                    .pinned(isPinned(connections, p))
+                    .build()
+            ).collect(Collectors.toList());
     }
 
     private boolean isPinned(List<ConnectionDTO> connections, ActivityDTO a) {

@@ -6,8 +6,6 @@ public interface PersonCommandService {
 
     Person add(Person ad);
 
-    Person addPartial(String userName);
-
     void update(Person person);
 
 }

@@ -1,5 +1,6 @@
 package com.hackerswork.hsw.service;
 
+import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.PersonDataDTO;
 import com.hackerswork.hsw.dto.PersonProfileDTO;
 import com.hackerswork.hsw.dto.ProfileDTO;
@@ -100,7 +101,7 @@ public class ProfileServiceImpl implements ProfileService {
             personData = personService.find(id);
         } else {
             personData = personService.find(userName);
-            personData.setMail("");
+            personData.setMail(Constant.EMPTY_STRING);
         }
 
         return personData;
