@@ -1,6 +1,8 @@
-# EG - BE service
+# Hacker's Work BE service
 
 This project is a HsW BackEnd service
+
+https://hackerswork.com
 
 ## Used libraries
 * spring-boot-starter-web
