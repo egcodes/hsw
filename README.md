@@ -1,8 +1,6 @@
-# Hacker's Work BE service
+# Hacker's Work BE Service
 
-This project is a HsW BackEnd service
-
-https://hackerswork.com
+Site: https://hackerswork.com
 
 ## Used libraries
 * spring-boot-starter-web
