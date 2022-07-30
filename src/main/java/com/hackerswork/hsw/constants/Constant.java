@@ -33,6 +33,8 @@ public final class Constant {
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Path {
         public static final String LOGIN = "/login";
+        public static final String SIGN_UP = "/signUp";
+        public static final String SIGN_IN = "/signIn";
         public static final String TOKEN_VALIDATE = "/validate";
         public static final String COOKIE = "/createCookie";
         public static final String SWAGGER_UI = "/swagger";

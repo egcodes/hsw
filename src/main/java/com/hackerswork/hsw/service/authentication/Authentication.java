@@ -1,11 +1,17 @@
 package com.hackerswork.hsw.service.authentication;
 
+import com.hackerswork.hsw.dto.PersonDTO;
+import com.hackerswork.hsw.dto.SignUpDTO;
 import com.hackerswork.hsw.enums.Auth;
-import com.hackerswork.hsw.persistence.entity.Person;
 
 public interface Authentication {
 
-    Person login(Auth auth, String code);
+    PersonDTO login(Auth auth, String code);
+
+    PersonDTO signIn(SignUpDTO signUpDTO);
+
+    PersonDTO signUp(SignUpDTO signUpDTO);
+
     boolean logout(String code);
 
 }

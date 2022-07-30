@@ -39,4 +39,7 @@ public class PersonDTO {
 
     @ApiModelProperty(hidden=true)
     private boolean darkTheme;
+
+    @ApiModelProperty(hidden=true)
+    private String code;
 }

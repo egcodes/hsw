@@ -45,4 +45,7 @@ public class Person implements Serializable {
 
     @ColumnDefault("false")
     private boolean darkTheme;
+
+    @Length(max = 250)
+    private String password;
 }

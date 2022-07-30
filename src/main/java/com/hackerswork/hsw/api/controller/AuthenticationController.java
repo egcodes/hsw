@@ -2,11 +2,13 @@ package com.hackerswork.hsw.api.controller;
 
 import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.PersonDTO;
+import com.hackerswork.hsw.dto.SignUpDTO;
 import com.hackerswork.hsw.enums.Auth;
 import com.hackerswork.hsw.mapper.PersonMapper;
 import com.hackerswork.hsw.service.authentication.Authentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -27,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthenticationController {
 
     private final Authentication authentication;
-    private final PersonMapper personMapper;
 
     @GetMapping(value = "/validate")
     @ApiOperation(value = "Validate token", notes = "")
@@ -38,7 +41,19 @@ public class AuthenticationController {
     @GetMapping(value = "/login/auth={auth}&code={code}")
     @ApiOperation(value = "Try sign up with", notes = "")
     public ResponseEntity<PersonDTO> login(@PathVariable Auth auth, @PathVariable String code) {
-        return ResponseEntity.ok(personMapper.toDTO(authentication.login(auth, code)));
+        return ResponseEntity.ok(authentication.login(auth, code));
+    }
+
+    @PostMapping(value = "/signIn")
+    @ApiOperation(value = "Try sign in with", notes = "")
+    public ResponseEntity<PersonDTO> signIn(@Valid @RequestBody SignUpDTO signUpDTO) {
+        return ResponseEntity.ok(authentication.signIn(signUpDTO));
+    }
+
+    @PostMapping(value = "/signUp")
+    @ApiOperation(value = "Try sign up with", notes = "")
+    public ResponseEntity<PersonDTO> signUp(@Valid @RequestBody SignUpDTO signUpDTO) {
+        return ResponseEntity.ok(authentication.signUp(signUpDTO));
     }
 
     @GetMapping(value = "/logout")

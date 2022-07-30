@@ -12,6 +12,7 @@ import lombok.ToString;
 public class UserDTO {
 
     private String login;
+    private String password;
     private String name;
     private String email;
     private String followersUrl;
