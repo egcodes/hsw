@@ -2,10 +2,13 @@
 
 Site: https://hackerswork.com
 
+<img src="architecture.png">
+
 ## Used libraries
 * spring-boot-starter-web
 * spring-boot-starter-data-jpa
 * spring-boot-starter-validation
+* spring-boot-starter-security
 * spring-boot-starter-cache
 * spring-boot-starter-test
 * springfox-swagger-ui
