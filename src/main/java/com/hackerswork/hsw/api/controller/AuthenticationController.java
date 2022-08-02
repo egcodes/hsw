@@ -2,9 +2,9 @@ package com.hackerswork.hsw.api.controller;
 
 import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.PersonDTO;
+import com.hackerswork.hsw.dto.SignInDTO;
 import com.hackerswork.hsw.dto.SignUpDTO;
 import com.hackerswork.hsw.enums.Auth;
-import com.hackerswork.hsw.mapper.PersonMapper;
 import com.hackerswork.hsw.service.authentication.Authentication;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,8 +46,8 @@ public class AuthenticationController {
 
     @PostMapping(value = "/signIn")
     @ApiOperation(value = "Try sign in with", notes = "")
-    public ResponseEntity<PersonDTO> signIn(@Valid @RequestBody SignUpDTO signUpDTO) {
-        return ResponseEntity.ok(authentication.signIn(signUpDTO));
+    public ResponseEntity<PersonDTO> signIn(@Valid @RequestBody SignInDTO signInDTO) {
+        return ResponseEntity.ok(authentication.signIn(signInDTO));
     }
 
     @PostMapping(value = "/signUp")

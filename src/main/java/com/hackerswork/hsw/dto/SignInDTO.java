@@ -8,16 +8,12 @@ import lombok.Data;
 
 @Builder
 @Data
-public class SignUpDTO {
+public class SignInDTO {
 
     @NotEmpty
     @Size(max=50)
     @Pattern(regexp = "^[a-zA-Z0-9._-]{3,}$")
     private String userName;
-
-    @NotEmpty
-    @Pattern(regexp = "^(.+)@(\\S+)$")
-    private String mail;
 
     @NotEmpty
     @Size(min=6, max=50)

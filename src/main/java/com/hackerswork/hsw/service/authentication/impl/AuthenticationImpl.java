@@ -3,6 +3,7 @@ package com.hackerswork.hsw.service.authentication.impl;
 import static java.util.Objects.nonNull;
 
 import com.hackerswork.hsw.dto.PersonDTO;
+import com.hackerswork.hsw.dto.SignInDTO;
 import com.hackerswork.hsw.dto.SignUpDTO;
 import com.hackerswork.hsw.dto.UserDTO;
 import com.hackerswork.hsw.enums.Auth;
@@ -69,14 +70,14 @@ public class AuthenticationImpl implements Authentication {
     }
 
     @Override
-    public PersonDTO signIn(SignUpDTO signUpDTO) {
+    public PersonDTO signIn(SignInDTO signInDTO) {
         Person personInfo;
         try {
-            personInfo = personQueryService.findByUserName(signUpDTO.getUserName());
+            personInfo = personQueryService.findByUserName(signInDTO.getUserName());
         } catch (HswException e) {
             throw new HswException(ValidationRule.INVALID_USER_OR_PASSWORD);
         }
-        if (!passwordEncoder.matches(signUpDTO.getPassword(), personInfo.getPassword())) {
+        if (!passwordEncoder.matches(signInDTO.getPassword(), personInfo.getPassword())) {
             throw new HswException(ValidationRule.INVALID_USER_OR_PASSWORD);
         }
 
@@ -97,6 +98,7 @@ public class AuthenticationImpl implements Authentication {
             var encodedPassword = passwordEncoder.encode(signUpDTO.getPassword());
             var personInfo = createPerson(UserDTO.builder()
                 .login(signUpDTO.getUserName())
+                .email(signUpDTO.getMail())
                 .password(encodedPassword)
                 .build());
 
