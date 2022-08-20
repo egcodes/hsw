@@ -1,7 +1,5 @@
 package com.hackerswork.hsw.service;
 
-import static com.hackerswork.hsw.constants.Constant.DATE_FORMAT;
-
 import com.hackerswork.hsw.dto.ConnectionShareDTO;
 import com.hackerswork.hsw.dto.ShareDTO;
 import com.hackerswork.hsw.dto.ShareRespDTO;
@@ -9,8 +7,6 @@ import com.hackerswork.hsw.mapper.ShareMapper;
 import com.hackerswork.hsw.service.connection.ConnectionQueryService;
 import com.hackerswork.hsw.service.person.PersonQueryService;
 import com.hackerswork.hsw.service.share.ShareQueryService;
-import java.time.ZoneOffset;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
