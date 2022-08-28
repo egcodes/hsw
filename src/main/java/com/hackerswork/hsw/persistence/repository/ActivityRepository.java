@@ -11,8 +11,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
-    Activity findByPersonId(Long personId);
-
     @Modifying
     @Query("UPDATE Activity a SET a.lastActivityTime = :timestamp  WHERE a.personId = :personId")
     void updateLastActivityTimeByPersonId(Long personId, Long timestamp);
