@@ -20,5 +20,5 @@ Site: https://hackerswork.com
 * postgresql
 
 ## Screenshots
-<img src="dark-web">
-<img src="light-web">
+<img src="dark-web.png" width="400">
+<img src="light-web.png" width="400">
