@@ -28,7 +28,7 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class GithubAuthProviderImpl implements AuthProvider {
 
     private final ResourceService resourceService;

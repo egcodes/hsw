@@ -18,3 +18,22 @@ Site: https://hackerswork.com
 * rest-assured
 * shedlock
 * postgresql
+
+## Follow the below steps to containerize the application
+
+```shell
+# Build the project
+$ mvn clean package
+
+# Build Docker image
+$ docker build --tag=hsw:latest .
+
+# Run App, DB, HttpServer
+$ docker-compose up -d
+```
+
+## Test Users
+
+UserName: testuser, Password: 12345678
+
+UserName: hackers-work, Password: 12345678

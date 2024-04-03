@@ -4,8 +4,8 @@ import com.hackerswork.hsw.enums.Status;
 import java.time.Instant;
 import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import java.io.Serializable;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Length;

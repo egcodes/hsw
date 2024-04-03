@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    username: hsw
+    password: hsw
+
+authProvider:
+  github:
+    redirect_uri: https://www.hackerswork.com/register

@@ -3,9 +3,9 @@ package com.hackerswork.hsw.filter;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
-import javax.servlet.*;
-import javax.servlet.annotation.WebFilter;
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.*;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
 
 import com.hackerswork.hsw.constants.Constant;
 import lombok.extern.slf4j.Slf4j;

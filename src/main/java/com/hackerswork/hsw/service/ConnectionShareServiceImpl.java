@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class ConnectionShareServiceImpl implements ConnectionShareService {
 
     private final ConnectionQueryService connectionQueryService;

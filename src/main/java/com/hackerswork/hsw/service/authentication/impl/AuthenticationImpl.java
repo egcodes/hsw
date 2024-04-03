@@ -26,7 +26,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 public class AuthenticationImpl implements Authentication {
 
     private final AuthProvider authProvider;

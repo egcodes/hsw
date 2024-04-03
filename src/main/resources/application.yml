@@ -1,5 +1,4 @@
 server:
-  port: 3645
   servlet:
     context-path: /api
 
@@ -9,12 +8,11 @@ spring:
       platform: postgres
       mode: always
   datasource:
-    url: jdbc:postgresql://localhost:5432/hsw?currentSchema=public
+    url: jdbc:postgresql://postgres:5432/hsw?currentSchema=public
     username: postgres
     password: 12345678
   jpa:
     show-sql: false
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
     properties:
       hibernate:
         jdbc:
@@ -34,39 +32,4 @@ authProvider:
   github:
     login_url: https://github.com/login/oauth/access_token
     user_url: https://api.github.com/user
-    redirect_uri: http://www.localhost:8080/register
-
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: prod
-  datasource:
-    username: hsw
-    password: hsw
-
-authProvider:
-  github:
-    redirect_uri: https://www.hackerswork.com/register
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: app-1
-server:
-  port: 3645
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: app-2
-server:
-  port: 3646
-
----
+    redirect_uri: http://localhost/register
