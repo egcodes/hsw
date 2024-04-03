@@ -1,5 +1,6 @@
-/web/
-/db/
+db/
+nginx/server.crt
+nginx/server.key
 src/main/resources/credentials.txt
 
 HELP.md
@@ -28,7 +29,3 @@ target/
 
 ### MacOS ###
 .DS_Store
-
-rsync-app.sh
-rsync-web.sh
-rebel.xml
