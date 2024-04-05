@@ -26,17 +26,29 @@ Site: https://hackerswork.com
 $ mvn clean package
 
 # Build Docker image
-$ docker build --tag=hsw:latest .
+$ docker build --tag=hsw:latest -f Dockerfile .
+$ docker build --tag=nginx-hsw:latest -f Dockerfile-web .
 
-# Run App, DB, HttpServer
+# Run App, DB, HttpServer on Docker
 $ docker-compose up -d
 ```
 
-## Test Users
+or
 
-UserName: testuser, Password: 12345678
 
-UserName: hackers-work, Password: 12345678
+```shell
+# Build the project
+$ mvn clean package
+
+# Build Docker image
+$ docker build --tag=hsw:latest -f Dockerfile .
+$ docker build --tag=nginx-hsw:latest -f Dockerfile-web .
+
+# Run App, DB, HttpServer on Kubernetes
+$ kubectl create -f kube-postgres.yaml
+$ kubectl create -f kube-hsw.yaml
+$ kubectl create -f kube-nginx.yaml
+```
 
 ## Screenshots
 <img src="dark-web.png" width="600">

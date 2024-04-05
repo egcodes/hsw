@@ -1,0 +1,65 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hsw-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/load-balance: "least_time"
+spec:
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: hsw-service
+                port:
+                  number: 8080
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: hsw-service
+spec:
+  selector:
+    app: hsw
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hsw
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hsw
+  template:
+    metadata:
+      labels:
+        app: hsw
+    spec:
+      containers:
+        - name: hsw
+          image: hsw:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+      initContainers:
+        - name: init-container
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - >
+              while ! nc -z postgres 5432; do
+                echo "Waiting for postgres to become ready..."
+                sleep 2
+              done
