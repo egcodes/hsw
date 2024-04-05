@@ -10,7 +10,7 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>com.hackersnews</groupId>
+	<groupId>com.hackerswork</groupId>
 	<artifactId>hsw</artifactId>
 	<version>1.0.0</version>
 	<name>hsw</name>
