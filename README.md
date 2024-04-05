@@ -1,7 +1,5 @@
 # HSW BE Service
 
-Site: https://hackerswork.com
-
 <img src="architecture.png">
 
 ## Used libraries
