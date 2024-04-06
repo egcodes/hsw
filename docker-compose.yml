@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  hsw:
+  hsw-service:
     image: hsw:latest
     deploy:
       mode: replicated
@@ -10,8 +10,8 @@ services:
       - db_network
       - web_network
     depends_on:
-      - postgres
-  nginx:
+      - postgres-service
+  nginx-service:
     image: nginx-hsw:latest
     container_name: "nginx"
     ports:
@@ -19,8 +19,8 @@ services:
     networks:
       - web_network
     depends_on:
-      - hsw
-  postgres:
+      - hsw-service
+  postgres-service:
     image: postgres:latest
     ports:
       - "5432:5432"
