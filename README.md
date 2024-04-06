@@ -49,5 +49,5 @@ $ kubectl apply -f kube-nginx.yaml
 ```
 
 ## Screenshots
-<img src="dark-web.png" width="600">
-<img src="light-web.png" width="600">
+<img src="web-dark.png" width="600">
+<img src="web-light.png" width="600">
