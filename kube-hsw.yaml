@@ -59,7 +59,7 @@ spec:
             - sh
             - -c
             - >
-              while ! nc -z postgres 5432; do
+              while ! nc -z postgres-service 5432; do
                 echo "Waiting for postgres to become ready..."
                 sleep 2
               done
