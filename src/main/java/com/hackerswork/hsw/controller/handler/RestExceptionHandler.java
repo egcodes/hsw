@@ -1,4 +1,4 @@
-package com.hackerswork.hsw.api.handler;
+package com.hackerswork.hsw.controller.handler;
 
 import com.hackerswork.hsw.exception.HswException;
 import org.springframework.http.HttpHeaders;

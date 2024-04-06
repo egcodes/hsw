@@ -1,4 +1,4 @@
-package com.hackerswork.hsw.api.controller;
+package com.hackerswork.hsw.controller;
 
 import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.service.activity.ActivityCommandService;
@@ -6,7 +6,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;

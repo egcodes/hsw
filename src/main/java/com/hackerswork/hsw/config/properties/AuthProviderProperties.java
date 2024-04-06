@@ -1,4 +1,4 @@
-package com.hackerswork.hsw.properties;
+package com.hackerswork.hsw.config.properties;
 
 import lombok.Getter;
 import lombok.Setter;

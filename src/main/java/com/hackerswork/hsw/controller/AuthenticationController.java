@@ -1,4 +1,4 @@
-package com.hackerswork.hsw.api.controller;
+package com.hackerswork.hsw.controller;
 
 import com.hackerswork.hsw.constants.Constant;
 import com.hackerswork.hsw.dto.PersonDTO;
