@@ -5,4 +5,4 @@ spring:
 
 authProvider:
   github:
-    redirect_uri: https://www.hackerswork.com/register
+    redirect_uri: https://www.hackerupdates.com/register

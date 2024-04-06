@@ -10,11 +10,11 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>com.hackerswork</groupId>
+	<groupId>com.hackerupdates</groupId>
 	<artifactId>hsw</artifactId>
 	<version>1.0.0</version>
 	<name>hsw</name>
-	<description>HackersWork</description>
+	<description>HackerUpdates</description>
 
 	<properties>
 		<java.version>21</java.version>
