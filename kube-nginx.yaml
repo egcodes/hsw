@@ -34,13 +34,13 @@ spec:
           ports:
             - containerPort: 80
       initContainers:
-      - name: init-container
-        image: busybox:latest
-        command:
-          - sh
-          - -c
-          - >
-            while ! nc -z hsw-service 8080; do
-              echo "Waiting for hsw-service to become ready..."
-              sleep 2
-            done
+        - name: init-container
+          image: busybox:latest
+          command:
+            - sh
+            - -c
+            - >
+              while ! nc -z hsw-service 8080; do
+                echo "Waiting for hsw-service to become ready..."
+                sleep 2
+              done

@@ -1,7 +1,8 @@
 db/
-nginx/server.crt
+nginx/server.pem
 nginx/server.key
 src/main/resources/credentials.txt
+rsync.sh
 
 HELP.md
 target/

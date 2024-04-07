@@ -16,14 +16,13 @@ services:
     container_name: "nginx"
     ports:
       - "80:80"
+      - "443:443"
     networks:
       - web_network
     depends_on:
       - hsw-service
   postgres-service:
     image: postgres:latest
-    ports:
-      - "5432:5432"
     volumes:
       - ./db:/var/lib/postgresql/data
     environment:

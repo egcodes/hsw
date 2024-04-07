@@ -1,5 +1,7 @@
 # HSW BE Service
 
+Site: https://www.hackerupdates.com
+
 <img src="architecture.png">
 
 ## Used libraries
@@ -39,7 +41,7 @@ or
 $ mvn clean package
 
 # Build Docker image
-$ docker build --tag=hsw:latest -f Dockerfile .
+$ docker build --tag=hsw:latest -f Dockerfile-app .
 $ docker build --tag=nginx-hsw:latest -f Dockerfile-web .
 
 # Run App, DB, HttpServer on Kubernetes
