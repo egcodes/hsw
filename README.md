@@ -24,7 +24,7 @@
 $ mvn clean package
 
 # Build Docker image
-$ docker build --tag=hsw:latest -f Dockerfile .
+$ docker build --tag=hsw:latest -f Dockerfile-app .
 $ docker build --tag=nginx-hsw:latest -f Dockerfile-web .
 
 # Run App, DB, HttpServer on Docker
