@@ -3,7 +3,7 @@ FROM nginx:latest
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/hackerupdates.com.conf /etc/nginx/sites-enabled/hackerupdates.com.conf
 COPY nginx/server.key /etc/ssl/private/server.key
-COPY nginx/server.pem /etc/ssl/certs/server.pem
+COPY nginx/server.crt /etc/ssl/certs/server.crt
 COPY web /var/www/hackerupdates.com/html
 
 EXPOSE 80

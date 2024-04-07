@@ -1,5 +1,5 @@
 db/
-nginx/server.pem
+nginx/server.crt
 nginx/server.key
 src/main/resources/credentials.txt
 rsync.sh
