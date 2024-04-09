@@ -2,7 +2,7 @@
 
 Site: https://www.hackerupdates.com
 
-<img src="architecture.png">
+<img src="images/architecture.png">
 
 ## Used libraries
 * spring-boot-starter-web
@@ -53,5 +53,5 @@ $ kubectl apply -f kube-nginx.yaml
 ```
 
 ## Screenshots
-<img src="web-dark.png" width="600">
-<img src="web-light.png" width="600">
+<img src="images/web-dark.png" width="600">
+<img src="images/web-light.png" width="600">
