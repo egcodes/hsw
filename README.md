@@ -45,6 +45,8 @@ $ docker build --tag=hsw:latest -f Dockerfile-app .
 $ docker build --tag=nginx-hsw:latest -f Dockerfile-web .
 
 # Run App, DB, HttpServer on Kubernetes
+$ kubectl apply -f kube-postgres-pv.yaml
+$ kubectl apply -f kube-postgres-pvc.yaml
 $ kubectl apply -f kube-postgres.yaml
 $ kubectl apply -f kube-hsw.yaml
 $ kubectl apply -f kube-nginx.yaml
