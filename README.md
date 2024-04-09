@@ -27,7 +27,7 @@ $ mvn clean package
 
 # Build Docker image
 $ docker build --tag=hsw:latest -f Dockerfile-app .
-$ docker build --tag=nginx-hsw:latest -f Dockerfile-web .
+$ docker build --tag=nginx-hsw:latest -f Dockerfile-site .
 
 # Run App, DB, HttpServer on Docker
 $ docker-compose up -d
@@ -42,7 +42,7 @@ $ mvn clean package
 
 # Build Docker image
 $ docker build --tag=hsw:latest -f Dockerfile-app .
-$ docker build --tag=nginx-hsw:latest -f Dockerfile-web .
+$ docker build --tag=nginx-hsw:latest -f Dockerfile-site .
 
 # Run App, DB, HttpServer on Kubernetes
 $ kubectl apply -f kube-postgres-pv.yaml

@@ -1,6 +1,6 @@
 db/
 util/
-web/
+site/
 nginx/server.pem
 nginx/server.key
 src/main/resources/credentials.txt
