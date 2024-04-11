@@ -1,6 +1,6 @@
 package com.hackerupdates.hsw.enums;
 
-import com.hackerupdates.hsw.persistence.entity.Connection;
+import com.hackerupdates.hsw.domain.entity.Connection;
 
 public enum Preference {
     PINNED {

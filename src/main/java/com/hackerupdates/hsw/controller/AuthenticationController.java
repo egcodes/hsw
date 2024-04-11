@@ -1,9 +1,9 @@
 package com.hackerupdates.hsw.controller;
 
 import com.hackerupdates.hsw.constants.Constant;
-import com.hackerupdates.hsw.dto.PersonDTO;
-import com.hackerupdates.hsw.dto.SignInDTO;
-import com.hackerupdates.hsw.dto.SignUpDTO;
+import com.hackerupdates.hsw.domain.dto.PersonDTO;
+import com.hackerupdates.hsw.domain.dto.SignInDTO;
+import com.hackerupdates.hsw.domain.dto.SignUpDTO;
 import com.hackerupdates.hsw.enums.Auth;
 import com.hackerupdates.hsw.service.authentication.Authentication;
 import io.swagger.annotations.Api;

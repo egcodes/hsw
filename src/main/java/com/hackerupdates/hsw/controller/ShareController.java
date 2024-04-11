@@ -1,8 +1,8 @@
 package com.hackerupdates.hsw.controller;
 
 import com.hackerupdates.hsw.constants.Constant;
-import com.hackerupdates.hsw.dto.ShareDTO;
-import com.hackerupdates.hsw.mapper.ShareMapper;
+import com.hackerupdates.hsw.domain.dto.ShareDTO;
+import com.hackerupdates.hsw.domain.mapper.ShareMapper;
 import com.hackerupdates.hsw.service.share.ShareCommandService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

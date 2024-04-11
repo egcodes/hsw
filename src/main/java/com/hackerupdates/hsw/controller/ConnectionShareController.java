@@ -1,7 +1,7 @@
 package com.hackerupdates.hsw.controller;
 
 import com.hackerupdates.hsw.constants.Constant;
-import com.hackerupdates.hsw.dto.ConnectionShareDTO;
+import com.hackerupdates.hsw.domain.dto.ConnectionShareDTO;
 import com.hackerupdates.hsw.service.ConnectionShareService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,16 +24,30 @@ public class ConnectionShareController {
 
     private final ConnectionShareService connectionShareService;
 
-    @PostMapping(value = "/list")
-    @ApiOperation(value = "Get person-connection share that the person connected")
+    @PostMapping(value = "/listByPersonId")
+    @ApiOperation(value = "Get person-connection shares that the person connected")
     public ResponseEntity<List<ConnectionShareDTO>> list(@RequestHeader(Constant.PERSON_ID) Long personId,
         @RequestParam int pageNumber, @RequestParam int pageSize) {
         return ResponseEntity.ok(connectionShareService.findByPersonId(personId, pageNumber, pageSize));
     }
 
-    @PostMapping(value = "/listFrom")
-    @ApiOperation(value = "Get person-connection share by offset that the person connected")
+    @PostMapping(value = "/listByPersonIdFrom")
+    @ApiOperation(value = "Get person-connection shares by offset that the person connected")
     public ResponseEntity<List<ConnectionShareDTO>> listFrom(@RequestHeader(Constant.PERSON_ID) Long personId, @RequestParam Long offset) {
         return ResponseEntity.ok(connectionShareService.findByOffsetAndPersonId(personId, offset));
     }
+
+    @PostMapping(value = "/list")
+    @ApiOperation(value = "Get all shares")
+    public ResponseEntity<List<ConnectionShareDTO>> list(@RequestParam int pageNumber, @RequestParam int pageSize) {
+        return ResponseEntity.ok(connectionShareService.findAllShares(pageNumber, pageSize));
+    }
+
+    @PostMapping(value = "/listFrom")
+    @ApiOperation(value = "Get all shares by offset")
+    public ResponseEntity<List<ConnectionShareDTO>> listFrom(@RequestParam Long offset) {
+        return ResponseEntity.ok(connectionShareService.findByOffset(offset));
+    }
+
+
 }

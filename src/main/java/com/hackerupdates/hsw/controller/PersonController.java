@@ -1,13 +1,13 @@
 package com.hackerupdates.hsw.controller;
 
 import com.hackerupdates.hsw.constants.Constant;
-import com.hackerupdates.hsw.dto.PersonDTO;
-import com.hackerupdates.hsw.dto.PersonDataDTO;
-import com.hackerupdates.hsw.dto.PersonProfileDTO;
-import com.hackerupdates.hsw.dto.ProfileDTO;
-import com.hackerupdates.hsw.dto.SettingsDTO;
+import com.hackerupdates.hsw.domain.dto.PersonDTO;
+import com.hackerupdates.hsw.domain.dto.PersonDataDTO;
+import com.hackerupdates.hsw.domain.dto.PersonProfileDTO;
+import com.hackerupdates.hsw.domain.dto.ProfileDTO;
+import com.hackerupdates.hsw.domain.dto.SettingsDTO;
 import com.hackerupdates.hsw.enums.Status;
-import com.hackerupdates.hsw.mapper.PersonMapper;
+import com.hackerupdates.hsw.domain.mapper.PersonMapper;
 import com.hackerupdates.hsw.service.ProfileService;
 import com.hackerupdates.hsw.service.connection.ConnectionQueryService;
 import com.hackerupdates.hsw.service.person.PersonQueryService;

@@ -1,9 +1,9 @@
 package com.hackerupdates.hsw.controller;
 
 import com.hackerupdates.hsw.constants.Constant;
-import com.hackerupdates.hsw.dto.ConnectionDTO;
+import com.hackerupdates.hsw.domain.dto.ConnectionDTO;
 import com.hackerupdates.hsw.enums.Preference;
-import com.hackerupdates.hsw.mapper.ConnectionMapper;
+import com.hackerupdates.hsw.domain.mapper.ConnectionMapper;
 import com.hackerupdates.hsw.service.connection.ConnectionCommandService;
 import com.hackerupdates.hsw.service.connection.ConnectionQueryService;
 import io.swagger.annotations.Api;

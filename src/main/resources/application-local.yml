@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/hsw?currentSchema=public
+    username: postgres
+    password: 12345678

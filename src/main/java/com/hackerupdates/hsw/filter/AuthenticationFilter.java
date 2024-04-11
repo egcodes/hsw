@@ -6,7 +6,7 @@ import static java.util.Objects.nonNull;
 
 import com.hackerupdates.hsw.constants.Constant;
 import com.hackerupdates.hsw.enums.ValidationRule;
-import com.hackerupdates.hsw.persistence.entity.Token;
+import com.hackerupdates.hsw.domain.entity.Token;
 import com.hackerupdates.hsw.service.security.TokenService;
 import java.io.IOException;
 import java.util.Arrays;

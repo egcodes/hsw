@@ -1,7 +1,7 @@
 package com.hackerupdates.hsw.controller;
 
 import com.hackerupdates.hsw.constants.Constant;
-import com.hackerupdates.hsw.dto.ConnectionActivityDTO;
+import com.hackerupdates.hsw.domain.dto.ConnectionActivityDTO;
 import com.hackerupdates.hsw.service.ConnectionActivityService;
 import com.hackerupdates.hsw.service.activity.ActivityCommandService;
 import io.swagger.annotations.Api;
