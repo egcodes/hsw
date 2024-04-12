@@ -10,7 +10,6 @@ import com.hackerupdates.hsw.domain.dto.UserDTO;
 import com.hackerupdates.hsw.enums.ValidationRule;
 import com.hackerupdates.hsw.exception.HswException;
 import com.hackerupdates.hsw.config.properties.AuthProviderProperties;
-import com.hackerupdates.hsw.service.ResourceService;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,6 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class GithubAuthProvider {
 
-    private final ResourceService resourceService;
     private final AuthProviderProperties authProviderProperties;
     private final RestTemplate restTemplate;
 
@@ -64,8 +62,8 @@ public class GithubAuthProvider {
     private ObjectNode createBody(String code) {
         var nodeFactory = new JsonNodeFactory(false);
         var json = nodeFactory.objectNode();
-        json.put(GithubRequestHeader.CLIENT_ID, resourceService.getAuthList().get(GithubRequestHeader.CLIENT_ID));
-        json.put(GithubRequestHeader.CLIENT_SECRET, resourceService.getAuthList().get(GithubRequestHeader.CLIENT_SECRET));
+        json.put(GithubRequestHeader.CLIENT_ID, authProviderProperties.getGithub().getClientId());
+        json.put(GithubRequestHeader.CLIENT_SECRET, authProviderProperties.getGithub().getClientSecret());
         json.put(GithubRequestHeader.CODE, code);
         json.put(GithubRequestHeader.REDIRECT_URI, authProviderProperties.getGithub().getRedirectUrl());
         return json;

@@ -33,3 +33,5 @@ authProvider:
     login_url: https://github.com/login/oauth/access_token
     user_url: https://api.github.com/user
     redirect_uri: http://localhost/register
+    client_id: ${CLIENT_ID_FOR_LOCAL_ENV}
+    client_secret: ${CLIENT_SECRET_FOR_LOCAL_ENV}

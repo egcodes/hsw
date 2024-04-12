@@ -6,3 +6,5 @@ spring:
 authProvider:
   github:
     redirect_uri: https://www.hackerupdates.com/register
+    client_id: ${CLIENT_ID}
+    client_secret: ${CLIENT_SECRET}

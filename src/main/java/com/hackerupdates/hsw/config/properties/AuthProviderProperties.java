@@ -19,6 +19,8 @@ public class AuthProviderProperties {
         private String loginUrl;
         private String userUrl;
         private String redirectUrl;
+        private String clientId;
+        private String clientSecret;
     }
 
 }

@@ -3,7 +3,7 @@ util/
 site/
 nginx/server.pem
 nginx/server.key
-src/main/resources/credentials.txt
+src/main/resources/application.properties
 
 HELP.md
 target/
