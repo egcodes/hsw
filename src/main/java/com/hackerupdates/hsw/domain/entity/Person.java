@@ -1,6 +1,8 @@
 package com.hackerupdates.hsw.domain.entity;
 
 import com.hackerupdates.hsw.enums.Status;
+
+import java.io.Serial;
 import java.time.Instant;
 import lombok.*;
 
@@ -18,6 +20,7 @@ import org.hibernate.validator.constraints.Length;
 @Setter
 public class Person implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 5581667625001993382L;
 
     @Id

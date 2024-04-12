@@ -1,5 +1,6 @@
 package com.hackerupdates.hsw.domain.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -27,6 +28,7 @@ import org.hibernate.validator.constraints.Length;
 })
 public class Token implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 3018776368057112848L;
 
     @Id

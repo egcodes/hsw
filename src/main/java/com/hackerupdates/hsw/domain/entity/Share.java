@@ -1,5 +1,6 @@
 package com.hackerupdates.hsw.domain.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import jakarta.persistence.Entity;
@@ -26,6 +27,7 @@ import org.hibernate.validator.constraints.Length;
 @Getter
 public class Share implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -445626973360837740L;
 
     @Id

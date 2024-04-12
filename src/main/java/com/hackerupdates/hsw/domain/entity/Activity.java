@@ -1,5 +1,6 @@
 package com.hackerupdates.hsw.domain.entity;
 
+import java.io.Serial;
 import java.io.Serializable;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +25,7 @@ import lombok.Setter;
 @Getter
 public class Activity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -2241699815447690916L;
 
     @Id

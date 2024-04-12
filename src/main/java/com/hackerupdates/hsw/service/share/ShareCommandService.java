@@ -20,6 +20,8 @@ public class ShareCommandService {
     public Share add(Long personId, Share share) {
         share.setCreatedTime(Instant.now());
         share.setPersonId(personId);
+        if (share.getText().isBlank())
+            throw new HswException(ValidationRule.SHARE_IS_BLANK);
         return shareRepository.save(share);
     }
 
