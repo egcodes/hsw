@@ -59,7 +59,7 @@ public class TokenService {
         return newToken;
     }
 
-    @Cacheable(Constant.CACHE_NAME_FOR_TOKEN)
+    @CacheEvict(Constant.CACHE_NAME_FOR_TOKEN)
     public boolean remove(String token) {
         tokenRepository.deleteById(getFromDB(token).getId());
         log.debug("Evict add delete token for key: {}", token);
