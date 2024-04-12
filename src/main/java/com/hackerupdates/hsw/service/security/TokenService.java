@@ -25,16 +25,16 @@ public class TokenService {
     }
 
     public Token getFromDB(String token) {
-        log.debug("Get persisted token for key: {}", token);
+        log.debug("Get stored token for key: {}", token);
         var tokenPossible = tokenRepository.findByToken(token);
         if (tokenPossible.isPresent()) {
-            log.debug("Return persisted token for key: {}", tokenPossible.get().getToken());
+            log.debug("Return stored token for key: {}", tokenPossible.get().getToken());
             return tokenPossible.get();
         }
         return null;
     }
 
-    @CachePut(value= Constant.CACHE_NAME_FOR_TOKEN, key = "#token")
+    @CachePut(value = Constant.CACHE_NAME_FOR_TOKEN, key = "#token")
     public Token set(Long personId, String userName, String token) {
         var expiredDate = Instant.now().plusSeconds(Constant.COOKIE_EXPIRE_TIME).getEpochSecond();
 
@@ -59,7 +59,7 @@ public class TokenService {
         return newToken;
     }
 
-    @CacheEvict(value= Constant.CACHE_NAME_FOR_TOKEN)
+    @Cacheable(Constant.CACHE_NAME_FOR_TOKEN)
     public boolean remove(String token) {
         tokenRepository.deleteById(getFromDB(token).getId());
         log.debug("Evict add delete token for key: {}", token);

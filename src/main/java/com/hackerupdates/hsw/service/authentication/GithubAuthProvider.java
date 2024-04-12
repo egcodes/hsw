@@ -42,6 +42,7 @@ public class GithubAuthProvider {
         var respForAccessToken = getAccessToken(body, headers);
 
         if (HttpStatus.OK.equals(respForAccessToken.getStatusCode())) {
+            log.debug("Access token retrieved with code: {}", code);
             var respBody = respForAccessToken.getBody();
             var accessToken = respBody.get(tokenName);
 
@@ -50,12 +51,14 @@ public class GithubAuthProvider {
                 var respForUser = getUserByAccessToken(headers);
 
                 if (HttpStatus.OK.equals(respForUser.getStatusCode())) {
+                    log.debug("Users retrieved: {}, {}", code, accessToken);
                     var githubUserDTO = respForUser.getBody();
                     return Optional.of(githubUserDTO);
                 }
             }
         }
 
+        log.debug("Could not sign in. Code: {}", code);
         throw new HswException(ValidationRule.COULD_NOT_SIGN_IN);
     }
 

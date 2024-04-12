@@ -38,7 +38,7 @@ public class AuthenticationController {
     }
 
     @GetMapping(value = "/login/auth={auth}&code={code}")
-    @ApiOperation(value = "Try sign up with", notes = "")
+    @ApiOperation(value = "Try sign in with", notes = "")
     public ResponseEntity<PersonDTO> login(@PathVariable Auth auth, @PathVariable String code) {
         return ResponseEntity.ok(authentication.login(auth, code));
     }

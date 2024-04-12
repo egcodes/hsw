@@ -37,8 +37,10 @@ public final class Constant {
         public static final String SIGN_IN = "/signIn";
         public static final String TOKEN_VALIDATE = "/validate";
         public static final String COOKIE = "/createCookie";
-        public static final String SWAGGER_UI = "/swagger";
+        public static final String SWAGGER_UI = "/swagger-ui";
         public static final String API_DOCS = "/api-docs";
+        public static final String API_ALL_SHARES = "/api/connectionShare/list";
+        public static final String API_ALL_SHARES_FROM = "/api/connectionShare/listFrom";
     }
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)

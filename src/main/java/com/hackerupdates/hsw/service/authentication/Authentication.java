@@ -37,6 +37,8 @@ public class Authentication {
 
 
     public PersonDTO login(Auth auth, String code) {
+        log.debug("Login attempt. Auth Name: {}, Code: {}", auth.name(), code);
+
         Person personInfo = null;
         var isRegistration = Boolean.FALSE;
 
@@ -69,10 +71,13 @@ public class Authentication {
         Person personInfo;
         try {
             personInfo = personQueryService.findByUserName(signInDTO.getUserName());
+            log.debug("Login success. User info: {}", personInfo);
         } catch (HswException e) {
+            log.debug("Invalid user or password: {}", signInDTO);
             throw new HswException(ValidationRule.INVALID_USER_OR_PASSWORD);
         }
         if (!passwordEncoder.matches(signInDTO.getPassword(), personInfo.getPassword())) {
+            log.debug("Invalid user or password: {}", signInDTO);
             throw new HswException(ValidationRule.INVALID_USER_OR_PASSWORD);
         }
 
@@ -88,6 +93,7 @@ public class Authentication {
     public PersonDTO signUp(SignUpDTO signUpDTO) {
         try {
             personQueryService.findByUserName(signUpDTO.getUserName());
+            log.debug("Person already exists. Redirect for login: {}", signUpDTO);
         } catch (HswException e) {
             var encodedPassword = passwordEncoder.encode(signUpDTO.getPassword());
             var personInfo = createPerson(UserDTO.builder()
@@ -111,11 +117,12 @@ public class Authentication {
     }
 
     public boolean logout(String code) {
+        log.debug("Logout for code: {}", code);
         return tokenService.remove(code);
     }
 
     private Person createPerson(UserDTO user) {
-        log.info("Create new person for user: {}", user.toString());
+        log.info("Create new person for user: {}", user);
         return personCommandService.add(Person.builder()
             .name(nonNull(user.getName()) ? user.getName() : user.getLogin())
             .userName(user.getLogin())

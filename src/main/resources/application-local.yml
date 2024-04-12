@@ -3,3 +3,8 @@ spring:
     url: jdbc:postgresql://localhost:5432/hsw?currentSchema=public
     username: postgres
     password: 12345678
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false

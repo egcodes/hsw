@@ -2,6 +2,8 @@ package com.hackerupdates.hsw.controller;
 
 import com.hackerupdates.hsw.constants.Constant;
 import com.hackerupdates.hsw.domain.dto.ConnectionShareDTO;
+import com.hackerupdates.hsw.enums.ValidationRule;
+import com.hackerupdates.hsw.exception.HswException;
 import com.hackerupdates.hsw.service.ConnectionShareService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +42,9 @@ public class ConnectionShareController {
     @PostMapping(value = "/list")
     @ApiOperation(value = "Get all shares")
     public ResponseEntity<List<ConnectionShareDTO>> list(@RequestParam int pageNumber, @RequestParam int pageSize) {
+        int PAGE_SIZE_LIMIT = 50;
+        if (pageSize > PAGE_SIZE_LIMIT)
+            throw new HswException(ValidationRule.UNAUTHORIZED_ACCESS);
         return ResponseEntity.ok(connectionShareService.findAllShares(pageNumber, pageSize));
     }
 

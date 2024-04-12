@@ -35,7 +35,10 @@ public class AuthenticationFilter implements Filter {
 
     private final TokenService tokenService;
 
-    private final List<String> blackList = List.of(Path.LOGIN, Path.SIGN_UP, Path.SIGN_IN, Path.COOKIE, Path.SWAGGER_UI, Path.API_DOCS);
+    private final List<String> blackListAPI = List.of(Path.API_ALL_SHARES, Path.API_ALL_SHARES_FROM);
+
+    private final List<String> blackList = List.of(Path.LOGIN, Path.SIGN_UP, Path.SIGN_IN, Path.COOKIE,
+            Path.SWAGGER_UI, Path.API_DOCS);
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -54,7 +57,7 @@ public class AuthenticationFilter implements Filter {
             }
         }
 
-        if (blackList.stream().noneMatch(url::contains)) {
+        if (blackListAPI.stream().noneMatch(url::equals) && blackList.stream().noneMatch(url::contains)) {
             cachedToken = tokenService.get(token);
             if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
                 cachedToken = tokenService.getFromDB(token);
