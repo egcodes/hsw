@@ -1,7 +1,3 @@
-# HSW BE Service
-
-Site: https://www.hackerupdates.com
-
 <img src="images/architecture.png">
 
 ## Used libraries
