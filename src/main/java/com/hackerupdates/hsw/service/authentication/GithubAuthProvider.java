@@ -42,8 +42,8 @@ public class GithubAuthProvider {
         var respForAccessToken = getAccessToken(body, headers);
 
         if (HttpStatus.OK.equals(respForAccessToken.getStatusCode())) {
-            log.debug("Access token retrieved with code: {}", code);
             var respBody = respForAccessToken.getBody();
+            log.debug("Access token retrieved with code: {}", respBody);
             var accessToken = respBody.get(tokenName);
 
             if (nonNull(accessToken)) {

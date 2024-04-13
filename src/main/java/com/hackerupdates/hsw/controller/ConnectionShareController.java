@@ -42,7 +42,7 @@ public class ConnectionShareController {
     @PostMapping(value = "/list")
     @ApiOperation(value = "Get all shares")
     public ResponseEntity<List<ConnectionShareDTO>> list(@RequestParam int pageNumber, @RequestParam int pageSize) {
-        int PAGE_SIZE_LIMIT = 50;
+        int PAGE_SIZE_LIMIT = 40;
         if (pageSize > PAGE_SIZE_LIMIT)
             throw new HswException(ValidationRule.UNAUTHORIZED_ACCESS);
         return ResponseEntity.ok(connectionShareService.findAllShares(pageNumber, pageSize));
