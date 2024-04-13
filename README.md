@@ -47,7 +47,3 @@ $ kubectl apply -f kube-postgres.yaml
 $ kubectl apply -f kube-hsw.yaml
 $ kubectl apply -f kube-nginx.yaml
 ```
-
-## Screenshots
-<img src="images/web-dark.png" width="600">
-<img src="images/web-light.png" width="600">
