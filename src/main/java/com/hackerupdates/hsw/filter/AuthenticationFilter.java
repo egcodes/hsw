@@ -37,7 +37,7 @@ public class AuthenticationFilter implements Filter {
 
     private final List<String> blackListAPI = List.of(Path.API_ALL_SHARES, Path.API_ALL_SHARES_FROM);
 
-    private final List<String> blackList = List.of(Path.SIGN_UP, Path.SIGN_IN, Path.COOKIE,
+    private final List<String> blackList = List.of(Path.LOGIN, Path.SIGN_UP, Path.SIGN_IN, Path.COOKIE,
             Path.SWAGGER_UI, Path.API_DOCS);
 
     @Override
