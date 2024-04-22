@@ -10,6 +10,7 @@ Site: https://www.hackerupdates.com
 * spring-boot-starter-validation
 * spring-boot-starter-security
 * spring-boot-starter-cache
+* spring-boot-starter-data-redis
 * spring-boot-starter-test
 * springdoc-openapi
 * mapstruct
@@ -45,9 +46,10 @@ $ docker build --tag=hsw:latest -f Dockerfile-app .
 $ docker build --tag=nginx-hsw:latest -f Dockerfile-site .
 
 # Run App, DB, HttpServer on Kubernetes
-$ kubectl apply -f kube-postgres-pv.yaml
 $ kubectl apply -f kube-postgres-pvc.yaml
 $ kubectl apply -f kube-postgres.yaml
+$ kubectl apply -f kube-redis-pvc.yaml
+$ kubectl apply -f kube-redis.yaml
 $ kubectl apply -f kube-hsw.yaml
 $ kubectl apply -f kube-nginx.yaml
 ```
