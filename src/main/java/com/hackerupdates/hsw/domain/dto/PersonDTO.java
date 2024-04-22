@@ -1,7 +1,6 @@
 package com.hackerupdates.hsw.domain.dto;
 
 import com.hackerupdates.hsw.enums.Status;
-import io.swagger.annotations.ApiModelProperty;
 import java.time.Instant;
 import lombok.*;
 
@@ -13,12 +12,10 @@ import jakarta.validation.constraints.Size;
 @Data
 public class PersonDTO {
 
-    @ApiModelProperty(hidden=true)
     private Long id;
 
     @NotEmpty
     @Size(min=3, max=50)
-    @ApiModelProperty(position = 1, required = true)
     private String userName;
 
     @NotEmpty
@@ -28,18 +25,13 @@ public class PersonDTO {
     @Pattern(regexp = "^(.+)@(\\S+)$")
     private String mail;
 
-    @ApiModelProperty(hidden=true)
     private Status status;
 
-    @ApiModelProperty(hidden=true)
     private Instant createDate;
 
-    @ApiModelProperty(hidden=true)
     private String about;
 
-    @ApiModelProperty(hidden=true)
     private boolean darkTheme;
 
-    @ApiModelProperty(hidden=true)
     private String code;
 }

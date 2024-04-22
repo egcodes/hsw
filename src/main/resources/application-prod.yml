@@ -1,5 +1,5 @@
 authProvider:
   github:
-    redirect_uri: https://www.hackerupdates.com/register
+    redirect_uri: https://www.hackerupdates.com/auth
     client_id: ${CLIENT_ID}
     client_secret: ${CLIENT_SECRET}

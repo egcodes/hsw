@@ -4,10 +4,8 @@ import static com.hackerupdates.hsw.constants.Constant.*;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
 
-import com.hackerupdates.hsw.constants.Constant;
 import com.hackerupdates.hsw.enums.ValidationRule;
-import com.hackerupdates.hsw.domain.entity.Token;
-import com.hackerupdates.hsw.service.security.TokenService;
+import com.hackerupdates.hsw.service.authentication.TokenService;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -37,8 +35,8 @@ public class AuthenticationFilter implements Filter {
 
     private final List<String> blackListAPI = List.of(Path.API_ALL_SHARES, Path.API_ALL_SHARES_FROM);
 
-    private final List<String> blackList = List.of(Path.LOGIN, Path.SIGN_UP, Path.SIGN_IN, Path.COOKIE,
-            Path.SWAGGER_UI, Path.API_DOCS);
+    private final List<String> blackListUrl = List.of(Path.HEALTH, Path.ACTUATOR, Path.LOGIN,
+            Path.SIGN_UP, Path.SIGN_IN, Path.SIGN, Path.COOKIE, Path.SWAGGER_UI, Path.API_DOCS);
 
     @Override
     public void init(FilterConfig filterConfig) {
@@ -48,36 +46,34 @@ public class AuthenticationFilter implements Filter {
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException, ServletException {
         var url = ((RequestFacade) req).getRequestURI();
         var token = getCookieValue((HttpServletRequest) req);
-        Token cachedToken = null;
+        String personId = EMPTY_STRING;
 
         if (url.contains(Path.TOKEN_VALIDATE)) {
-            cachedToken = tokenService.getFromDB(token);
-            if (isInvalidToken(cachedToken, token, (ResponseFacade) resp)) {
+            personId = tokenService.get(token);
+            if (isInvalidToken(personId, (ResponseFacade) resp)) {
                 return;
             }
         }
 
-        if (blackListAPI.stream().noneMatch(url::equals) && blackList.stream().noneMatch(url::contains)) {
-            cachedToken = tokenService.get(token);
-            if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
-                cachedToken = tokenService.getFromDB(token);
-                if (isInvalidToken(cachedToken, token, (ResponseFacade) resp))
-                    return;
+        if (blackListAPI.stream().noneMatch(url::equals) && blackListUrl.stream().noneMatch(url::contains)) {
+            personId = tokenService.get(token);
+            if (isInvalidToken(personId, (ResponseFacade) resp)) {
+                return;
             }
         }
 
         var request = (HttpServletRequest) req;
         var mutableRequest = new MutableHttpServletRequest(request);
-        if (nonNull(cachedToken)) {
-            mutableRequest.addHeader(Constant.PERSON_ID, cachedToken.getPersonId().toString());
-            mutableRequest.addHeader(Constant.TOKEN, cachedToken.getToken());
+        if (nonNull(token)) {
+            mutableRequest.addHeader(PERSON_ID, personId);
+            mutableRequest.addHeader(TOKEN, token);
         }
 
         chain.doFilter(mutableRequest, resp);
     }
 
-    private boolean isInvalidToken(Token cachedToken, String token, ResponseFacade resp) throws IOException {
-        if (isNull(cachedToken) || !cachedToken.getToken().equals(token)) {
+    private boolean isInvalidToken(String personId, ResponseFacade resp) throws IOException {
+        if (isNull(personId)) {
             resp.sendError(HttpStatus.UNAUTHORIZED.value(), ValidationRule.INVALID_TOKEN.getError());
             return true;
         }
@@ -87,7 +83,7 @@ public class AuthenticationFilter implements Filter {
     private String getCookieValue(HttpServletRequest req) {
         if (nonNull(req.getCookies()))
             return Arrays.stream(req.getCookies())
-                .filter(c -> c.getName().equals(Constant.COOKIE_NAME))
+                .filter(c -> c.getName().equals(COOKIE_NAME))
                 .findFirst()
                 .map(Cookie::getValue)
                 .orElse(null);
@@ -97,4 +93,5 @@ public class AuthenticationFilter implements Filter {
     @Override
     public void destroy() {
     }
+
 }

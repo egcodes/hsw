@@ -22,16 +22,32 @@ apiVersion: v1
 kind: Service
 metadata:
   name: hsw-service
+  labels:
+    app: hsw
 spec:
   selector:
     app: hsw
   ports:
     - protocol: TCP
+      name: http-traffic
       port: 8080
       targetPort: 8080
 
 ---
 
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: hsw-service-monitor
+spec:
+  selector:
+    matchLabels:
+      app: hsw
+  endpoints:
+    - port: http-traffic
+      path: "/api/actuator/prometheus"
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -48,10 +64,16 @@ spec:
     spec:
       containers:
         - name: hsw
-          image: hsw:latest
+          image: hsw:0.7.2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /api/actuator/health
+              port: 8080
+            initialDelaySeconds: 25
+            periodSeconds: 5
       initContainers:
         - name: init-container
           image: busybox:latest

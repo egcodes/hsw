@@ -25,12 +25,13 @@ public interface ShareRepository extends JpaRepository<Share, Long> {
 
     @Query("SELECT new com.hackerupdates.hsw.domain.dto.ShareDTO(s.id, p.userName, p.name, s.text, s.createdTime) FROM Share s LEFT JOIN Person p "
             + "ON p.id = s.personId "
+            + "WHERE s.hidden = false "
             + "ORDER BY s.id DESC")
     List<ShareDTO> findAllShares(Pageable pageable);
 
     @Query("SELECT new com.hackerupdates.hsw.domain.dto.ShareDTO(s.id, p.userName, p.name, s.text, s.createdTime) FROM Share s LEFT JOIN Person p "
             + "ON p.id = s.personId "
-            + "WHERE s.id > :offset "
+            + "WHERE s.id > :offset AND s.hidden = false "
             + "ORDER BY s.id DESC")
-    List<ShareDTO> findByOffset(Long offset, Pageable pageable);
+    List<ShareDTO> findAllByOffset(Long offset, Pageable pageable);
 }

@@ -4,8 +4,8 @@ import com.hackerupdates.hsw.constants.Constant;
 import com.hackerupdates.hsw.domain.dto.ShareDTO;
 import com.hackerupdates.hsw.domain.mapper.ShareMapper;
 import com.hackerupdates.hsw.service.share.ShareCommandService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/share")
-@Api(value = "Share")
+@Tag(name ="Share")
 @RequiredArgsConstructor
 @Slf4j
 public class ShareController {
@@ -29,7 +29,7 @@ public class ShareController {
     private final ShareMapper shareMapper;
 
     @PostMapping(value = "/add")
-    @ApiOperation(value = "New post")
+    @Operation(summary = "New post")
     public ResponseEntity<ShareDTO> add(@RequestHeader(Constant.PERSON_ID) Long personId, @Valid @RequestBody ShareDTO share) {
         return ResponseEntity.ok(shareMapper.toDTO(shareCommandService.add(personId, shareMapper.toEntity(share))));
     }

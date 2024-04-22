@@ -45,4 +45,7 @@ public class Share implements Serializable {
     @Length(min = 10, max = 280)
     private String text;
 
+    @Setter
+    private boolean hidden;
+
 }

@@ -6,8 +6,8 @@ import com.hackerupdates.hsw.domain.dto.SignInDTO;
 import com.hackerupdates.hsw.domain.dto.SignUpDTO;
 import com.hackerupdates.hsw.enums.Auth;
 import com.hackerupdates.hsw.service.authentication.Authentication;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/authentication")
-@Api(value = "authentication")
+@Tag(name ="Authentication")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthenticationController {
@@ -32,37 +32,37 @@ public class AuthenticationController {
     private final Authentication authentication;
 
     @GetMapping(value = "/validate")
-    @ApiOperation(value = "Validate token", notes = "")
+    @Operation(summary = "Validate token")
     public ResponseEntity<?> validate() {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping(value = "/login/auth={auth}&code={code}")
-    @ApiOperation(value = "Try sign in with", notes = "")
-    public ResponseEntity<PersonDTO> login(@PathVariable Auth auth, @PathVariable String code) {
-        return ResponseEntity.ok(authentication.login(auth, code));
-    }
-
     @PostMapping(value = "/signIn")
-    @ApiOperation(value = "Try sign in with", notes = "")
+    @Operation(summary = "Try sign in with")
     public ResponseEntity<PersonDTO> signIn(@Valid @RequestBody SignInDTO signInDTO) {
         return ResponseEntity.ok(authentication.signIn(signInDTO));
     }
 
     @PostMapping(value = "/signUp")
-    @ApiOperation(value = "Try sign up with", notes = "")
+    @Operation(summary = "Try sign up with")
     public ResponseEntity<PersonDTO> signUp(@Valid @RequestBody SignUpDTO signUpDTO) {
         return ResponseEntity.ok(authentication.signUp(signUpDTO));
     }
 
+    @GetMapping(value = "/sign/auth={auth}&code={code}")
+    @Operation(summary = "Try sign in with")
+    public ResponseEntity<PersonDTO> signBy(@PathVariable Auth auth, @PathVariable String code) {
+        return ResponseEntity.ok(authentication.signBy(auth, code));
+    }
+
     @GetMapping(value = "/logout")
-    @ApiOperation(value = "Try log out")
+    @Operation(summary = "Try log out")
     public boolean logout(@RequestHeader(Constant.TOKEN) String code) {
         return authentication.logout(code);
     }
 
     @GetMapping(value = "createCookie/{token}")
-    @ApiOperation(value = "Create a cookie", notes = "")
+    @Operation(summary = "Create a cookie")
     public ResponseEntity<?> createCookie(@PathVariable String token) {
         var cookie = ResponseCookie.from(Constant.COOKIE_NAME, token)
             .httpOnly(true)

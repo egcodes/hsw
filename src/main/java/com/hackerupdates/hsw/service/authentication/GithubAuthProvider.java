@@ -51,7 +51,7 @@ public class GithubAuthProvider {
                 var respForUser = getUserByAccessToken(headers);
 
                 if (HttpStatus.OK.equals(respForUser.getStatusCode())) {
-                    log.debug("Users retrieved: {}, {}", code, accessToken);
+                    log.debug("User info retrieved: {}, {}", code, accessToken);
                     var githubUserDTO = respForUser.getBody();
                     return Optional.of(githubUserDTO);
                 }

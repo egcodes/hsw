@@ -14,13 +14,12 @@ import com.hackerupdates.hsw.domain.mapper.PersonMapper;
 import com.hackerupdates.hsw.domain.entity.Person;
 import com.hackerupdates.hsw.service.person.PersonCommandService;
 import com.hackerupdates.hsw.service.person.PersonQueryService;
-import com.hackerupdates.hsw.service.security.TokenService;
 
 import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.jasypt.util.password.StrongPasswordEncryptor;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,59 +32,29 @@ public class Authentication {
     private final PersonQueryService personQueryService;
     private final TokenService tokenService;
     private final PersonMapper personMapper;
-    private final PasswordEncoder passwordEncoder;
-
-
-    public PersonDTO login(Auth auth, String code) {
-        log.debug("Login attempt. Auth Name: {}, Code: {}", auth.name(), code);
-
-        Person personInfo = null;
-        var isRegistration = Boolean.FALSE;
-
-        if (Objects.requireNonNull(auth) == Auth.GITHUB) {
-            var userPossible = authProvider.login(code);
-            if (userPossible.isPresent()) {
-                log.debug("Login success. GitHub user info: {}", userPossible);
-
-                var user = userPossible.get();
-                try {
-                    personInfo = personQueryService.findByUserName(user.getLogin());
-                } catch (HswException e) {
-                    personInfo = createPerson(user);
-                    isRegistration = Boolean.TRUE;
-                }
-            }
-        }
-
-        tokenService.set(personInfo.getId(), personInfo.getUserName(), code);
-        if (isRegistration)
-            personInfo.setStatus(Status.NEW);
-
-        var personDTO = personMapper.toDTO(personInfo);
-        personDTO.setCode(code);
-
-        return personDTO;
-    }
+    StrongPasswordEncryptor passwordEncryptor = new StrongPasswordEncryptor();
 
     public PersonDTO signIn(SignInDTO signInDTO) {
-        Person personInfo;
+        log.debug("Login attempt. UserName: {}", signInDTO.getUserName());
+
+        Person person;
         try {
-            personInfo = personQueryService.findByUserName(signInDTO.getUserName());
-            log.debug("Login success. User info: {}", personInfo);
+            person = personQueryService.findByUserName(signInDTO.getUserName());
         } catch (HswException e) {
             log.debug("Invalid user or password: {}", signInDTO);
             throw new HswException(ValidationRule.INVALID_USER_OR_PASSWORD);
         }
-        if (!passwordEncoder.matches(signInDTO.getPassword(), personInfo.getPassword())) {
+        if (!passwordEncryptor.checkPassword(signInDTO.getPassword(), person.getPassword())) {
             log.debug("Invalid user or password: {}", signInDTO);
             throw new HswException(ValidationRule.INVALID_USER_OR_PASSWORD);
         }
 
-        var cookieCode = String.valueOf(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-        tokenService.set(personInfo.getId(), personInfo.getUserName(), cookieCode);
-
-        var personDTO = personMapper.toDTO(personInfo);
+        log.debug("Login success. UserName: {}", person.getUserName());
+        var cookieCode = generateCookieCode();
+        var personDTO = personMapper.toDTO(person);
         personDTO.setCode(cookieCode);
+
+        tokenService.set(cookieCode, String.valueOf(person.getId()));
 
         return personDTO;
     }
@@ -95,20 +64,20 @@ public class Authentication {
             personQueryService.findByUserName(signUpDTO.getUserName());
             log.debug("Person already exists. Redirect for login: {}", signUpDTO);
         } catch (HswException e) {
-            var encodedPassword = passwordEncoder.encode(signUpDTO.getPassword());
-            var personInfo = createPerson(UserDTO.builder()
+            var encodedPassword = passwordEncryptor.encryptPassword(signUpDTO.getPassword());
+            var person = createPerson(UserDTO.builder()
                 .login(signUpDTO.getUserName())
+                .name(signUpDTO.getName())
                 .email(signUpDTO.getMail())
                 .password(encodedPassword)
                 .build());
 
-            var cookieCode = String.valueOf(
-                UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
-            tokenService.set(personInfo.getId(), personInfo.getUserName(), cookieCode);
-
-            personInfo.setStatus(Status.NEW);
-            var personDTO = personMapper.toDTO(personInfo);
+            var cookieCode = generateCookieCode();
+            person.setStatus(Status.NEW);
+            var personDTO = personMapper.toDTO(person);
             personDTO.setCode(cookieCode);
+
+            tokenService.set(cookieCode, String.valueOf(person.getId()));
 
             return personDTO;
         }
@@ -116,9 +85,42 @@ public class Authentication {
         throw new HswException(ValidationRule.PERSON_ALREADY_EXISTS);
     }
 
-    public boolean logout(String code) {
-        log.debug("Logout for code: {}", code);
-        return tokenService.remove(code);
+    public PersonDTO signBy(Auth auth, String code) {
+        log.debug("Login attempt. Auth Name: {}, Code: {}", auth.name(), code);
+
+        if (Objects.requireNonNull(auth) == Auth.GITHUB) {
+            var userPossible = authProvider.login(code);
+            if (userPossible.isPresent()) {
+                var user = userPossible.get();
+                Person person;
+                try {
+                    person = personQueryService.findByUserName(user.getLogin());
+                    log.debug("SignIn success by {}. User info: {}", auth.name(), person);
+                } catch (Exception ignore) {
+                    person = createPerson(user);
+                    person.setStatus(Status.NEW);
+                    log.debug("SignUp success by {}. User info: {}", auth.name(), person);
+                }
+
+                var personDTO = personMapper.toDTO(person);
+                personDTO.setCode(code);
+                tokenService.set(code, String.valueOf(person.getId()));
+                return personDTO;
+            }
+        }
+
+        log.debug("Invalid user or password: {}, {}", auth.name(), code);
+        throw new HswException(ValidationRule.INVALID_USER_OR_PASSWORD);
+    }
+
+    public boolean logout(String token) {
+        log.debug("Logout for token: {}", token);
+        tokenService.remove(token);
+        return Boolean.TRUE;
+    }
+
+    private String generateCookieCode() {
+        return String.valueOf(UUID.randomUUID().getMostSignificantBits() & Long.MAX_VALUE);
     }
 
     private Person createPerson(UserDTO user) {

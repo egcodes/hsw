@@ -21,6 +21,10 @@ services:
       - web_network
     depends_on:
       - hsw-service
+  redis-service:
+    image: redis:latest
+    networks:
+      - db_network
   postgres-service:
     image: postgres:latest
     volumes:

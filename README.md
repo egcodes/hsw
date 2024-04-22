@@ -1,3 +1,7 @@
+# HSW BE Service
+
+Site: https://www.hackerupdates.com
+
 <img src="images/architecture.png">
 
 ## Used libraries
@@ -7,7 +11,7 @@
 * spring-boot-starter-security
 * spring-boot-starter-cache
 * spring-boot-starter-test
-* springfox-swagger-ui
+* springdoc-openapi
 * mapstruct
 * h2
 * Lombok
@@ -47,3 +51,7 @@ $ kubectl apply -f kube-postgres.yaml
 $ kubectl apply -f kube-hsw.yaml
 $ kubectl apply -f kube-nginx.yaml
 ```
+
+## Screenshots
+<img src="images/web-dark.png" width="600">
+<img src="images/web-light.png" width="600">

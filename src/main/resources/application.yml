@@ -7,7 +7,22 @@ logging:
     com:
       hackerupdates: DEBUG
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, metrics, prometheus
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
 spring:
+  application:
+    name: hsw
+  data:
+    redis:
+      host: redis-service
+      port: 6379
   sql:
     init:
       platform: postgres
@@ -38,6 +53,6 @@ authProvider:
   github:
     login_url: https://github.com/login/oauth/access_token
     user_url: https://api.github.com/user
-    redirect_uri: http://localhost/register
+    redirect_uri: http://localhost/auth
     client_id: ${CLIENT_ID_FOR_LOCAL_ENV}
     client_secret: ${CLIENT_SECRET_FOR_LOCAL_ENV}

@@ -33,7 +33,7 @@ public class ShareQueryService {
     }
 
     public List<ShareDTO> listFrom(Long offset) {
-        return shareRepository.findByOffset(offset, PageRequest.of(0, Constant.OFFSET_LIMIT));
+        return shareRepository.findAllByOffset(offset, PageRequest.of(0, Constant.OFFSET_LIMIT));
     }
 
     public Share findBy(Long id) {

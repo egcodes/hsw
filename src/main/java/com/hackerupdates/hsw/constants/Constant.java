@@ -8,17 +8,16 @@ import lombok.NoArgsConstructor;
 @Getter
 public final class Constant {
 
-    public static final int INFO_LIMIT_TIME = 1000; //ms
-    public static final int WARN_LIMIT_TIME = 1750; //ms
-
-    public static final int OFFSET_LIMIT = 16;
-
-    public static final int VIEW_USER_LIMIT = 100;
-
-    public static final String DATE_FORMAT = "hh:mm a, dd MMM yyyy";
+    //Security
+    public static final int OFFSET_LIMIT = 50;
+    public static final int MAX_REQUESTS_WINDOW_IN_SECONDS = 1;
+    public static final int MAX_REQUESTS_PER_WINDOW_INT = 8;
 
     public static final int DURATION_FOR_ONLINE = 3000 * 60;
 
+    public static final String DATE_FORMAT = "hh:mm a, dd MMM yyyy";
+
+    //Cache
     public static final String CACHE_NAME_FOR_TOKEN = "tokens";
 
     public static final String COOKIE_NAME = "hsw";
@@ -32,12 +31,15 @@ public final class Constant {
 
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Path {
+        public static final String HEALTH = "/health";
+        public static final String ACTUATOR = "/actuator";
         public static final String LOGIN = "/login";
         public static final String SIGN_UP = "/signUp";
         public static final String SIGN_IN = "/signIn";
+        public static final String SIGN = "/sign";
         public static final String TOKEN_VALIDATE = "/validate";
         public static final String COOKIE = "/createCookie";
-        public static final String SWAGGER_UI = "/swagger";
+        public static final String SWAGGER_UI = "/swagger-ui";
         public static final String API_DOCS = "/api-docs";
         public static final String API_ALL_SHARES = "/api/connectionShare/list";
         public static final String API_ALL_SHARES_FROM = "/api/connectionShare/listFrom";

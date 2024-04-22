@@ -12,6 +12,7 @@ public enum ValidationRule {
     COULD_NOT_SIGN_IN("Could not sign in"),
     INVALID_TOKEN("Invalid token"),
     INVALID_USER_OR_PASSWORD("Username or password is incorrect"),
+    TOO_MANY_REQUESTS("Too many requests"),
     UNAUTHORIZED_ACCESS("Unauthorized access");
 
     private final String error;

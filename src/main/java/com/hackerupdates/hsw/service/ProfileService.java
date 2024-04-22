@@ -93,7 +93,6 @@ public class ProfileService {
         PersonDataDTO personData;
         var person = personQueryService.findByUserName(userName);
         if (person.getId().equals(id)) {
-            id = person.getId();
             personData = personService.find(id);
         } else {
             personData = personService.find(userName);
