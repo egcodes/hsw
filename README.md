@@ -1,7 +1,5 @@
 # HSW BE Service
 
-Site: https://www.hackerupdates.com
-
 <img src="images/architecture.png">
 
 ## Used libraries
@@ -19,6 +17,10 @@ Site: https://www.hackerupdates.com
 * rest-assured
 * shedlock
 * postgresql
+
+The site is no longer online. Here are a few examples
+<img src="images/web-dark.png">
+<img src="images/web-light.png">
 
 ## Follow the below steps to containerize the application
 
